@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AlShubaily — Next.js
 
-## Getting Started
+موقع مجموعة الشبيلي (Next.js App Router + Tailwind + Shadcn UI).
 
-First, run the development server:
+## التشغيل محلياً
 
 ```bash
+cd web
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Intro
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- فيديو الانترو: `public/assets/intro/intro.mp4`
+- الصوت: `public/assets/intro/intro.mp3`
+- خلفية الشاشة: `#0A0E17` (نفس لون الفيديو)
+- بعد انتهاء الفيديو → الصفحة الرئيسية
 
-## Learn More
+## الرفع على GitHub
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd web
+git add .
+git commit -m "Initial AlShubaily site with video intro"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/alshubaily.git
+git push -u origin main
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## الرفع على Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. ادخلي [vercel.com](https://vercel.com) واربطي حساب GitHub
+2. **Add New Project** → اختاري repo `alshubaily`
+3. **Root Directory:** `web` (إذا الريبو فيه المجلد الأب) أو `.` إذا الريبو = مجلد web فقط
+4. Framework: **Next.js** (تلقائي)
+5. Deploy
 
-## Deploy on Vercel
+أو من الطرفية:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+cd web
+npx vercel login
+npx vercel
+npx vercel --prod
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## هيكل المشروع
+
+```
+web/
+├── public/assets/
+│   ├── intro/          ← فيديو وصوت الانترو
+│   └── Alshubaily-logo.png
+├── src/app/            ← App Router
+├── src/components/
+│   ├── intro/          ← IntroGateway (فيديو)
+│   ├── home/           ← الصفحة الرئيسية
+│   └── landing/
+└── vercel.json
+```
