@@ -471,25 +471,91 @@
   }
 }
 
-/* Portfolio showcase carousel */
-.showcase-viewport {
-  min-height: min(68vw, 420px);
+/* Portfolio showcase — center spotlight slider */
+.showcase-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 2.35fr) minmax(0, 0.95fr);
+  gap: 0.75rem;
+  align-items: center;
+  min-height: min(72vw, 460px);
 }
 
-@media (min-width: 640px) {
-  .showcase-viewport {
-    min-height: 420px;
+.showcase-spotlight-main {
+  position: relative;
+  overflow: hidden;
+  height: min(72vw, 460px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(201, 169, 98, 0.5);
+  background: #111;
+  box-shadow: 0 32px 90px rgba(201, 169, 98, 0.22);
+}
+
+.showcase-spotlight-main-img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  animation: showcase-fade-in 0.45s ease-out;
+}
+
+.showcase-spotlight-side {
+  position: relative;
+  overflow: hidden;
+  height: min(52vw, 340px);
+  border-radius: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+  background: #111;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.showcase-spotlight-side:hover {
+  opacity: 0.72;
+  border-color: rgba(201, 169, 98, 0.35);
+  transform: translateY(-2px);
+}
+
+@keyframes showcase-fade-in {
+  from {
+    opacity: 0.35;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 @media (min-width: 768px) {
-  .showcase-viewport {
-    min-height: 480px;
+  .showcase-spotlight {
+    gap: 1rem;
+    min-height: 520px;
+  }
+
+  .showcase-spotlight-main {
+    height: 520px;
+    border-radius: 1.75rem;
+  }
+
+  .showcase-spotlight-side {
+    height: 400px;
+    border-radius: 1.25rem;
   }
 }
 
-.showcase-track {
-  align-items: stretch;
+@media (max-width: 640px) {
+  .showcase-spotlight {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 2.8fr) minmax(0, 0.72fr);
+    gap: 0.5rem;
+  }
+
+  .showcase-spotlight-side {
+    height: min(46vw, 280px);
+  }
 }
 
 .group-hero-logo {

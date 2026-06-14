@@ -1,4 +1,18 @@
-/** Flat ASCII paths — copied to /public/assets/showcase/ for reliable carousel loading */
+/** Flat ASCII paths in /public/assets/showcase/
+ *  Upload specs: 1200×1500 px (4:5), JPEG ~80% quality, max ~350 KB each.
+ *  Replace 01.jpg … 20.jpg to update the slider. */
+export const SHOWCASE_IMAGE_SPECS = {
+  width: 1200,
+  height: 1500,
+  ratio: "4:5",
+  format: "JPEG",
+  maxFileSizeKb: 350,
+  folder: "public/assets/showcase",
+  files: Array.from({ length: 20 }, (_, i) =>
+    `${String(i + 1).padStart(2, "0")}.jpg`,
+  ),
+} as const;
+
 export const SHOWCASE_IMAGES = [
   "/assets/showcase/01.jpg",
   "/assets/showcase/02.jpg",

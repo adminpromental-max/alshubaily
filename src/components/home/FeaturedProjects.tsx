@@ -1,67 +1,29 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { SHOWCASE_IMAGES } from "@/data/showcase-images";
 import { useLang } from "@/contexts/lang-context";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 
+const TOTAL = SHOWCASE_IMAGES.length;
+const AUTOPLAY_MS = 4500;
+
+function wrap(index: number) {
+  return ((index % TOTAL) + TOTAL) % TOTAL;
+}
+
 export function FeaturedProjects() {
   const { t } = useLang();
   const sectionRef = useScrollReveal<HTMLElement>({ y: 48, stagger: 0.1 });
-  const [selected, setSelected] = useState(0);
+  const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
 
-  const autoplay = useRef(
-    Autoplay({
-      delay: 4500,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-    }),
-  );
+  const go = useCallback((delta: number) => {
+    setIndex((current) => wrap(current + delta));
+  }, []);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "center",
-      containScroll: false,
-      skipSnaps: false,
-    },
-    [autoplay.current],
-  );
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  const toggleAutoplay = useCallback(() => {
-    const plugin = autoplay.current;
-    if (!plugin) return;
-    if (playing) plugin.stop();
-    else plugin.play();
-    setPlaying(!playing);
-  }, [playing]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect);
-    onSelect();
-
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi]);
-
-  /** Preload all slides — lazy loading breaks in horizontal carousels */
   useEffect(() => {
     SHOWCASE_IMAGES.forEach((src) => {
       const img = new window.Image();
@@ -69,7 +31,15 @@ export function FeaturedProjects() {
     });
   }, []);
 
-  const progress = ((selected + 1) / SHOWCASE_IMAGES.length) * 100;
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setInterval(() => go(1), AUTOPLAY_MS);
+    return () => window.clearInterval(timer);
+  }, [go, playing]);
+
+  const prev = wrap(index - 1);
+  const next = wrap(index + 1);
+  const progress = ((index + 1) / TOTAL) * 100;
 
   return (
     <section
@@ -102,14 +72,14 @@ export function FeaturedProjects() {
         <div className="relative mt-12 md:mt-16">
           <div className="mb-6 flex items-center justify-between gap-4 px-1">
             <p className="text-xs tracking-[0.25em] text-white/40 uppercase">
-              {String(selected + 1).padStart(2, "0")}{" "}
+              {String(index + 1).padStart(2, "0")}{" "}
               <span className="text-white/20">/</span>{" "}
-              {String(SHOWCASE_IMAGES.length).padStart(2, "0")}
+              {String(TOTAL).padStart(2, "0")}
             </p>
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={toggleAutoplay}
+                onClick={() => setPlaying((p) => !p)}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-[#C9A962]/40 hover:text-[#C9A962]"
                 aria-label={playing ? "Pause" : "Play"}
               >
@@ -121,7 +91,7 @@ export function FeaturedProjects() {
               </button>
               <button
                 type="button"
-                onClick={scrollPrev}
+                onClick={() => go(-1)}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-[#C9A962]/40 hover:text-[#C9A962]"
                 aria-label="Previous"
               >
@@ -129,7 +99,7 @@ export function FeaturedProjects() {
               </button>
               <button
                 type="button"
-                onClick={scrollNext}
+                onClick={() => go(1)}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:border-[#C9A962]/40 hover:text-[#C9A962]"
                 aria-label="Next"
               >
@@ -138,42 +108,68 @@ export function FeaturedProjects() {
             </div>
           </div>
 
-          <div ref={emblaRef} className="showcase-viewport overflow-hidden">
-            <div className="showcase-track flex">
-              {SHOWCASE_IMAGES.map((src, index) => {
-                const isActive = index === selected;
+          <div className="showcase-spotlight mx-auto max-w-6xl">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              className="showcase-spotlight-side showcase-spotlight-side--prev"
+              aria-label="Previous slide"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={SHOWCASE_IMAGES[prev]}
+                alt=""
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </button>
 
-                return (
-                  <div
-                    key={`${src}-${index}`}
-                    className="showcase-slide min-w-0 flex-[0_0_78%] px-2 sm:flex-[0_0_62%] md:flex-[0_0_48%] lg:flex-[0_0_42%]"
-                  >
-                    <div
-                      className={cn(
-                        "showcase-frame relative overflow-hidden rounded-[1.5rem] border bg-[#111] transition-all duration-500 md:rounded-[1.75rem]",
-                        isActive
-                          ? "h-[min(72vw,460px)] border-[#C9A962]/50 shadow-[0_32px_90px_rgba(201,169,98,0.24)] sm:h-[460px] md:h-[520px]"
-                          : "h-[min(58vw,360px)] border-white/10 opacity-55 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:h-[360px] md:mt-10 md:h-[400px]",
-                      )}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={src}
-                        alt=""
-                        className="block h-full w-full object-cover"
-                        loading="eager"
-                        decoding="async"
-                        draggable={false}
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.3),transparent_45%)]" />
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="showcase-spotlight-main">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                key={SHOWCASE_IMAGES[index]}
+                src={SHOWCASE_IMAGES[index]}
+                alt=""
+                className="showcase-spotlight-main-img"
+                draggable={false}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.28),transparent_48%)]" />
             </div>
+
+            <button
+              type="button"
+              onClick={() => go(1)}
+              className="showcase-spotlight-side showcase-spotlight-side--next"
+              aria-label="Next slide"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={SHOWCASE_IMAGES[next]}
+                alt=""
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </button>
           </div>
 
-          <div className="mx-auto mt-8 h-1 max-w-md overflow-hidden rounded-full bg-white/10">
+          <div className="mt-5 flex justify-center gap-1.5 px-2">
+            {SHOWCASE_IMAGES.map((_, dotIndex) => (
+              <button
+                key={dotIndex}
+                type="button"
+                onClick={() => setIndex(dotIndex)}
+                aria-label={`Slide ${dotIndex + 1}`}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  dotIndex === index
+                    ? "w-7 bg-[#C9A962]"
+                    : "w-1.5 bg-white/20 hover:bg-white/40",
+                )}
+              />
+            ))}
+          </div>
+
+          <div className="mx-auto mt-6 h-1 max-w-md overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#C9A962] to-[#E8D5A3] transition-[width] duration-500 ease-out"
               style={{ width: `${progress}%` }}
