@@ -1,66 +1,60 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { HeroSection } from "@/components/home/HeroSection";
+import { InteractiveMap } from "@/components/map/InteractiveMap";
+import { useLang } from "@/contexts/lang-context";
 
 export function HomePage() {
+  const { t } = useLang();
+
   return (
-    <div className="relative min-h-screen bg-[#0A0E17] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(201,169,98,0.12)_0%,rgba(10,14,23,0)_45%)]" />
+    <div className="min-h-screen bg-[#0A0E17] text-white">
+      <SiteHeader />
+      <main>
+        <HeroSection />
+        <InteractiveMap />
 
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/assets/Alshubaily-logo.png"
-            alt="AlShubaily"
-            width={56}
-            height={60}
-            className="h-14 w-auto"
-            priority
-          />
-          <div>
-            <p className="text-sm text-[#c9a962]">AlShubaily Group</p>
-            <p className="text-lg font-medium">مجموعة خالد سعود الشبيلي</p>
+        <section id="about" className="border-y border-white/5 bg-[#080b12] px-6 py-20 md:px-8">
+          <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 md:items-center">
+            <div>
+              <p className="text-[11px] tracking-[0.4em] text-[#c9a962]/75 uppercase">
+                {t("من نحن", "About Us")}
+              </p>
+              <h2 className="font-heading mt-4 text-3xl font-semibold md:text-4xl">
+                {t(
+                  "مجموعة خالد سعود الشبيلي للاستثمارات العقارية",
+                  "Khalid Saud AlShubaily Real Estate Investment Group",
+                )}
+              </h2>
+              <p className="mt-5 leading-8 text-white/60">
+                {t(
+                  "محفظة وطنية من 18 مشروعاً في 4 مناطق — من مكة إلى الشرقية — بتجربة رقمية فاخرة تعكس طموح المجموعة.",
+                  "A national portfolio of 18 projects across 4 regions — from Mecca to the Eastern Province — presented through a premium digital experience.",
+                )}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { n: "18", l: t("مشروع", "Projects") },
+                { n: "4", l: t("مناطق", "Regions") },
+                { n: "6", l: t("شركات تابعة", "Subsidiaries") },
+                { n: "1", l: t("رؤية", "Vision") },
+              ].map((stat) => (
+                <div
+                  key={stat.l}
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-center"
+                >
+                  <p className="font-heading text-3xl text-[#c9a962] md:text-4xl">{stat.n}</p>
+                  <p className="mt-2 text-xs text-white/50">{stat.l}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <nav className="hidden gap-8 text-sm text-white/70 md:flex">
-          <a href="#" className="transition hover:text-white">
-            مشاريعنا
-          </a>
-          <a href="#" className="transition hover:text-white">
-            من نحن
-          </a>
-          <a href="#" className="transition hover:text-white">
-            تواصل معنا
-          </a>
-        </nav>
-      </header>
-
-      <main className="relative z-10 mx-auto flex min-h-[calc(100vh-120px)] max-w-6xl flex-col items-center justify-center px-6 pb-20 text-center">
-        <p className="mb-4 text-xs tracking-[0.4em] text-[#c9a962]/80 uppercase">
-          Real Estate Investment
-        </p>
-        <h1 className="max-w-3xl text-4xl leading-tight font-semibold md:text-6xl">
-          مشاريع الشبيلي
-        </h1>
-        <p className="mt-6 max-w-2xl text-base leading-8 text-white/65 md:text-lg">
-          منصة تفاعلية لاستكشاف محفظة مشاريع مجموعة خالد سعود الشبيلي للاستثمارات
-          العقارية — الخريطة التفاعلية والتجربة ثلاثية الأبعاد قيد البناء.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Button
-            size="lg"
-            className="rounded-full border border-[#c9a962]/40 bg-[#c9a962]/10 px-8 text-[#f5ecd8] hover:bg-[#c9a962]/20"
-          >
-            استكشف المشاريع
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="rounded-full border-white/15 bg-transparent px-8 text-white hover:bg-white/5"
-          >
-            English
-          </Button>
-        </div>
+        </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

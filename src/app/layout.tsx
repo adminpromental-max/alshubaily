@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono, Noto_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +12,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const notoArabic = Noto_Sans_Arabic({
+  variable: "--font-noto-arabic",
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "AlShubaily | مجموعة خالد سعود الشبيلي",
   description:
-    "AlShubaily Group — Real Estate Investment portfolio and interactive experiences.",
+    "AlShubaily Group — 18 real estate projects across Saudi Arabia.",
 };
 
 export default function RootLayout({
@@ -27,23 +39,14 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} ${cormorant.variable} h-full antialiased dark`}
     >
       <head>
-        <link
-          rel="preload"
-          href="/assets/intro/intro.mp4"
-          as="video"
-          type="video/mp4"
-        />
-        <link
-          rel="preload"
-          href="/assets/Alshubaily-logo.png"
-          as="image"
-          type="image/png"
-        />
+        <link rel="preload" href="/assets/hero/slide-1.png" as="image" />
       </head>
-      <body className="min-h-full bg-[#0A0E17] text-foreground">{children}</body>
+      <body className="min-h-full bg-[#0A0E17] font-[family-name:var(--font-noto-arabic)] text-foreground">
+        {children}
+      </body>
     </html>
   );
 }

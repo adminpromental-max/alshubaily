@@ -26,7 +26,7 @@ cd web
 git add .
 git commit -m "Initial AlShubaily site with video intro"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/alshubaily.git
+git remote add origin https://github.com/adminpromental-max/alshubaily.git
 git push -u origin main
 ```
 
