@@ -25,7 +25,7 @@ export function AboutSection() {
         <div className="relative">
           <div data-reveal className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_90px_rgba(26,22,18,0.12)]">
             <Image
-              src="/assets/hero/slide-3.png"
+              src="/assets/hero/Hero-3.jpg"
               alt={t("مجموعة الشبيلي", "AlShubaily Group")}
               width={900}
               height={1100}

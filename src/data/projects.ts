@@ -26,9 +26,9 @@ export type Region = {
 };
 
 const DEFAULT_GALLERY = [
-  "/assets/hero/slide-1.png",
-  "/assets/projects/alshubaily-port.png",
-  "/assets/hero/slide-2.png",
+  "/assets/hero/Hero-1.jpg",
+  "/assets/hero/Hero-2.jpg",
+  "/assets/hero/Hero-3.jpg",
 ];
 
 export const REGIONS: Region[] = [
@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
       "A landmark mixed-use development in the holy city of Mecca, combining residential and commercial excellence.",
     descriptionAr:
       "مشروع متعدد الاستخدامات في مكة المكرمة يجمع بين التميز السكني والتجاري.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -76,7 +76,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "Premium residential community offering modern living in the heart of Mecca.",
     descriptionAr: "مجتمع سكني فاخر يقدم أسلوب حياة عصري في قلب مكة المكرمة.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -96,7 +96,7 @@ export const PROJECTS: Project[] = [
       "A scenic waterfront promenade development along Hail's beautiful landscape.",
     descriptionAr:
       "مشروع كورنيش ساحلي على طول المناظر الطبيعية الخلابة في حائل.",
-    heroImage: "/assets/hero/slide-2.png",
+    heroImage: "/assets/hero/Hero-2.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -115,7 +115,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "An elegant pedestrian walkway connecting key destinations in Hail region.",
     descriptionAr: "ممشى راقٍ يربط بين أهم الوجهات في منطقة حائل.",
-    heroImage: "/assets/hero/slide-2.png",
+    heroImage: "/assets/hero/Hero-2.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -135,7 +135,7 @@ export const PROJECTS: Project[] = [
       "Contemporary residential towers in the vibrant Benban district of Riyadh.",
     descriptionAr:
       "أبراج سكنية عصرية في حي بنبان النابض بالحياة في الرياض.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -154,7 +154,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "Signature luxury residences bearing the AlShubaily name in the capital city.",
     descriptionAr: "مساكن فاخرة تحمل اسم الشبيلي في العاصمة الرياض.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -173,7 +173,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "A vibrant boulevard featuring retail, dining, and entertainment experiences.",
     descriptionAr: "بوليفارد حيوي يضم التجزئة والمطاعم والترفيه.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -192,7 +192,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "An integrated golf community with premium villas and world-class amenities.",
     descriptionAr: "مجتمع جولف متكامل مع فلل فاخرة ومرافق عالمية المستوى.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -212,7 +212,7 @@ export const PROJECTS: Project[] = [
       "A master-planned town offering complete lifestyle in the Eastern Province.",
     descriptionAr:
       "مدينة مخططة بعناية تقدم أسلوب حياة متكامل في المنطقة الشرقية.",
-    heroImage: "/assets/hero/slide-2.png",
+    heroImage: "/assets/hero/Hero-2.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -231,7 +231,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "A premier shopping and entertainment destination in the Eastern Region.",
     descriptionAr: "وجهة تسوق وترفيه رائدة في المنطقة الشرقية.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -251,7 +251,7 @@ export const PROJECTS: Project[] = [
       "A luxury resort offering exceptional hospitality on the Arabian Gulf coast.",
     descriptionAr:
       "منتجع فاخر يقدم ضيافة استثنائية على ساحل الخليج العربي.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -271,12 +271,12 @@ export const PROJECTS: Project[] = [
       "A waterfront port development combining marina, retail, and residential spaces.",
     descriptionAr:
       "مشروع ميناء ساحلي يجمع بين المارينا والتجزئة والمساحات السكنية.",
-    heroImage: "/assets/projects/alshubaily-port.png",
+    heroImage: "/assets/projects/Twin-Tower/Hero.jpg",
     gallery: [
-      "/assets/projects/alshubaily-port.png",
-      "/assets/hero/slide-1.png",
-      "/assets/hero/slide-2.png",
-      "/assets/hero/slide-1.png",
+      "/assets/projects/Twin-Tower/Hero.jpg",
+      "/assets/hero/Hero-1.jpg",
+      "/assets/hero/Hero-2.jpg",
+      "/assets/hero/Hero-1.jpg",
     ],
   },
   {
@@ -294,8 +294,16 @@ export const PROJECTS: Project[] = [
     y: 49.5,
     descriptionEn: "A world-class sports and wellness city in the heart of Dammam.",
     descriptionAr: "مدينة رياضية وصحية عالمية المستوى في قلب الدمام.",
-    heroImage: "/assets/hero/slide-2.png",
-    gallery: DEFAULT_GALLERY,
+    heroImage: encodeURI("/assets/projects/مدينه الدمام الأولمبيه/Hero.jpg"),
+    gallery: [
+      encodeURI("/assets/projects/مدينه الدمام الأولمبيه/Hero.jpg"),
+      encodeURI(
+        "/assets/projects/مدينه الدمام الأولمبيه/Gemini_Generated_Image_mh8ajqmh8ajqmh8a.jpg",
+      ),
+      encodeURI(
+        "/assets/projects/مدينه الدمام الأولمبيه/Gemini_Generated_Image_o8922lo8922lo892.jpg",
+      ),
+    ],
   },
   {
     id: 14,
@@ -313,7 +321,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "An elegant residential project named after beauty and prosperity.",
     descriptionAr: "مشروع سكني أنيق يحمل اسم الجمال والازدهار.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -332,8 +340,13 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "Iconic high-rise towers defining the skyline of the Eastern Province.",
     descriptionAr: "أبراج شاهقة تحدد أفق المنطقة الشرقية.",
-    heroImage: "/assets/hero/slide-3.png",
-    gallery: DEFAULT_GALLERY,
+    heroImage: "/assets/projects/Twin-Tower/Hero.jpg",
+    gallery: [
+      "/assets/projects/Twin-Tower/Hero.jpg",
+      "/assets/projects/Twin-Tower/1.jpg",
+      "/assets/projects/Twin-Tower/2.jpg",
+      "/assets/projects/Twin-Tower/3.jpg",
+    ],
   },
   {
     id: 16,
@@ -351,7 +364,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "The second phase of AlShubaily's landmark high-rise development.",
     descriptionAr: "المرحلة الثانية من مشروع الشبيلي الشاهق.",
-    heroImage: "/assets/hero/slide-3.png",
+    heroImage: "/assets/hero/Hero-3.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -370,7 +383,7 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "A royal-inspired destination celebrating the heritage of the Eastern Region.",
     descriptionAr: "وجهة مستوحاة من التراث تحتفي بإرث المنطقة الشرقية.",
-    heroImage: "/assets/hero/slide-1.png",
+    heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
   },
   {
@@ -389,8 +402,13 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "A stunning beachfront development with pristine shores and luxury amenities.",
     descriptionAr: "مشروع ساحلي خلاب مع شواطئ نقية ومرافق فاخرة.",
-    heroImage: "/assets/hero/slide-2.png",
-    gallery: DEFAULT_GALLERY,
+    heroImage: encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
+    gallery: [
+      encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
+      encodeURI("/assets/projects/منتجع منزل البحر /1.jpg"),
+      encodeURI("/assets/projects/منتجع منزل البحر /2.jpg"),
+      encodeURI("/assets/projects/منتجع منزل البحر /3.jpg"),
+    ],
   },
 ];
 

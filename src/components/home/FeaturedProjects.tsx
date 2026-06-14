@@ -5,12 +5,16 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { PROJECTS } from "@/data/projects";
+import { PROJECTS, getProjectBySlug } from "@/data/projects";
+import { FEATURED_SLUGS } from "@/data/project-assets";
 import { useLang } from "@/contexts/lang-context";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 
-const FEATURED = PROJECTS.slice(0, 8);
+const FEATURED = [
+  ...FEATURED_SLUGS.map((slug) => getProjectBySlug(slug)!),
+  ...PROJECTS.filter((p) => !FEATURED_SLUGS.includes(p.slug)).slice(0, 5),
+];
 
 export function FeaturedProjects() {
   const { t, lang } = useLang();
@@ -96,6 +100,7 @@ export function FeaturedProjects() {
                           src={project.heroImage}
                           alt={lang === "ar" ? project.nameAr : project.nameEn}
                           fill
+                          unoptimized
                           className="object-cover transition duration-700 group-hover:scale-105"
                           sizes="(max-width: 768px) 85vw, 45vw"
                           priority={index < 2}

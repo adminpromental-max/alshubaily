@@ -258,6 +258,31 @@ export function InteractiveMap() {
       </div>
 
       <div className="relative mx-auto w-full max-w-[1600px] px-4 md:px-6">
+        {/* Filter bar — above map, not overlapping */}
+        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-[#E0D3C2]/80 bg-white p-2 shadow-sm md:p-3">
+          {REGIONS.map((region) => (
+            <button
+              key={region.id}
+              type="button"
+              onClick={() => {
+                if (region.id === "all") {
+                  resetMap();
+                } else {
+                  selectRegion(region.id);
+                }
+              }}
+              className={cn(
+                "rounded-full px-4 py-2 text-xs transition md:text-sm",
+                filter === region.id
+                  ? "bg-[#1A1612] font-medium text-white"
+                  : "text-[#5C5348] hover:bg-[#F3F0EA]",
+              )}
+            >
+              {lang === "ar" ? region.nameAr : region.nameEn}
+            </button>
+          ))}
+        </div>
+
         <div
           className={cn(
             "relative h-[min(78vh,760px)] min-h-[480px] w-full transition-opacity duration-300",
@@ -268,31 +293,6 @@ export function InteractiveMap() {
             ref={viewportRef}
             className="relative h-full w-full overflow-hidden rounded-[1.75rem] border border-[#E0D3C2]/80 bg-[#EDE8E0] shadow-[0_30px_100px_rgba(26,22,18,0.1)]"
           >
-            {/* Floating filter bar — Coldwell Banker style */}
-            <div className="absolute inset-x-4 top-4 z-40 flex flex-wrap items-center gap-2 rounded-2xl border border-[#E0D3C2]/80 bg-white/95 p-2 shadow-lg backdrop-blur-md md:inset-x-6">
-              {REGIONS.map((region) => (
-                <button
-                  key={region.id}
-                  type="button"
-                  onClick={() => {
-                    if (region.id === "all") {
-                      resetMap();
-                    } else {
-                      selectRegion(region.id);
-                    }
-                  }}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-xs transition md:text-sm",
-                    filter === region.id
-                      ? "bg-[#1A1612] font-medium text-white"
-                      : "text-[#5C5348] hover:bg-[#F3F0EA]",
-                  )}
-                >
-                  {lang === "ar" ? region.nameAr : region.nameEn}
-                </button>
-              ))}
-            </div>
-
             {activeId && (
               <div className="pointer-events-none absolute inset-0 z-20 bg-white/25 backdrop-blur-[1px]" />
             )}

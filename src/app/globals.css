@@ -132,6 +132,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-cairo), sans-serif;
   }
   html {
     @apply font-sans;
@@ -146,7 +147,7 @@
     overscroll-behavior: contain;
   }
   .font-heading {
-    font-family: var(--font-cormorant), var(--font-noto-arabic), serif;
+    font-family: var(--font-cairo), sans-serif;
   }
 }
 
