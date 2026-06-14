@@ -471,27 +471,25 @@
   }
 }
 
-/* Portfolio 3D showcase carousel */
-.showcase-stage {
-  perspective: 1200px;
-  transform-style: preserve-3d;
+/* Portfolio showcase carousel */
+.showcase-viewport {
+  min-height: min(68vw, 420px);
+}
+
+@media (min-width: 640px) {
+  .showcase-viewport {
+    min-height: 420px;
+  }
+}
+
+@media (min-width: 768px) {
+  .showcase-viewport {
+    min-height: 480px;
+  }
 }
 
 .showcase-track {
   align-items: stretch;
-}
-
-.showcase-slide {
-  opacity: var(--slide-opacity, 1);
-  transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
-}
-
-.showcase-card {
-  transform: rotateY(var(--slide-rotate, 0deg)) scale(var(--slide-scale, 1));
-  transform-origin: center center;
-  will-change: transform;
 }
 
 .group-hero-logo {

@@ -1,18 +1,18 @@
 /** Real asset paths for projects with uploaded media */
+import { dammamAsset } from "@/data/asset-paths";
+
 export const REAL_PROJECT_ASSETS: Record<
   string,
   { hero: string; gallery: string[] }
 > = {
   "dammam-olympic-city": {
-    hero: encodeURI("/assets/projects/مدينه الدمام الأولمبيه/Hero.jpg"),
+    hero: dammamAsset("Hero.jpg"),
     gallery: [
-      encodeURI("/assets/projects/مدينه الدمام الأولمبيه/Hero.jpg"),
-      encodeURI(
-        "/assets/projects/مدينه الدمام الأولمبيه/Gemini_Generated_Image_mh8ajqmh8ajqmh8a.jpg",
-      ),
-      encodeURI(
-        "/assets/projects/مدينه الدمام الأولمبيه/Gemini_Generated_Image_o8922lo8922lo892.jpg",
-      ),
+      dammamAsset("Hero.jpg"),
+      dammamAsset("4.jpg"),
+      dammamAsset("5.jpg"),
+      dammamAsset("6.jpg"),
+      dammamAsset("7.jpg"),
     ],
   },
   "alshubaily-high-rise": {

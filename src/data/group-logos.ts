@@ -1,5 +1,29 @@
 const LOGO_BASE = encodeURI("/assets/لوجوهات مجموعة الشبيلي");
 
+/** Recommended upload specs for transparent PNG logos */
+export const GROUP_LOGO_SPECS = {
+  hero: {
+    width: 800,
+    height: 320,
+    ratio: "5:2",
+    file: "hero.png",
+    noteAr: "اللوجو الرئيسي للمجموعة — PNG شفاف بدون خلفية",
+    noteEn: "Main group logo — transparent PNG, no background",
+  },
+  subsidiary: {
+    width: 480,
+    height: 192,
+    ratio: "5:2",
+    files: ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png"],
+    noteAr: "لوجوهات الشركات التابعة — PNG شفاف بنفس النسبة",
+    noteEn: "Subsidiary logos — transparent PNG with the same ratio",
+  },
+  retina: {
+    hero: { width: 1600, height: 640 },
+    subsidiary: { width: 960, height: 384 },
+  },
+} as const;
+
 export type GroupSubsidiary = {
   id: string;
   logo: string;

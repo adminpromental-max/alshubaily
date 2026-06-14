@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import {
   useCallback,
   useEffect,
   useRef,
   useState,
-  type MouseEvent,
 } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -16,14 +14,11 @@ import { useLang } from "@/contexts/lang-context";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { cn } from "@/lib/utils";
 
-const TILT_STRENGTH = 10;
-
 export function FeaturedProjects() {
   const { t } = useLang();
   const sectionRef = useScrollReveal<HTMLElement>({ y: 48, stagger: 0.1 });
   const [selected, setSelected] = useState(0);
   const [playing, setPlaying] = useState(true);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const autoplay = useRef(
     Autoplay({
@@ -53,53 +48,17 @@ export function FeaturedProjects() {
     setPlaying(!playing);
   }, [playing]);
 
-  const updateSlides = useCallback(() => {
-    if (!emblaApi) return;
-
-    const slides = emblaApi.slideNodes();
-    const active = emblaApi.selectedScrollSnap();
-    const total = slides.length;
-
-    slides.forEach((slide, index) => {
-      let diff = index - active;
-      if (diff > total / 2) diff -= total;
-      if (diff < -total / 2) diff += total;
-
-      const abs = Math.abs(diff);
-      slide.style.setProperty("--slide-rotate", `${diff * -14}deg`);
-      slide.style.setProperty("--slide-scale", `${Math.max(0.82, 1 - abs * 0.1)}`);
-      slide.style.setProperty("--slide-opacity", `${Math.max(0.4, 1 - abs * 0.32)}`);
-    });
-  }, [emblaApi]);
-
   useEffect(() => {
     if (!emblaApi) return;
 
-    const onSelect = () => {
-      setSelected(emblaApi.selectedScrollSnap());
-      updateSlides();
-    };
-
+    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-    emblaApi.on("scroll", updateSlides);
     onSelect();
 
     return () => {
       emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-      emblaApi.off("scroll", updateSlides);
     };
-  }, [emblaApi, updateSlides]);
-
-  const onStageMove = (event: MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-    setTilt({ x: x * TILT_STRENGTH, y: y * -TILT_STRENGTH });
-  };
-
-  const onStageLeave = () => setTilt({ x: 0, y: 0 });
+  }, [emblaApi]);
 
   const progress = ((selected + 1) / SHOWCASE_IMAGES.length) * 100;
 
@@ -131,12 +90,7 @@ export function FeaturedProjects() {
           </p>
         </div>
 
-        <div
-          data-reveal
-          className="relative mt-12 md:mt-16"
-          onMouseMove={onStageMove}
-          onMouseLeave={onStageLeave}
-        >
+        <div className="relative mt-12 md:mt-16">
           <div className="mb-6 flex items-center justify-between gap-4 px-1">
             <p className="text-xs tracking-[0.25em] text-white/40 uppercase">
               {String(selected + 1).padStart(2, "0")}{" "}
@@ -176,48 +130,39 @@ export function FeaturedProjects() {
           </div>
 
           <div
-            className="showcase-stage"
-            style={{
-              transform: `rotateX(${tilt.y * 0.25}deg) rotateY(${tilt.x * 0.25}deg)`,
-            }}
+            ref={emblaRef}
+            className="showcase-viewport overflow-hidden px-1 md:px-8"
           >
-            <div className="overflow-hidden px-1 md:px-10" ref={emblaRef}>
-              <div className="showcase-track flex touch-pan-y">
-                {SHOWCASE_IMAGES.map((src, index) => {
-                  const isActive = index === selected;
-                  return (
+            <div className="showcase-track -ms-3 flex touch-pan-y md:-ms-4">
+              {SHOWCASE_IMAGES.map((src, index) => {
+                const isActive = index === selected;
+
+                return (
+                  <div
+                    key={`${src}-${index}`}
+                    className="showcase-slide min-w-0 flex-[0_0_82%] ps-3 sm:flex-[0_0_68%] md:flex-[0_0_52%] lg:flex-[0_0_44%] md:ps-4"
+                  >
                     <div
-                      key={`${src}-${index}`}
-                      className="showcase-slide min-w-0 flex-[0_0_78%] px-2 sm:flex-[0_0_62%] md:flex-[0_0_48%] lg:flex-[0_0_40%]"
+                      className={cn(
+                        "showcase-frame relative h-[min(68vw,420px)] overflow-hidden rounded-[1.75rem] border transition-all duration-500 sm:h-[420px] md:h-[480px]",
+                        isActive
+                          ? "scale-100 border-[#C9A962]/45 opacity-100 shadow-[0_30px_90px_rgba(201,169,98,0.22)]"
+                          : "scale-[0.9] border-white/10 opacity-50 shadow-[0_16px_50px_rgba(0,0,0,0.35)]",
+                      )}
                     >
-                      <div
-                        className={cn(
-                          "showcase-card overflow-hidden rounded-[1.75rem] border transition-[box-shadow,border-color] duration-500",
-                          isActive
-                            ? "border-[#C9A962]/45 shadow-[0_30px_90px_rgba(201,169,98,0.22)]"
-                            : "border-white/10 shadow-[0_16px_50px_rgba(0,0,0,0.35)]",
-                        )}
-                      >
-                        <div className="relative aspect-[4/5] max-lg:aspect-[3/4]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={src}
-                            alt=""
-                            className={cn(
-                              "absolute inset-0 h-full w-full object-cover transition duration-[1.4s] ease-out",
-                              isActive && "scale-105",
-                            )}
-                            loading={index < 4 ? "eager" : "lazy"}
-                            draggable={false}
-                          />
-                          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.45),transparent_45%,rgba(10,10,10,0.08))]" />
-                          <div className="pointer-events-none absolute inset-0 opacity-25 mix-blend-overlay bg-[radial-gradient(circle_at_30%_20%,rgba(201,169,98,0.35),transparent_55%)]" />
-                        </div>
-                      </div>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt=""
+                        className="h-full w-full object-cover"
+                        loading={index < 4 ? "eager" : "lazy"}
+                        draggable={false}
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.35),transparent_50%)]" />
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
