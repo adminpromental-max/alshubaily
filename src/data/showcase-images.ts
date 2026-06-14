@@ -1,24 +1,23 @@
-import { HERO_SLIDES } from "@/data/projects";
-import {
-  beachAsset,
-  dammamAsset,
-  projectAsset,
-} from "@/data/asset-paths";
-
-/** Verified gallery paths for the homepage portfolio showcase. */
+/** Flat ASCII paths — copied to /public/assets/showcase/ for reliable carousel loading */
 export const SHOWCASE_IMAGES = [
-  dammamAsset("Hero.jpg"),
-  dammamAsset("4.jpg"),
-  dammamAsset("5.jpg"),
-  dammamAsset("6.jpg"),
-  dammamAsset("7.jpg"),
-  projectAsset("Twin-Tower", "Hero.jpg"),
-  projectAsset("Twin-Tower", "1.jpg"),
-  projectAsset("Twin-Tower", "2.jpg"),
-  projectAsset("Twin-Tower", "3.jpg"),
-  beachAsset("Hero.jpg"),
-  beachAsset("1.jpg"),
-  beachAsset("2.jpg"),
-  beachAsset("3.jpg"),
-  ...HERO_SLIDES.map((slide) => slide.src),
-].filter((src, index, list) => list.indexOf(src) === index);
+  "/assets/showcase/01.jpg",
+  "/assets/showcase/02.jpg",
+  "/assets/showcase/03.jpg",
+  "/assets/showcase/04.jpg",
+  "/assets/showcase/05.jpg",
+  "/assets/showcase/06.jpg",
+  "/assets/showcase/07.jpg",
+  "/assets/showcase/08.jpg",
+  "/assets/showcase/09.jpg",
+  "/assets/showcase/10.jpg",
+  "/assets/showcase/11.jpg",
+  "/assets/showcase/12.jpg",
+  "/assets/showcase/13.jpg",
+  "/assets/showcase/14.jpg",
+  "/assets/showcase/15.jpg",
+  "/assets/showcase/16.jpg",
+  "/assets/showcase/17.jpg",
+  "/assets/showcase/18.jpg",
+  "/assets/showcase/19.jpg",
+  "/assets/showcase/20.jpg",
+];

@@ -61,6 +61,14 @@ export function FeaturedProjects() {
     };
   }, [emblaApi]);
 
+  /** Preload all slides — lazy loading breaks in horizontal carousels */
+  useEffect(() => {
+    SHOWCASE_IMAGES.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
+
   const progress = ((selected + 1) / SHOWCASE_IMAGES.length) * 100;
 
   return (
@@ -153,7 +161,8 @@ export function FeaturedProjects() {
                         src={src}
                         alt=""
                         className="block h-full w-full object-cover"
-                        loading={index < 5 ? "eager" : "lazy"}
+                        loading="eager"
+                        decoding="async"
                         draggable={false}
                       />
                       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.3),transparent_45%)]" />
