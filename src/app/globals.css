@@ -51,6 +51,15 @@
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  /* AlShubaily brand tokens */
+  --al-cream: #fafaf8;
+  --al-sand: #f3f0ea;
+  --al-gold: #c9a962;
+  --al-gold-dark: #9a7b3a;
+  --al-gold-hover: #b8954a;
+  --al-ink: #1a1612;
+  --al-muted: #5c5348;
+  --al-border: #e0d3c2;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -125,10 +134,43 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans scroll-smooth;
+    @apply font-sans;
+  }
+  html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
   }
   .font-heading {
     font-family: var(--font-cormorant), var(--font-noto-arabic), serif;
+  }
+}
+
+/* Cinematic film grain — procedural, no asset needed */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  animation: grain-shift 0.45s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2%, -3%);
+  }
+  50% {
+    transform: translate(3%, 1%);
+  }
+  75% {
+    transform: translate(-1%, 3%);
   }
 }
 

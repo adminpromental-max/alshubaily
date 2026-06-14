@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Geist, Geist_Mono, Noto_Sans_Arabic } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,7 +43,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} ${cormorant.variable} h-full antialiased`}
     >
       <head>
-        <link rel="preload" href="/assets/hero/slide-1.png" as="image" />
+        <link rel="preload" href="/assets/hero/Hero-1.jpg" as="image" />
       </head>
       <body className="min-h-full bg-[#FAFAF8] font-[family-name:var(--font-noto-arabic)] text-foreground">
         {children}

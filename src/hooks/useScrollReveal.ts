@@ -37,6 +37,7 @@ export function useScrollReveal<T extends HTMLElement>(
         scrollTrigger: {
           trigger: el,
           start,
+          scroller: document.documentElement,
           toggleActions: "play none none reverse",
         },
       });

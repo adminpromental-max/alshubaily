@@ -396,24 +396,39 @@ export const PROJECTS: Project[] = [
 
 export const HERO_SLIDES = [
   {
-    src: "/assets/hero/slide-1.png",
+    src: "/assets/hero/Hero-1.jpg",
     labelAr: "محفظة المشاريع",
     labelEn: "Project Portfolio",
   },
   {
-    src: "/assets/projects/alshubaily-port.png",
+    src: "/assets/hero/Hero-2.jpg",
     labelAr: "الشبيلي بورت",
     labelEn: "AlShubaily Port",
   },
   {
-    src: "/assets/hero/slide-4.png",
+    src: "/assets/hero/Hero-3.jpg",
     labelAr: "أبراج تيدارا",
     labelEn: "Tidara Towers",
   },
   {
-    src: "/assets/hero/slide-2.png",
-    labelAr: "خريطة المملكة",
-    labelEn: "Kingdom Map",
+    src: "/assets/hero/Hero-4.jpg",
+    labelAr: "مشروع مميز",
+    labelEn: "Featured Development",
+  },
+  {
+    src: "/assets/hero/Hero-5.jpg",
+    labelAr: "وجهة ساحلية",
+    labelEn: "Coastal Destination",
+  },
+  {
+    src: "/assets/hero/Hero-6.jpg",
+    labelAr: "استثمار عقاري",
+    labelEn: "Real Estate Investment",
+  },
+  {
+    src: "/assets/hero/Hero-7.jpg",
+    labelAr: "رؤية المجموعة",
+    labelEn: "Group Vision",
   },
 ];
 
