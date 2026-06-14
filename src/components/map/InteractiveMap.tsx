@@ -2,8 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import gsap from "gsap";
+import { MapPin, Search, X } from "lucide-react";
 import {
   PROJECTS,
   REGIONS,
@@ -14,6 +22,7 @@ import {
 import { useLang } from "@/contexts/lang-context";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MapBottomSheet } from "./MapBottomSheet";
 
 const MAP_SRC = "/assets/map.png";
 const MAP_DEFAULT = { w: 2000, h: 1111 };
@@ -21,7 +30,6 @@ const MAX_ZOOM_RATIO = 4.2;
 const ZOOM_STEP_RATIO = 0.1;
 
 type MapMode = "overview" | "region" | "project";
-
 type Transform = { x: number; y: number; scale: number };
 
 function clampTransform(
@@ -36,17 +44,11 @@ function clampTransform(
   let x = t.x;
   let y = t.y;
 
-  if (scaledW <= vw) {
-    x = (vw - scaledW) / 2;
-  } else {
-    x = Math.min(0, Math.max(vw - scaledW, x));
-  }
+  if (scaledW <= vw) x = (vw - scaledW) / 2;
+  else x = Math.min(0, Math.max(vw - scaledW, x));
 
-  if (scaledH <= vh) {
-    y = (vh - scaledH) / 2;
-  } else {
-    y = Math.min(0, Math.max(vh - scaledH, y));
-  }
+  if (scaledH <= vh) y = (vh - scaledH) / 2;
+  else y = Math.min(0, Math.max(vh - scaledH, y));
 
   return { x, y, scale: t.scale };
 }
@@ -60,6 +62,9 @@ export function InteractiveMap() {
   const imgSizeRef = useRef(MAP_DEFAULT);
   const baseScaleRef = useRef(1);
   const transformRef = useRef<Transform>({ x: 0, y: 0, scale: 1 });
+  const panStartRef = useRef<{ x: number; y: number; tx: number; ty: number } | null>(
+    null,
+  );
 
   const [ready, setReady] = useState(false);
   const [imgSize, setImgSize] = useState(MAP_DEFAULT);
@@ -69,14 +74,40 @@ export function InteractiveMap() {
     null,
   );
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
 
   const clusters = getRegionClusters();
-  const filtered =
-    filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.region === filter);
+
+  const searchFiltered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    let list =
+      filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.region === filter);
+    if (!q) return list;
+    return list.filter(
+      (p) =>
+        p.nameAr.includes(search.trim()) ||
+        p.nameEn.toLowerCase().includes(q) ||
+        p.regionAr.includes(search.trim()) ||
+        p.regionEn.toLowerCase().includes(q),
+    );
+  }, [filter, search]);
+
+  const visibleMarkers = useMemo(() => {
+    if (mapMode === "overview" && filter === "all" && !search.trim()) {
+      return [] as Project[];
+    }
+    return searchFiltered;
+  }, [filter, mapMode, search, searchFiltered]);
+
   const activeProject = activeId ? PROJECTS.find((p) => p.id === activeId) : null;
   const regionProjects = activeRegion
-    ? PROJECTS.filter((p) => p.region === activeRegion)
+    ? searchFiltered.filter((p) => p.region === activeRegion)
     : [];
+
+  const sheetOpen = Boolean(activeProject);
+  const regionSheetOpen = Boolean(
+    mapMode === "region" && activeRegion && !activeId,
+  );
 
   const applyTransform = useCallback((animate = false) => {
     const canvas = canvasRef.current;
@@ -136,7 +167,13 @@ export function InteractiveMap() {
   );
 
   const zoomToPoint = useCallback(
-    (px: number, py: number, scaleMultiplier: number, animate = true) => {
+    (
+      px: number,
+      py: number,
+      scaleMultiplier: number,
+      animate = true,
+      sheetOffset = 0,
+    ) => {
       const viewport = viewportRef.current;
       if (!viewport) return;
 
@@ -150,16 +187,24 @@ export function InteractiveMap() {
 
       const mapX = (px / 100) * w;
       const mapY = (py / 100) * h;
+      const focusY = vh / 2 - sheetOffset;
 
       transformRef.current = {
         scale: targetScale,
         x: vw / 2 - mapX * targetScale,
-        y: vh / 2 - mapY * targetScale,
+        y: focusY - mapY * targetScale,
       };
       applyTransform(animate);
     },
     [applyTransform],
   );
+
+  const getSheetOffset = () => {
+    if (typeof window === "undefined") return 0;
+    return window.innerWidth < 1024
+      ? (viewportRef.current?.clientHeight ?? 0) * 0.2
+      : 0;
+  };
 
   const handleImageLoad = () => {
     const img = imgRef.current;
@@ -186,7 +231,6 @@ export function InteractiveMap() {
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
-
     const observer = new ResizeObserver(() => fitMap(false));
     observer.observe(viewport);
     return () => observer.disconnect();
@@ -218,6 +262,7 @@ export function InteractiveMap() {
     setActiveRegion(null);
     setMapMode("overview");
     setFilter("all");
+    setSearch("");
     fitMap(true);
   };
 
@@ -229,7 +274,7 @@ export function InteractiveMap() {
     setActiveId(null);
     setMapMode("region");
     setFilter(regionId);
-    zoomToPoint(cluster.x, cluster.y, 2.6, true);
+    zoomToPoint(cluster.x, cluster.y, 2.4, true, getSheetOffset() * 0.5);
   };
 
   const selectProject = (project: Project) => {
@@ -237,13 +282,42 @@ export function InteractiveMap() {
     setActiveRegion(project.region);
     setMapMode("project");
     setFilter(project.region);
-    zoomToPoint(project.x, project.y, 3.8, true);
+    zoomToPoint(project.x, project.y, 3.5, true, getSheetOffset());
   };
 
-  const showProjectsForRegion = () => {
-    if (!activeRegion) return;
-    setMapMode("region");
+  const closeProject = () => {
     setActiveId(null);
+    setMapMode("region");
+    if (activeRegion) {
+      const cluster = clusters.find((c) => c.id === activeRegion);
+      if (cluster) zoomToPoint(cluster.x, cluster.y, 2.4, true, getSheetOffset() * 0.5);
+    }
+  };
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (transformRef.current.scale <= baseScaleRef.current) return;
+    panStartRef.current = {
+      x: e.clientX,
+      y: e.clientY,
+      tx: transformRef.current.x,
+      ty: transformRef.current.y,
+    };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const start = panStartRef.current;
+    if (!start) return;
+    transformRef.current = {
+      ...transformRef.current,
+      x: start.tx + (e.clientX - start.x),
+      y: start.ty + (e.clientY - start.y),
+    };
+    applyTransform(false);
+  };
+
+  const onPointerUp = () => {
+    panStartRef.current = null;
   };
 
   return (
@@ -252,61 +326,81 @@ export function InteractiveMap() {
         <p className="text-[11px] tracking-[0.4em] text-[#9A7B3A] uppercase">
           {t("استكشف", "Explore")}
         </p>
-        <h2 className="font-heading mt-3 text-3xl font-semibold text-[#1A1612] md:text-5xl">
+        <h2 className="mt-3 text-3xl font-semibold text-[#1A1612] md:text-5xl">
           {t("خريطة المشاريع", "Projects Map")}
         </h2>
       </div>
 
       <div className="relative mx-auto w-full max-w-[1600px] px-4 md:px-6">
-        {/* Filter bar — above map, not overlapping */}
-        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-[#E0D3C2]/80 bg-white p-2 shadow-sm md:p-3">
-          {REGIONS.map((region) => (
-            <button
-              key={region.id}
-              type="button"
-              onClick={() => {
-                if (region.id === "all") {
-                  resetMap();
-                } else {
-                  selectRegion(region.id);
-                }
-              }}
-              className={cn(
-                "rounded-full px-4 py-2 text-xs transition md:text-sm",
-                filter === region.id
-                  ? "bg-[#1A1612] font-medium text-white"
-                  : "text-[#5C5348] hover:bg-[#F3F0EA]",
-              )}
-            >
-              {lang === "ar" ? region.nameAr : region.nameEn}
-            </button>
-          ))}
-        </div>
-
         <div
           className={cn(
-            "relative h-[min(78vh,760px)] min-h-[480px] w-full transition-opacity duration-300",
-            ready ? "opacity-100" : "opacity-0",
+            "relative h-[min(82vh,780px)] min-h-[520px] w-full transition-opacity duration-300",
+            ready ? "opacity-100" : "opacity-40",
           )}
         >
           <div
             ref={viewportRef}
-            className="relative h-full w-full overflow-hidden rounded-[1.75rem] border border-[#E0D3C2]/80 bg-[#EDE8E0] shadow-[0_30px_100px_rgba(26,22,18,0.1)]"
+            className="map-viewport relative h-full w-full overflow-hidden rounded-[1.25rem] border border-[#E0D3C2]/60 bg-[#EDE8E0] shadow-[0_24px_80px_rgba(26,22,18,0.12)] md:rounded-[1.75rem]"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
           >
-            {activeId && (
-              <div className="pointer-events-none absolute inset-0 z-20 bg-white/25 backdrop-blur-[1px]" />
-            )}
+            {/* Floating search + filters (Coldwell style) */}
+            <div className="map-float-controls pointer-events-none absolute inset-x-0 top-0 z-40 px-3 pt-3 md:px-4 md:pt-4">
+              <div className="pointer-events-auto mx-auto max-w-3xl space-y-2">
+                <label className="map-search-bar">
+                  <Search className="h-4 w-4 shrink-0 text-[#8A8175]" />
+                  <input
+                    type="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder={t(
+                      "ابحثي بالمنطقة أو اسم المشروع",
+                      "Search by area or project name",
+                    )}
+                    className="min-w-0 flex-1 bg-transparent text-sm text-[#1A1612] outline-none placeholder:text-[#8A8175]"
+                  />
+                  {search && (
+                    <button
+                      type="button"
+                      onClick={() => setSearch("")}
+                      className="text-[#8A8175]"
+                      aria-label="Clear"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </label>
+
+                <div className="map-filter-scroll flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {REGIONS.map((region) => (
+                    <button
+                      key={region.id}
+                      type="button"
+                      onClick={() => {
+                        if (region.id === "all") resetMap();
+                        else selectRegion(region.id);
+                      }}
+                      className={cn(
+                        "map-filter-chip shrink-0",
+                        filter === region.id && "is-active",
+                      )}
+                    >
+                      {lang === "ar" ? region.nameAr : region.nameEn}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             <div
               ref={canvasRef}
               className={cn(
-                "absolute top-0 left-0 will-change-transform",
+                "absolute top-0 left-0 touch-none will-change-transform",
                 !ready && "invisible",
               )}
-              style={{
-                width: imgSize.w,
-                height: imgSize.h,
-              }}
+              style={{ width: imgSize.w, height: imgSize.h }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -323,224 +417,333 @@ export function InteractiveMap() {
               <div className="absolute inset-0">
                 {mapMode === "overview" &&
                   filter === "all" &&
+                  !search.trim() &&
                   clusters.map((cluster) => (
                     <button
                       key={cluster.id}
                       type="button"
                       onClick={() => selectRegion(cluster.id)}
-                      className="map-cluster group absolute -translate-x-1/2 -translate-y-1/2"
+                      className="map-cluster-premium absolute -translate-x-1/2 -translate-y-full"
                       style={{ left: `${cluster.x}%`, top: `${cluster.y}%` }}
                     >
-                      <span className="map-cluster-pill">
-                        <span className="map-cluster-name">
-                          {lang === "ar" ? cluster.nameAr : cluster.nameEn}
-                        </span>
-                        <span className="map-cluster-count">{cluster.count}</span>
+                      <span className="map-cluster-label">
+                        {lang === "ar" ? cluster.nameAr : cluster.nameEn}
                       </span>
+                      <span className="map-cluster-badge">{cluster.count}</span>
                     </button>
                   ))}
 
-                {(mapMode === "region" || mapMode === "project") &&
-                  filtered.map((project) => (
+                {(mapMode !== "overview" || search.trim()) &&
+                  visibleMarkers.map((project) => (
                     <button
                       key={project.id}
                       type="button"
                       aria-label={lang === "ar" ? project.nameAr : project.nameEn}
                       onClick={() => selectProject(project)}
                       className={cn(
-                        "map-marker group absolute -translate-x-1/2 -translate-y-1/2",
+                        "map-pin-premium group absolute -translate-x-1/2 -translate-y-full",
                         activeId === project.id && "is-active",
                         activeId && activeId !== project.id && "is-dimmed",
                       )}
-                      style={{
-                        left: `${project.x}%`,
-                        top: `${project.y}%`,
-                        ["--pin-color" as string]: project.color,
-                      }}
+                      style={{ left: `${project.x}%`, top: `${project.y}%` }}
                     >
-                      <span className="map-marker-label">
-                        <span className="map-marker-type">{t("مشروع", "Project")}</span>
-                        <span className="map-marker-name">
-                          {lang === "ar" ? project.nameAr : project.nameEn}
-                        </span>
+                      <span
+                        className={cn(
+                          "map-pin-label",
+                          activeId === project.id && "is-visible",
+                        )}
+                      >
+                        {lang === "ar" ? project.nameAr : project.nameEn}
                       </span>
-                      <span className="map-marker-pin">
-                        {String(project.id).padStart(2, "0")}
+                      <span
+                        className="map-pin-dot"
+                        style={{ ["--pin-color" as string]: project.color }}
+                      >
+                        <Image
+                          src="/assets/Alshubaily-logo.png"
+                          alt=""
+                          width={22}
+                          height={22}
+                          className="h-5 w-5 object-contain"
+                          unoptimized
+                        />
                       </span>
                     </button>
                   ))}
               </div>
             </div>
 
-            {/* Region sites list panel */}
-            {mapMode === "region" && activeRegion && !activeId && (
-              <aside className="map-sites-panel">
-                <p className="text-[10px] tracking-[0.25em] text-[#9A7B3A] uppercase">
-                  {t("مواقع المنطقة", "Region Sites")}
-                </p>
-                <h3 className="font-heading mt-2 text-xl text-[#1A1612]">
-                  {lang === "ar"
-                    ? REGIONS.find((r) => r.id === activeRegion)?.nameAr
-                    : REGIONS.find((r) => r.id === activeRegion)?.nameEn}
-                </h3>
-                <p className="mt-1 text-xs text-[#5C5348]">
-                  {regionProjects.length}{" "}
-                  {t("موقع — اختر مشروعاً", "sites — select a project")}
-                </p>
-                <ul className="mt-4 max-h-52 space-y-2 overflow-y-auto">
-                  {regionProjects.map((project) => (
-                    <li key={project.id}>
-                      <button
-                        type="button"
-                        onClick={() => selectProject(project)}
-                        className="flex w-full items-center gap-3 rounded-xl border border-[#E0D3C2]/70 bg-[#FAFAF8] p-2 text-start transition hover:border-[#C9A962]/50 hover:bg-white"
-                      >
-                        <span
-                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
-                          style={{ background: project.color }}
-                        >
-                          {String(project.id).padStart(2, "0")}
-                        </span>
-                        <span className="text-sm font-medium text-[#1A1612]">
-                          {lang === "ar" ? project.nameAr : project.nameEn}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  type="button"
-                  onClick={resetMap}
-                  className="mt-4 text-xs text-[#9A7B3A] hover:text-[#B8954A]"
-                >
-                  ← {t("العودة للخريطة الكاملة", "Back to full map")}
-                </button>
-              </aside>
-            )}
-
-            {/* Premium project card */}
+            {/* Desktop side panel */}
             {activeProject && (
-              <aside className="map-premium-panel">
-                <button
-                  type="button"
-                  className="map-info-close"
-                  onClick={() => {
+              <aside className="map-desktop-panel hidden lg:block">
+                <ProjectCardContent
+                  project={activeProject}
+                  lang={lang}
+                  t={t}
+                  onClose={closeProject}
+                  onRegionList={() => {
                     setActiveId(null);
                     setMapMode("region");
-                    if (activeRegion) {
-                      const cluster = clusters.find((c) => c.id === activeRegion);
-                      if (cluster) zoomToPoint(cluster.x, cluster.y, 2.6, true);
-                    }
                   }}
-                  aria-label="Close"
-                >
-                  ✕
-                </button>
-
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
-                  <Image
-                    src={activeProject.heroImage}
-                    alt={lang === "ar" ? activeProject.nameAr : activeProject.nameEn}
-                    fill
-                    className="object-cover"
-                    sizes="360px"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(26,22,18,0.55),transparent)]" />
-                  <span
-                    className="absolute start-3 top-3 flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold text-white"
-                    style={{ background: activeProject.color }}
-                  >
-                    {String(activeProject.id).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <div className="mt-4">
-                  <p className="text-[10px] tracking-[0.25em] text-[#9A7B3A] uppercase">
-                    {t("مشروع", "Project")}
-                  </p>
-                  <h3 className="font-heading mt-1 text-2xl text-[#1A1612]">
-                    {lang === "ar" ? activeProject.nameAr : activeProject.nameEn}
-                  </h3>
-                  <p className="mt-2 text-xs font-medium text-[#B8954A]">
-                    {lang === "ar" ? activeProject.regionAr : activeProject.regionEn}{" "}
-                    · {lang === "ar" ? activeProject.typeAr : activeProject.typeEn}
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-[#5C5348]">
-                    {lang === "ar"
-                      ? activeProject.descriptionAr
-                      : activeProject.descriptionEn}
-                  </p>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Link
-                    href={`/projects/${activeProject.slug}`}
-                    className={cn(
-                      buttonVariants({ size: "default" }),
-                      "flex-1 rounded-full bg-[#1A1612] text-white hover:bg-[#2A241E]",
-                    )}
-                  >
-                    {t("جولة داخل المشروع", "Enter Project Tour")}
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={showProjectsForRegion}
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "default" }),
-                      "rounded-full border-[#E0D3C2]",
-                    )}
-                  >
-                    {t("قائمة المنطقة", "Region List")}
-                  </button>
-                </div>
+                />
               </aside>
             )}
 
-            <div className="absolute end-4 bottom-4 z-30 flex flex-col gap-1 md:end-6 md:bottom-6">
+            {regionSheetOpen && (
+              <aside className="map-desktop-panel hidden lg:block">
+                <RegionListContent
+                  regionProjects={regionProjects}
+                  activeRegion={activeRegion!}
+                  lang={lang}
+                  t={t}
+                  onSelect={selectProject}
+                  onReset={resetMap}
+                />
+              </aside>
+            )}
+
+            {/* Zoom controls */}
+            <div className="map-zoom-stack absolute end-3 bottom-3 z-30 md:end-4 md:bottom-4">
               <button
                 type="button"
-                className="map-zoom-btn"
-                onClick={() =>
-                  zoomFromCenter(baseScaleRef.current * ZOOM_STEP_RATIO)
-                }
+                className="map-zoom-pill"
+                onClick={() => zoomFromCenter(baseScaleRef.current * ZOOM_STEP_RATIO)}
                 aria-label="Zoom in"
               >
                 +
               </button>
               <button
                 type="button"
-                className="map-zoom-btn"
-                onClick={() =>
-                  zoomFromCenter(-baseScaleRef.current * ZOOM_STEP_RATIO)
-                }
+                className="map-zoom-pill"
+                onClick={() => zoomFromCenter(-baseScaleRef.current * ZOOM_STEP_RATIO)}
                 aria-label="Zoom out"
               >
                 −
               </button>
-              <button
-                type="button"
-                className="map-zoom-btn mt-1"
-                onClick={resetMap}
-                aria-label="Reset"
-              >
-                ⟲
-              </button>
             </div>
           </div>
-        </div>
 
-        <p className="mt-4 text-center text-xs text-[#8A8175]">
-          {mapMode === "overview"
-            ? t(
-                "اضغط على منطقة لعرض المواقع — ثم اختر مشروعاً للتفاصيل",
-                "Tap a region to see sites — then select a project for details",
-              )
-            : t(
-                "اضغط على مشروع للتقريب وعرض التفاصيل",
-                "Tap a project to zoom in and view details",
-              )}
-        </p>
+            {/* Mobile bottom sheets — slide up without covering full map */}
+            <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden lg:hidden">
+              <MapBottomSheet open={sheetOpen} onClose={closeProject}>
+                {activeProject && (
+                  <ProjectCardContent
+                    project={activeProject}
+                    lang={lang}
+                    t={t}
+                    onClose={closeProject}
+                    onRegionList={() => {
+                      setActiveId(null);
+                      setMapMode("region");
+                    }}
+                    compact
+                  />
+                )}
+              </MapBottomSheet>
+
+              <MapBottomSheet
+                open={regionSheetOpen}
+                onClose={resetMap}
+                maxHeight="min(40vh, 360px)"
+              >
+                {activeRegion && (
+                  <RegionListContent
+                    regionProjects={regionProjects}
+                    activeRegion={activeRegion}
+                    lang={lang}
+                    t={t}
+                    onSelect={selectProject}
+                    onReset={resetMap}
+                    compact
+                  />
+                )}
+              </MapBottomSheet>
+            </div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function ProjectCardContent({
+  project,
+  lang,
+  t,
+  onClose,
+  onRegionList,
+  compact = false,
+}: {
+  project: Project;
+  lang: string;
+  t: (ar: string, en: string) => string;
+  onClose: () => void;
+  onRegionList: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <div className={cn("map-sheet-content", compact && "map-sheet-content--compact")}>
+      {compact && (
+        <div className="relative mb-3 h-28 overflow-hidden rounded-xl border border-[#E0D3C2]/70">
+          <Image
+            src={project.heroImage}
+            alt=""
+            fill
+            unoptimized
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/55 via-transparent to-transparent" />
+        </div>
+      )}
+
+      <div className="flex items-start gap-3">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-[#E0D3C2]/80 bg-white shadow-sm">
+          <Image
+            src={project.heroImage}
+            alt=""
+            fill
+            unoptimized
+            className="object-cover"
+            sizes="56px"
+          />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <h3 className="text-base font-semibold text-[#1A1612] md:text-lg">
+                {lang === "ar" ? project.nameAr : project.nameEn}
+              </h3>
+              <p className="mt-1 flex items-center gap-1 text-xs text-[#8A8175]">
+                <MapPin className="h-3.5 w-3.5 shrink-0" />
+                {lang === "ar" ? project.regionAr : project.regionEn}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="map-sheet-close"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          <p className="mt-1 text-xs font-medium text-[#C9A962]">
+            {lang === "ar" ? project.typeAr : project.typeEn}
+          </p>
+        </div>
+      </div>
+
+      {!compact && (
+        <p className="mt-3 text-sm leading-7 text-[#5C5348]">
+          {lang === "ar" ? project.descriptionAr : project.descriptionEn}
+        </p>
+      )}
+
+      {compact && (
+        <div className="mt-4 border-t border-[#E0D3C2]/60 pt-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium text-[#8A8175]">
+              {t("المشاريع المتاحة", "Available Properties")}
+            </p>
+            <Link
+              href={`/projects/${project.slug}`}
+              className="text-xs font-semibold text-[#2563EB]"
+            >
+              {t("عرض المشروع", "View Project")}
+            </Link>
+          </div>
+          <p className="mt-2 text-xs text-[#8A8175]/80">
+            {t(
+              "اضغطي للاطلاع على تفاصيل المشروع الكاملة",
+              "Tap to explore full project details",
+            )}
+          </p>
+        </div>
+      )}
+
+      <div className={cn("flex gap-2", compact ? "mt-4" : "mt-4")}>
+        <Link
+          href={`/projects/${project.slug}`}
+          className={cn(
+            buttonVariants({ size: "default" }),
+            "flex-1 rounded-full bg-[#1A1612] text-white hover:bg-[#2A241E]",
+          )}
+        >
+          {t("عرض المشروع", "View Project")}
+        </Link>
+        <button
+          type="button"
+          onClick={onRegionList}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "default" }),
+            "rounded-full border-[#E0D3C2] px-4",
+          )}
+        >
+          {t("المنطقة", "Region")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RegionListContent({
+  regionProjects,
+  activeRegion,
+  lang,
+  t,
+  onSelect,
+  onReset,
+  compact = false,
+}: {
+  regionProjects: Project[];
+  activeRegion: Exclude<RegionId, "all">;
+  lang: string;
+  t: (ar: string, en: string) => string;
+  onSelect: (p: Project) => void;
+  onReset: () => void;
+  compact?: boolean;
+}) {
+  const region = REGIONS.find((r) => r.id === activeRegion);
+
+  return (
+    <div className={cn("map-sheet-content", compact && "map-sheet-content--compact")}>
+      <p className="text-[10px] tracking-[0.25em] text-[#9A7B3A] uppercase">
+        {t("مواقع المنطقة", "Region Sites")}
+      </p>
+      <h3 className="mt-1 text-lg font-semibold text-[#1A1612]">
+        {lang === "ar" ? region?.nameAr : region?.nameEn}
+      </h3>
+      <p className="mt-1 text-xs text-[#8A8175]">
+        {regionProjects.length} {t("مشروع", "projects")}
+      </p>
+      <ul className="mt-3 max-h-40 space-y-2 overflow-y-auto">
+        {regionProjects.map((project) => (
+          <li key={project.slug}>
+            <button
+              type="button"
+              onClick={() => onSelect(project)}
+              className="flex w-full items-center gap-3 rounded-xl border border-[#E0D3C2]/70 bg-[#FAFAF8] p-2.5 text-start transition active:scale-[0.98] hover:border-[#C9A962]/50"
+            >
+              <span
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
+                style={{ background: project.color }}
+              >
+                {String(project.id).padStart(2, "0")}
+              </span>
+              <span className="text-sm font-medium text-[#1A1612]">
+                {lang === "ar" ? project.nameAr : project.nameEn}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button
+        type="button"
+        onClick={onReset}
+        className="mt-3 text-xs text-[#9A7B3A]"
+      >
+        ← {t("العودة للخريطة الكاملة", "Back to full map")}
+      </button>
+    </div>
   );
 }
