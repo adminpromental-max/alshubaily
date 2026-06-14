@@ -132,7 +132,7 @@
   }
 }
 
-/* Interactive Map */
+/* Interactive Map — light luxury theme */
 .map-marker {
   z-index: 10;
   cursor: pointer;
@@ -142,8 +142,8 @@
   z-index: 40;
 }
 .map-marker.is-dimmed {
-  opacity: 0.28;
-  filter: grayscale(0.5);
+  opacity: 0.3;
+  filter: grayscale(0.4);
   pointer-events: none;
 }
 .map-marker-pin {
@@ -158,7 +158,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   color: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 24px rgba(26, 22, 18, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .map-marker:hover .map-marker-pin,
@@ -166,8 +166,8 @@
   transform: scale(1.15);
 }
 .map-marker.is-active .map-marker-pin {
-  transform: scale(1.35);
-  box-shadow: 0 0 0 6px rgba(201, 169, 98, 0.3), 0 8px 30px rgba(0, 0, 0, 0.5);
+  transform: scale(1.3);
+  box-shadow: 0 0 0 6px rgba(201, 169, 98, 0.28), 0 10px 32px rgba(26, 22, 18, 0.2);
 }
 .map-marker-label {
   pointer-events: none;
@@ -188,16 +188,18 @@
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: #9a7b3a;
 }
 .map-marker-name {
   display: block;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(10, 14, 23, 0.9);
+  border-radius: 8px;
+  border: 1px solid #e0d3c2;
+  background: white;
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 600;
+  color: #1a1612;
+  box-shadow: 0 8px 24px rgba(26, 22, 18, 0.12);
 }
 .map-zoom-btn {
   display: flex;
@@ -205,16 +207,20 @@
   width: 2.75rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(10, 14, 23, 0.85);
-  color: white;
+  border: 1px solid #e0d3c2;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a1612;
   backdrop-filter: blur(8px);
+  transition: background 0.2s ease;
+}
+.map-zoom-btn:hover {
+  background: white;
 }
 .map-zoom-btn:first-child {
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 .map-zoom-btn:nth-child(2) {
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 10px 10px;
 }
 .map-info-panel {
   position: absolute;
@@ -222,12 +228,12 @@
   inset-inline-start: 1.5rem;
   z-index: 50;
   width: min(100% - 2rem, 22rem);
-  border-radius: 1rem;
-  border: 1px solid rgba(224, 211, 194, 0.2);
-  background: rgba(10, 14, 23, 0.92);
+  border-radius: 1.25rem;
+  border: 1px solid #e0d3c2;
+  background: rgba(255, 255, 255, 0.96);
   padding: 1.5rem;
   backdrop-filter: blur(20px);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 24px 80px rgba(26, 22, 18, 0.12);
 }
 @media (min-width: 768px) {
   .map-info-panel {
@@ -244,7 +250,7 @@
   width: 2rem;
   place-items: center;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  border: 1px solid #e0d3c2;
+  background: #fafaf8;
+  color: #5c5348;
 }

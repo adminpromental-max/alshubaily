@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PROJECTS, REGIONS, type Project, type RegionId } from "@/data/projects";
 import { useLang } from "@/contexts/lang-context";
@@ -9,15 +8,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const MAP_SRC = "/assets/map.png";
-const MAX_ZOOM_RATIO = 1.35;
+const MAP_DEFAULT = { w: 2000, h: 1111 };
+const MAX_ZOOM_RATIO = 1.4;
 const ZOOM_STEP_RATIO = 0.08;
 
 export function InteractiveMap() {
   const { t, lang } = useLang();
   const viewportRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const [imgSize, setImgSize] = useState({ w: 2000, h: 1200 });
-
+  const [imgSize, setImgSize] = useState(MAP_DEFAULT);
   const [scale, setScale] = useState(1);
   const [baseScale, setBaseScale] = useState(1);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -25,7 +23,8 @@ export function InteractiveMap() {
   const [activeId, setActiveId] = useState<number | null>(null);
   const [ready, setReady] = useState(false);
 
-  const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.region === filter);
+  const filtered =
+    filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.region === filter);
   const activeProject = activeId ? PROJECTS.find((p) => p.id === activeId) : null;
 
   const fitMap = useCallback(() => {
@@ -34,7 +33,9 @@ export function InteractiveMap() {
 
     const vw = viewport.clientWidth;
     const vh = viewport.clientHeight;
-    const nextBase = Math.min(vw / imgSize.w, vh / imgSize.h) * 0.92;
+    if (vw < 10 || vh < 10) return;
+
+    const nextBase = Math.min(vw / imgSize.w, vh / imgSize.h) * 0.94;
 
     setBaseScale(nextBase);
     setScale(nextBase);
@@ -46,13 +47,21 @@ export function InteractiveMap() {
   }, [imgSize.h, imgSize.w]);
 
   useEffect(() => {
-    if (imgSize.w) fitMap();
-  }, [imgSize, fitMap]);
+    fitMap();
+  }, [fitMap]);
 
   useEffect(() => {
-    fitMap();
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const observer = new ResizeObserver(() => fitMap());
+    observer.observe(viewport);
     window.addEventListener("resize", fitMap);
-    return () => window.removeEventListener("resize", fitMap);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fitMap);
+    };
   }, [fitMap]);
 
   const zoomFromCenter = (delta: number) => {
@@ -75,22 +84,23 @@ export function InteractiveMap() {
     setScale(next);
   };
 
-  const selectProject = (project: Project) => {
-    setActiveId(project.id);
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.naturalWidth > 0) {
+      setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
+    }
   };
 
-  const closePanel = () => setActiveId(null);
-
   return (
-    <section id="map" className="relative bg-[#0A0E17] py-16 md:py-24">
-      <div className="mx-auto mb-8 max-w-7xl px-4 md:px-8">
-        <p className="text-[11px] tracking-[0.4em] text-[#c9a962]/75 uppercase">
+    <section id="map" className="relative bg-[#FAFAF8] py-16 md:py-24">
+      <div className="mx-auto mb-10 max-w-7xl px-4 md:px-8">
+        <p className="text-[11px] tracking-[0.4em] text-[#9A7B3A] uppercase">
           {t("استكشف", "Explore")}
         </p>
-        <h2 className="font-heading mt-3 text-3xl font-semibold text-white md:text-5xl">
+        <h2 className="font-heading mt-3 text-3xl font-semibold text-[#1A1612] md:text-5xl">
           {t("خريطة المشاريع", "Projects Map")}
         </h2>
-        <p className="mt-3 max-w-2xl text-sm text-white/55 md:text-base">
+        <p className="mt-3 max-w-2xl text-sm text-[#5C5348] md:text-base">
           {t(
             "18 مشروعاً موزعة على 4 مناطق — اضغط على أي مشروع لاستكشاف التفاصيل",
             "18 projects across 4 regions — tap any pin to explore",
@@ -99,38 +109,38 @@ export function InteractiveMap() {
       </div>
 
       <div
-        className={`relative mx-auto h-[min(72vh,680px)] w-full max-w-7xl overflow-hidden px-4 transition-opacity duration-700 md:px-8 ${
-          ready ? "opacity-100" : "opacity-0"
-        } ${activeId ? "map-project-selected" : ""}`}
+        className={cn(
+          "relative mx-auto h-[min(72vh,680px)] w-full max-w-7xl px-4 transition-opacity duration-500 md:px-8",
+          ready ? "opacity-100" : "opacity-40",
+          activeId && "map-project-selected",
+        )}
       >
         {activeId && (
-          <div className="pointer-events-none absolute inset-4 z-20 rounded-3xl bg-[#050810]/55 md:inset-8" />
+          <div className="pointer-events-none absolute inset-4 z-20 rounded-3xl bg-white/35 backdrop-blur-[2px] md:inset-8" />
         )}
 
         <div
           ref={viewportRef}
-          className="relative h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-[#0A0E17]"
+          className="relative h-full w-full overflow-hidden rounded-3xl border border-[#E0D3C2]/80 bg-[#F3F0EA] shadow-[0_24px_80px_rgba(26,22,18,0.08)]"
         >
           <div
-            ref={canvasRef}
             className="absolute origin-top-left will-change-transform"
             style={{
+              width: imgSize.w,
+              height: imgSize.h,
               transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
             }}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={MAP_SRC}
               alt="AlShubaily Projects Map"
               width={imgSize.w}
               height={imgSize.h}
-              onLoadingComplete={(img) => {
-                setImgSize({ w: img.naturalWidth, h: img.naturalHeight });
-              }}
-              className="block h-auto max-w-none select-none"
+              onLoad={handleImageLoad}
               draggable={false}
-              priority
+              className="block h-full w-full select-none"
             />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(10,14,23,0.45),rgba(10,14,23,0.25))]" />
 
             <div className="absolute inset-0">
               {filtered.map((project) => (
@@ -138,11 +148,17 @@ export function InteractiveMap() {
                   key={project.id}
                   type="button"
                   aria-label={lang === "ar" ? project.nameAr : project.nameEn}
-                  onClick={() => selectProject(project)}
-                  className={`map-marker group absolute -translate-x-1/2 -translate-y-1/2 ${
-                    activeId === project.id ? "is-active" : activeId ? "is-dimmed" : ""
-                  }`}
-                  style={{ left: `${project.x}%`, top: `${project.y}%`, ["--pin-color" as string]: project.color }}
+                  onClick={() => setActiveId(project.id)}
+                  className={cn(
+                    "map-marker group absolute -translate-x-1/2 -translate-y-1/2",
+                    activeId === project.id && "is-active",
+                    activeId && activeId !== project.id && "is-dimmed",
+                  )}
+                  style={{
+                    left: `${project.x}%`,
+                    top: `${project.y}%`,
+                    ["--pin-color" as string]: project.color,
+                  }}
                 >
                   <span className="map-marker-label">
                     <span className="map-marker-type">{t("مشروع", "Project")}</span>
@@ -150,20 +166,36 @@ export function InteractiveMap() {
                       {lang === "ar" ? project.nameAr : project.nameEn}
                     </span>
                   </span>
-                  <span className="map-marker-pin">{String(project.id).padStart(2, "0")}</span>
+                  <span className="map-marker-pin">
+                    {String(project.id).padStart(2, "0")}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
 
           <div className="absolute end-4 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-1">
-            <button type="button" className="map-zoom-btn" onClick={() => zoomFromCenter(baseScale * ZOOM_STEP_RATIO)} aria-label="Zoom in">+</button>
-            <button type="button" className="map-zoom-btn" onClick={() => zoomFromCenter(-baseScale * ZOOM_STEP_RATIO)} aria-label="Zoom out">−</button>
+            <button
+              type="button"
+              className="map-zoom-btn"
+              onClick={() => zoomFromCenter(baseScale * ZOOM_STEP_RATIO)}
+              aria-label="Zoom in"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              className="map-zoom-btn"
+              onClick={() => zoomFromCenter(-baseScale * ZOOM_STEP_RATIO)}
+              aria-label="Zoom out"
+            >
+              −
+            </button>
             <button
               type="button"
               className="map-zoom-btn mt-2"
               onClick={() => {
-                closePanel();
+                setActiveId(null);
                 fitMap();
               }}
               aria-label="Reset"
@@ -175,19 +207,26 @@ export function InteractiveMap() {
 
         {activeProject && (
           <aside className="map-info-panel">
-            <button type="button" className="map-info-close" onClick={closePanel} aria-label="Close">
+            <button
+              type="button"
+              className="map-info-close"
+              onClick={() => setActiveId(null)}
+              aria-label="Close"
+            >
               ✕
             </button>
-            <p className="text-[10px] tracking-[0.25em] text-[#c9a962]/70 uppercase">
+            <p className="text-[10px] tracking-[0.25em] text-[#9A7B3A] uppercase">
               {t("مشروع", "Project")}
             </p>
-            <h3 className="font-heading mt-2 text-2xl text-white md:text-3xl">
+            <h3 className="font-heading mt-2 text-2xl text-[#1A1612] md:text-3xl">
               {lang === "ar" ? activeProject.nameAr : activeProject.nameEn}
             </h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">
-              {lang === "ar" ? activeProject.descriptionAr : activeProject.descriptionEn}
+            <p className="mt-3 text-sm leading-7 text-[#5C5348]">
+              {lang === "ar"
+                ? activeProject.descriptionAr
+                : activeProject.descriptionEn}
             </p>
-            <p className="mt-2 text-xs text-[#c9a962]">
+            <p className="mt-2 text-xs font-medium text-[#B8954A]">
               {lang === "ar" ? activeProject.regionAr : activeProject.regionEn} ·{" "}
               {lang === "ar" ? activeProject.typeAr : activeProject.typeEn}
             </p>
@@ -195,7 +234,7 @@ export function InteractiveMap() {
               href={`/projects/${activeProject.slug}`}
               className={cn(
                 buttonVariants({ size: "default" }),
-                "mt-6 rounded-full border border-[#c9a962]/35 bg-[#c9a962]/10 text-[#f5ecd8] hover:bg-[#c9a962]/20",
+                "mt-6 rounded-full bg-[#C9A962] text-white hover:bg-[#B8954A]",
               )}
             >
               {t("جولة داخل المشروع", "Enter Project Tour")}
@@ -204,20 +243,21 @@ export function InteractiveMap() {
         )}
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-7xl flex-wrap justify-center gap-2 px-4 md:px-8">
+      <div className="mx-auto mt-8 flex max-w-7xl flex-wrap justify-center gap-2 px-4 md:px-8">
         {REGIONS.map((region) => (
           <button
             key={region.id}
             type="button"
             onClick={() => {
               setFilter(region.id);
-              closePanel();
+              setActiveId(null);
             }}
-            className={`rounded-full px-4 py-2 text-xs transition md:px-5 md:text-sm ${
+            className={cn(
+              "rounded-full px-4 py-2 text-xs transition md:px-5 md:text-sm",
               filter === region.id
-                ? "bg-[#e0d3c2] text-[#0A0E17] font-medium"
-                : "border border-white/10 text-white/60 hover:text-white"
-            }`}
+                ? "bg-[#1A1612] font-medium text-white shadow-md"
+                : "border border-[#E0D3C2] bg-white text-[#5C5348] hover:border-[#C9A962] hover:text-[#1A1612]",
+            )}
           >
             {lang === "ar" ? region.nameAr : region.nameEn}
           </button>

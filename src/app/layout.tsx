@@ -39,12 +39,12 @@ export default function RootLayout({
     <html
       lang="ar"
       dir="rtl"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} ${cormorant.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} ${cormorant.variable} h-full antialiased`}
     >
       <head>
         <link rel="preload" href="/assets/hero/slide-1.png" as="image" />
       </head>
-      <body className="min-h-full bg-[#0A0E17] font-[family-name:var(--font-noto-arabic)] text-foreground">
+      <body className="min-h-full bg-[#FAFAF8] font-[family-name:var(--font-noto-arabic)] text-foreground">
         {children}
       </body>
     </html>

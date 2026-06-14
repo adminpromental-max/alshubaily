@@ -91,30 +91,30 @@ export function ImmersiveTour({ images, titleAr, titleEn }: ImmersiveTourProps) 
   const { t } = useLang();
 
   return (
-    <section ref={sectionRef} className="relative h-[320vh] bg-[#0A0E17]">
+    <section ref={sectionRef} className="relative h-[320vh] bg-[#FAFAF8]">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <Canvas
           className="absolute inset-0"
           camera={{ position: [0, 0, 2], fov: 60, near: 0.1, far: 200 }}
           dpr={[1, 1.75]}
         >
-          <color attach="background" args={["#0A0E17"]} />
-          <fog attach="fog" args={["#0A0E17", 4, 30]} />
+          <color attach="background" args={["#FAFAF8"]} />
+          <fog attach="fog" args={["#FAFAF8", 4, 30]} />
           <Suspense fallback={null}>
             <TourTunnel images={images} scrollRoot={sectionRef} />
           </Suspense>
         </Canvas>
 
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(10,14,23,0.15),rgba(10,14,23,0.8))]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(250,250,248,0.05),rgba(250,250,248,0.88))]" />
 
         <div className="absolute inset-x-0 bottom-0 z-10 p-6 md:p-10">
-          <p className="text-[11px] tracking-[0.35em] text-[#c9a962]/75 uppercase">
+          <p className="text-[11px] tracking-[0.35em] text-[#9A7B3A] uppercase">
             {t("جولة داخل المشروع", "Inside the Project")}
           </p>
-          <h2 className="font-heading mt-2 text-3xl text-white md:text-5xl">
+          <h2 className="font-heading mt-2 text-3xl text-[#1A1612] md:text-5xl">
             {t(titleAr, titleEn)}
           </h2>
-          <p className="mt-3 max-w-lg text-sm text-white/55">
+          <p className="mt-3 max-w-lg text-sm text-[#5C5348]">
             {t(
               "حرّكي الماوس ومرّري للأسفل — كأنك داخل المشروع",
               "Move your mouse and scroll — as if you're inside the project",
