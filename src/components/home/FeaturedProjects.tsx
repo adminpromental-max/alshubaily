@@ -22,7 +22,7 @@ export function FeaturedProjects() {
 
   const autoplay = useRef(
     Autoplay({
-      delay: 4200,
+      delay: 4500,
       stopOnInteraction: false,
       stopOnMouseEnter: true,
     }),
@@ -33,6 +33,7 @@ export function FeaturedProjects() {
       loop: true,
       align: "center",
       containScroll: false,
+      skipSnaps: false,
     },
     [autoplay.current],
   );
@@ -129,36 +130,33 @@ export function FeaturedProjects() {
             </div>
           </div>
 
-          <div
-            ref={emblaRef}
-            className="showcase-viewport overflow-hidden px-1 md:px-8"
-          >
-            <div className="showcase-track -ms-3 flex touch-pan-y md:-ms-4">
+          <div ref={emblaRef} className="showcase-viewport overflow-hidden">
+            <div className="showcase-track flex">
               {SHOWCASE_IMAGES.map((src, index) => {
                 const isActive = index === selected;
 
                 return (
                   <div
                     key={`${src}-${index}`}
-                    className="showcase-slide min-w-0 flex-[0_0_82%] ps-3 sm:flex-[0_0_68%] md:flex-[0_0_52%] lg:flex-[0_0_44%] md:ps-4"
+                    className="showcase-slide min-w-0 flex-[0_0_78%] px-2 sm:flex-[0_0_62%] md:flex-[0_0_48%] lg:flex-[0_0_42%]"
                   >
                     <div
                       className={cn(
-                        "showcase-frame relative h-[min(68vw,420px)] overflow-hidden rounded-[1.75rem] border transition-all duration-500 sm:h-[420px] md:h-[480px]",
+                        "showcase-frame relative overflow-hidden rounded-[1.5rem] border bg-[#111] transition-all duration-500 md:rounded-[1.75rem]",
                         isActive
-                          ? "scale-100 border-[#C9A962]/45 opacity-100 shadow-[0_30px_90px_rgba(201,169,98,0.22)]"
-                          : "scale-[0.9] border-white/10 opacity-50 shadow-[0_16px_50px_rgba(0,0,0,0.35)]",
+                          ? "h-[min(72vw,460px)] border-[#C9A962]/50 shadow-[0_32px_90px_rgba(201,169,98,0.24)] sm:h-[460px] md:h-[520px]"
+                          : "h-[min(58vw,360px)] border-white/10 opacity-55 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:h-[360px] md:mt-10 md:h-[400px]",
                       )}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={src}
                         alt=""
-                        className="h-full w-full object-cover"
-                        loading={index < 4 ? "eager" : "lazy"}
+                        className="block h-full w-full object-cover"
+                        loading={index < 5 ? "eager" : "lazy"}
                         draggable={false}
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.35),transparent_50%)]" />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,10,0.3),transparent_45%)]" />
                     </div>
                   </div>
                 );

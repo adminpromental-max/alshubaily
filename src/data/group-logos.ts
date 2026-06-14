@@ -6,7 +6,7 @@ export const GROUP_LOGO_SPECS = {
     width: 800,
     height: 320,
     ratio: "5:2",
-    file: "hero.png",
+    file: "Hero.png",
     noteAr: "اللوجو الرئيسي للمجموعة — PNG شفاف بدون خلفية",
     noteEn: "Main group logo — transparent PNG, no background",
   },
@@ -32,7 +32,7 @@ export type GroupSubsidiary = {
   chipClass: string;
 };
 
-export const GROUP_HERO_LOGO = `${LOGO_BASE}/hero.png`;
+export const GROUP_HERO_LOGO = `${LOGO_BASE}/Hero.png`;
 
 export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   {

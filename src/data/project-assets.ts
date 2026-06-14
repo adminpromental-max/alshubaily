@@ -1,5 +1,5 @@
 /** Real asset paths for projects with uploaded media */
-import { dammamAsset } from "@/data/asset-paths";
+import { dammamAsset, beachAsset } from "@/data/asset-paths";
 
 export const REAL_PROJECT_ASSETS: Record<
   string,
@@ -25,12 +25,12 @@ export const REAL_PROJECT_ASSETS: Record<
     ],
   },
   "alshubaily-new-beach": {
-    hero: encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
+    hero: beachAsset("Hero.jpg"),
     gallery: [
-      encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /1.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /2.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /3.jpg"),
+      beachAsset("Hero.jpg"),
+      beachAsset("1.jpg"),
+      beachAsset("2.jpg"),
+      beachAsset("3.jpg"),
     ],
   },
 };

@@ -1,6 +1,21 @@
-/** Exact folder name on disk — do not change without verifying public/assets/projects */
-export const DAMMAM_PROJECT_DIR = "مدينه الدمام الأوليمبيه";
+/** Exact folder names as committed in git / deployed on Vercel */
+export const DAMMAM_PROJECT_DIR = "مدينه الدمام الأوليمبيه";
+export const BEACH_PROJECT_DIR = "منتجع منزل البحر ";
+
+export function projectAsset(dir: string, file: string) {
+  return encodeURI(`/assets/projects/${dir}/${file}`);
+}
 
 export function dammamAsset(file: string) {
-  return encodeURI(`/assets/projects/${DAMMAM_PROJECT_DIR}/${file}`);
+  return projectAsset(DAMMAM_PROJECT_DIR, file);
+}
+
+export function beachAsset(file: string) {
+  return projectAsset(BEACH_PROJECT_DIR, file);
+}
+
+export const LOGO_DIR = "لوجوهات مجموعة الشبيلي";
+
+export function groupLogo(file: string) {
+  return encodeURI(`/assets/${LOGO_DIR}/${file}`);
 }

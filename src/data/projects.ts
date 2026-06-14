@@ -1,4 +1,4 @@
-import { dammamAsset } from "@/data/asset-paths";
+import { dammamAsset, beachAsset } from "@/data/asset-paths";
 
 export type RegionId = "all" | "mecca" | "hail" | "riyadh" | "eastern";
 
@@ -401,12 +401,12 @@ export const PROJECTS: Project[] = [
     descriptionEn:
       "A stunning beachfront development with pristine shores and luxury amenities.",
     descriptionAr: "مشروع ساحلي خلاب مع شواطئ نقية ومرافق فاخرة.",
-    heroImage: encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
+    heroImage: beachAsset("Hero.jpg"),
     gallery: [
-      encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /1.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /2.jpg"),
-      encodeURI("/assets/projects/منتجع منزل البحر /3.jpg"),
+      beachAsset("Hero.jpg"),
+      beachAsset("1.jpg"),
+      beachAsset("2.jpg"),
+      beachAsset("3.jpg"),
     ],
   },
 ];
