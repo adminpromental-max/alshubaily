@@ -472,20 +472,38 @@
 }
 
 /* Portfolio 3D showcase carousel */
-.showcase-track {
+.showcase-stage {
+  perspective: 1200px;
   transform-style: preserve-3d;
+}
+
+.showcase-track {
+  align-items: stretch;
 }
 
 .showcase-slide {
-  transform-style: preserve-3d;
-  transition: opacity 0.35s ease;
   opacity: var(--slide-opacity, 1);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
 .showcase-card {
-  transform: rotateY(var(--slide-rotate, 0deg)) translateZ(var(--slide-z, 0px))
-    scale(var(--slide-scale, 1));
-  transform-style: preserve-3d;
+  transform: rotateY(var(--slide-rotate, 0deg)) scale(var(--slide-scale, 1));
+  transform-origin: center center;
   will-change: transform;
-  backface-visibility: hidden;
+}
+
+.group-hero-logo {
+  animation: group-hero-glow 4s ease-in-out infinite;
+}
+
+@keyframes group-hero-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 18px rgba(201, 169, 98, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 32px rgba(201, 169, 98, 0.38));
+  }
 }
