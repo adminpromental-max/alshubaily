@@ -42,7 +42,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
     nameEn: "Residential",
     bioAr: "مجتمعات سكنية فاخرة وأبراج عصرية في أرقى مواقع المملكة.",
     bioEn: "Premium residential communities and contemporary towers across the Kingdom.",
-    image: "/assets/projects/Twin-Tower/Hero.jpg",
+    image: encodeURI("/assets/projects/انواع المشاريع/سكني.jpg"),
   },
   {
     id: "commercial",
@@ -50,7 +50,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
     nameEn: "Commercial",
     bioAr: "وجهات تجارية ومشاريع متعددة الاستخدامات تعزز الحيوية الاقتصادية.",
     bioEn: "Commercial and mixed-use destinations that energize regional economies.",
-    image: "/assets/projects/Twin-Tower/2.jpg",
+    image: encodeURI("/assets/projects/انواع المشاريع/تجاري.jpg"),
   },
   {
     id: "entertainment",
@@ -58,7 +58,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
     nameEn: "Entertainment",
     bioAr: "مدن رياضية ووجهات ترفيهية وبوليفاردات حيوية للعائلات.",
     bioEn: "Sports cities, leisure destinations, and vibrant boulevards for families.",
-    image: encodeURI("/assets/projects/مدينه الدمام الأولمبيه/Hero.jpg"),
+    image: encodeURI("/assets/projects/انواع المشاريع/ترفيهي.jpg"),
   },
   {
     id: "hotel",
@@ -66,7 +66,7 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
     nameEn: "Hospitality",
     bioAr: "منتجعات ووجهات ساحلية بضيافة استثنائية على ساحل الخليج.",
     bioEn: "Resorts and coastal destinations with exceptional Gulf hospitality.",
-    image: encodeURI("/assets/projects/منتجع منزل البحر /Hero.jpg"),
+    image: encodeURI("/assets/projects/انواع المشاريع/فندقي.jpg"),
   },
 ];
 

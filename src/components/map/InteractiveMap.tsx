@@ -23,11 +23,19 @@ import { useLang } from "@/contexts/lang-context";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MapBottomSheet } from "./MapBottomSheet";
+import dynamic from "next/dynamic";
+
+const MapProjectCard3D = dynamic(
+  () => import("./MapProjectCard3D").then((m) => m.MapProjectCard3D),
+  { ssr: false },
+);
 
 const MAP_SRC = "/assets/map.png";
 const MAP_DEFAULT = { w: 2000, h: 1111 };
 const MAX_ZOOM_RATIO = 4.2;
 const ZOOM_STEP_RATIO = 0.1;
+const MOBILE_BREAKPOINT = 1024;
+const MOBILE_COVER_OVERSCAN = 1.08;
 
 type MapMode = "overview" | "region" | "project";
 type Transform = { x: number; y: number; scale: number };
@@ -153,7 +161,10 @@ export function InteractiveMap() {
       const { w, h } = imgSizeRef.current;
       if (vw < 10 || vh < 10 || !w || !h) return;
 
-      const nextBase = Math.min(vw / w, vh / h);
+      const isMobile = vw < MOBILE_BREAKPOINT;
+      const nextBase = isMobile
+        ? Math.max(vw / w, vh / h) * MOBILE_COVER_OVERSCAN
+        : Math.min(vw / w, vh / h);
       baseScaleRef.current = nextBase;
       transformRef.current = {
         x: (vw - w * nextBase) / 2,
@@ -295,7 +306,20 @@ export function InteractiveMap() {
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
-    if (transformRef.current.scale <= baseScaleRef.current) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const { w, h } = imgSizeRef.current;
+    const vw = viewport.clientWidth;
+    const vh = viewport.clientHeight;
+    const scaledW = w * transformRef.current.scale;
+    const scaledH = h * transformRef.current.scale;
+    const canPan = scaledW > vw + 2 || scaledH > vh + 2;
+
+    if (!canPan && transformRef.current.scale <= baseScaleRef.current + 0.001) {
+      return;
+    }
+
     panStartRef.current = {
       x: e.clientX,
       y: e.clientY,
@@ -334,7 +358,9 @@ export function InteractiveMap() {
       <div className="relative mx-auto w-full max-w-[1600px] px-4 md:px-6">
         <div
           className={cn(
-            "relative h-[min(82vh,780px)] min-h-[520px] w-full transition-opacity duration-300",
+            "relative w-full transition-opacity duration-300",
+            "max-lg:h-[min(82vh,760px)] max-lg:min-h-[580px]",
+            "lg:h-[min(82vh,780px)] lg:min-h-[520px]",
             ready ? "opacity-100" : "opacity-40",
           )}
         >
@@ -583,17 +609,11 @@ function ProjectCardContent({
   return (
     <div className={cn("map-sheet-content", compact && "map-sheet-content--compact")}>
       {compact && (
-        <div className="relative mb-3 h-28 overflow-hidden rounded-xl border border-[#E0D3C2]/70">
-          <Image
-            src={project.heroImage}
-            alt=""
-            fill
-            unoptimized
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1612]/55 via-transparent to-transparent" />
-        </div>
+        <MapProjectCard3D
+          image={project.heroImage}
+          active
+          className="relative mb-3 h-36 overflow-hidden rounded-2xl border border-[#E0D3C2]/70 bg-[#1A1612]/5"
+        />
       )}
 
       <div className="flex items-start gap-3">

@@ -15,7 +15,7 @@ const HeroCinematic = dynamic(
 
 export function HeroSection() {
   return (
-    <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-[#1A1612]">
+    <section className="relative h-[min(78svh,720px)] min-h-[440px] w-full overflow-hidden bg-[#1A1612] max-lg:h-[min(68svh,580px)] max-lg:min-h-[400px]">
       <HeroCinematic />
 
       <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2">

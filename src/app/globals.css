@@ -470,3 +470,22 @@
     inset-inline-start: 1.5rem;
   }
 }
+
+/* Portfolio 3D showcase carousel */
+.showcase-track {
+  transform-style: preserve-3d;
+}
+
+.showcase-slide {
+  transform-style: preserve-3d;
+  transition: opacity 0.35s ease;
+  opacity: var(--slide-opacity, 1);
+}
+
+.showcase-card {
+  transform: rotateY(var(--slide-rotate, 0deg)) translateZ(var(--slide-z, 0px))
+    scale(var(--slide-scale, 1));
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+}
