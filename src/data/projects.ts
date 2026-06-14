@@ -424,3 +424,31 @@ export function getProjectById(id: number) {
 export function getProjectBySlug(slug: string) {
   return PROJECTS.find((p) => p.slug === slug);
 }
+
+export type RegionCluster = {
+  id: Exclude<RegionId, "all">;
+  x: number;
+  y: number;
+  count: number;
+  nameAr: string;
+  nameEn: string;
+};
+
+const REGION_IDS = ["mecca", "hail", "riyadh", "eastern"] as const;
+
+export function getRegionClusters(): RegionCluster[] {
+  return REGION_IDS.map((id) => {
+    const projects = PROJECTS.filter((p) => p.region === id);
+    const region = REGIONS.find((r) => r.id === id)!;
+    const x = projects.reduce((sum, p) => sum + p.x, 0) / projects.length;
+    const y = projects.reduce((sum, p) => sum + p.y, 0) / projects.length;
+    return {
+      id,
+      x,
+      y,
+      count: projects.length,
+      nameAr: region.nameAr,
+      nameEn: region.nameEn,
+    };
+  });
+}
