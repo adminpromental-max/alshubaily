@@ -23,9 +23,6 @@ const HeroCinematic = dynamic(
 
 export function HeroChairmanSequence() {
   const { t, lang } = useLang();
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLDivElement>(null);
   const chairmanRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLParagraphElement>(null);
@@ -35,131 +32,94 @@ export function HeroChairmanSequence() {
   const words = quote.split(/\s+/);
 
   useEffect(() => {
-    const wrapper = wrapperRef.current;
-    const hero = heroRef.current;
-    const frame = frameRef.current;
     const chairman = chairmanRef.current;
     const wordsEl = wordsRef.current;
-    if (!wrapper || !hero || !frame || !chairman) return;
+    if (!chairman) return;
 
     const wordSpans = wordsEl?.querySelectorAll(".chairman-word");
 
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 1024px)", () => {
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: wrapper,
-            start: "top top",
-            end: "+=18%",
-            pin: hero,
-            scrub: 0.55,
-            anticipatePin: 1,
-          },
-        })
-          .fromTo(
-            frame,
-            {
-              scale: 1,
-              borderRadius: 0,
-              borderColor: "rgba(201,169,98,0)",
-            },
-            {
-              scale: 0.84,
-              borderRadius: 18,
-              borderColor: "rgba(201, 169, 98, 0.4)",
-              ease: "power2.inOut",
-            },
-            0,
-          )
-          .to(frame, { opacity: 0.35, ease: "power2.in" }, 0.55);
-      });
-
-      mm.add("(max-width: 1023px)", () => {
-        gsap.fromTo(
-          frame,
-          { scale: 1, opacity: 1 },
-          {
-            scale: 0.96,
-            opacity: 0.92,
-            ease: "none",
-            scrollTrigger: {
-              trigger: hero,
-              start: "top top",
-              end: "bottom top",
-              scrub: 0.35,
-            },
-          },
-        );
-      });
-
       if (wordSpans?.length) {
-        gsap.fromTo(
-          wordSpans,
-          { opacity: 0, y: 12 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.025,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: chairman,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
+        gsap.set(wordSpans, { opacity: 0, y: 14, filter: "blur(3px)" });
+        gsap.to(wordSpans, {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          stagger: 0.03,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: chairman,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
           },
-        );
+        });
       }
 
       if (logoRef.current) {
-        gsap.fromTo(
-          logoRef.current,
-          { opacity: 0, y: 16 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: chairman,
-              start: "top 92%",
-              toggleActions: "play none none reverse",
-            },
+        gsap.set(logoRef.current, { opacity: 0, y: 24 });
+        gsap.to(logoRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: chairman,
+            start: "top 88%",
+            toggleActions: "play none none reverse",
           },
-        );
+        });
       }
-    }, wrapper);
+
+      // Eyebrow line reveal
+      const eyebrow = chairman.querySelector(".chairman-eyebrow");
+      if (eyebrow) {
+        gsap.set(eyebrow, { opacity: 0, y: 10 });
+        gsap.to(eyebrow, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: chairman,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+    }, chairman);
 
     return () => ctx.revert();
   }, [lang]);
 
   return (
-    <div ref={wrapperRef} className="hero-chairman-wrapper bg-[#0A0A0A]">
-      <div
-        ref={heroRef}
-        className="relative z-[1] h-[58svh] min-h-[400px] w-full lg:h-[min(72svh,720px)] lg:min-h-[520px]"
-      >
-        <div
-          ref={frameRef}
-          className="hero-cinematic-frame absolute inset-0 overflow-hidden bg-[#1A1612] will-change-transform lg:inset-3 lg:rounded-xl"
-        >
+    <>
+      {/* ── Hero ─────────────────────────────────────────────── */}
+      <div className="relative w-full bg-[#0A0A0A]" style={{ height: "min(88svh, 860px)" }}>
+        <div className="hero-cinematic-frame absolute inset-0 overflow-hidden">
           <HeroCinematic />
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-16 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/80 to-transparent lg:h-20" />
+        {/* Bottom fade into chairman section */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[2]"
+          style={{ height: "30%" }}
+          aria-hidden
+        >
+          <div className="h-full w-full bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
+        </div>
       </div>
 
+      {/* ── Chairman / Vision & Message ─────────────────────── */}
       <section
         ref={chairmanRef}
         id="chairman"
-        className="relative z-10 bg-[#0A0A0A] px-4 pb-10 pt-6 md:px-8 md:pb-14 md:pt-8 lg:-mt-10"
+        className="relative bg-[#0A0A0A] px-5 pb-12 pt-8 md:px-8 md:pb-16 md:pt-12"
       >
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-[10px] tracking-[0.4em] text-[#C9A962] uppercase md:text-[11px] md:tracking-[0.45em]">
+          <p className="chairman-eyebrow text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
             {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
           </p>
 
-          <div ref={logoRef} className="mx-auto mt-5 max-w-[220px] md:mt-6 md:max-w-[280px]">
+          <div ref={logoRef} className="mx-auto mt-6 max-w-[260px] md:mt-8 md:max-w-[300px]">
             <Image
               src={GROUP_HERO_LOGO}
               alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
@@ -173,7 +133,7 @@ export function HeroChairmanSequence() {
 
           <p
             ref={wordsRef}
-            className="mt-5 text-[15px] leading-[1.85] text-white/78 md:mt-6 md:text-lg md:leading-[2]"
+            className="mt-6 text-base leading-[1.9] text-white/75 md:mt-8 md:text-lg md:leading-[2]"
           >
             {words.map((word, i) => (
               <span key={`${word}-${i}`} className="chairman-word inline-block">
@@ -182,8 +142,8 @@ export function HeroChairmanSequence() {
             ))}
           </p>
 
-          <div className="mt-6 md:mt-8">
-            <p className="font-heading text-lg font-semibold text-white md:text-2xl">
+          <div className="mt-8 md:mt-10">
+            <p className="font-heading text-xl font-semibold text-white md:text-2xl">
               {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
             </p>
             <p className="mt-2 text-xs tracking-wide text-[#C9A962]/90 md:text-sm">
@@ -192,6 +152,6 @@ export function HeroChairmanSequence() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

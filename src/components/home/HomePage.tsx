@@ -17,16 +17,23 @@ export function HomePage() {
       <AmbientLight />
       <CustomCursor />
       <SiteHeader />
-      <main className="relative z-[2]">
-        <HeroChairmanSequence />
-        <StatsBanner />
-        <div className="section-overlap section-overlap--light relative z-30">
-          <InteractiveMap />
+      <main className="relative z-[2] isolate">
+        {/* Dark block: Hero → Vision & Message → Stats */}
+        <div className="relative bg-[#0A0A0A]">
+          <HeroChairmanSequence />
+          <StatsBanner />
         </div>
-        <div className="section-overlap section-overlap--light relative z-40">
+
+        {/* Light block: Map → Project Types */}
+        <div className="section-overlap section-overlap--light relative z-10 bg-[#FAFAF8]">
+          <InteractiveMap />
           <ProjectTypesSection />
         </div>
+
+        {/* Dark showcase slider */}
         <FeaturedProjects />
+
+        {/* Metallic group logos */}
         <GroupSection />
       </main>
       <SiteFooter />
