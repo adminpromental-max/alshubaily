@@ -100,7 +100,7 @@ export function ProjectTypesSection() {
   const activeCategory = active;
 
   return (
-    <section id="types" className="bg-[#FAFAF8] py-16 md:py-24">
+    <section id="types" className="bg-[#FAFAF8] py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="mb-10 text-center">
           <p className="text-[11px] tracking-[0.4em] text-[#9A7B3A] uppercase">

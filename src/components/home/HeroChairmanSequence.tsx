@@ -23,10 +23,10 @@ const HeroCinematic = dynamic(
 
 export function HeroChairmanSequence() {
   const { t, lang } = useLang();
-  const sequenceRef = useRef<HTMLDivElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const chairmanRef = useRef<HTMLDivElement>(null);
+  const chairmanRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLParagraphElement>(null);
 
@@ -35,154 +35,145 @@ export function HeroChairmanSequence() {
   const words = quote.split(/\s+/);
 
   useEffect(() => {
-    const sequence = sequenceRef.current;
-    const pin = pinRef.current;
+    const wrapper = wrapperRef.current;
+    const hero = heroRef.current;
     const frame = frameRef.current;
     const chairman = chairmanRef.current;
-    const logo = logoRef.current;
     const wordsEl = wordsRef.current;
-    if (!sequence || !pin || !frame || !chairman) return;
+    if (!wrapper || !hero || !frame || !chairman) return;
 
     const wordSpans = wordsEl?.querySelectorAll(".chairman-word");
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
+      const heroTl = gsap.timeline({
         scrollTrigger: {
-          trigger: sequence,
+          trigger: wrapper,
           start: "top top",
-          end: "+=130%",
-          pin: pin,
-          scrub: 1.1,
+          end: "+=40%",
+          pin: hero,
+          scrub: 0.9,
           anticipatePin: 1,
         },
       });
 
-      tl.fromTo(
+      heroTl.fromTo(
         frame,
         {
           scale: 1,
           borderRadius: 0,
-          borderWidth: 0,
+          borderColor: "rgba(201,169,98,0)",
           boxShadow: "0 0 0 rgba(201,169,98,0)",
         },
         {
-          scale: 0.78,
-          borderRadius: 28,
-          borderWidth: 2,
-          borderColor: "rgba(201, 169, 98, 0.55)",
-          boxShadow: "0 40px 120px rgba(201, 169, 98, 0.22)",
+          scale: 0.72,
+          borderRadius: 22,
+          borderColor: "rgba(201, 169, 98, 0.5)",
+          boxShadow: "0 32px 80px rgba(201, 169, 98, 0.2)",
           ease: "power2.inOut",
         },
         0,
       );
 
-      tl.fromTo(
-        chairman,
-        { opacity: 0, y: 120 },
-        { opacity: 1, y: 0, ease: "power2.out" },
-        0.15,
-      );
-
-      if (logo) {
-        tl.fromTo(
-          logo,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, ease: "power2.out" },
-          0.35,
-        );
-      }
+      heroTl.to(frame, { opacity: 0.15, y: -48, ease: "power2.in" }, 0.55);
 
       if (wordSpans?.length) {
-        tl.fromTo(
+        gsap.fromTo(
           wordSpans,
-          { opacity: 0, x: 36, filter: "blur(6px)" },
+          { opacity: 0, y: 18, filter: "blur(4px)" },
           {
             opacity: 1,
-            x: 0,
+            y: 0,
             filter: "blur(0px)",
-            stagger: 0.04,
+            stagger: 0.035,
             ease: "power3.out",
+            scrollTrigger: {
+              trigger: chairman,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
           },
-          0.4,
         );
       }
 
-      if (logo) {
-        gsap.to(logo, {
-          y: -18,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sequence,
-            start: "top top",
-            end: "+=130%",
-            scrub: 1.5,
+      if (logoRef.current) {
+        gsap.fromTo(
+          logoRef.current,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: chairman,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
           },
-        });
+        );
       }
-    }, sequence);
+    }, wrapper);
 
     return () => ctx.revert();
   }, [lang]);
 
   return (
-    <div ref={sequenceRef} className="hero-chairman-sequence relative">
+    <div ref={wrapperRef} className="hero-chairman-wrapper">
       <div
-        ref={pinRef}
-        className="relative h-[100svh] min-h-[520px] w-full overflow-hidden bg-[#0A0A0A]"
+        ref={heroRef}
+        className="relative flex h-[min(68svh,620px)] min-h-[380px] w-full items-center justify-center overflow-hidden bg-[#0A0A0A] max-lg:h-[min(58svh,480px)] max-lg:min-h-[340px]"
       >
         <div
-          ref={chairmanRef}
-          id="chairman"
-          className="chairman-layer absolute inset-0 z-0 flex items-center justify-center px-6 pb-24 pt-28 opacity-0 md:px-12"
+          ref={frameRef}
+          className="hero-cinematic-frame absolute inset-3 overflow-hidden border border-solid border-transparent bg-[#1A1612] will-change-transform md:inset-5"
         >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
-              {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
-            </p>
-
-            <div ref={logoRef} className="mx-auto mt-8 max-w-xs md:max-w-sm">
-              <Image
-                src={GROUP_HERO_LOGO}
-                alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
-                width={800}
-                height={320}
-                unoptimized
-                className="mx-auto h-auto w-full object-contain"
-                priority
-              />
-            </div>
-
-            <p
-              ref={wordsRef}
-              className="mt-8 text-lg leading-[2] text-white/75 md:text-xl md:leading-[2.1]"
-            >
-              {words.map((word, i) => (
-                <span key={`${word}-${i}`} className="chairman-word inline-block">
-                  {word}&nbsp;
-                </span>
-              ))}
-            </p>
-
-            <div className="mt-10">
-              <p className="font-heading text-2xl font-semibold text-white md:text-3xl">
-                {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
-              </p>
-              <p className="mt-2 text-sm tracking-wide text-[#C9A962]/90">
-                {t(CHAIRMAN_CONTENT.roleAr, CHAIRMAN_CONTENT.roleEn)}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute inset-0 z-10 flex items-center justify-center p-4 md:p-8">
-          <div
-            ref={frameRef}
-            className="hero-cinematic-frame relative h-full w-full max-w-[1600px] overflow-hidden border border-solid border-transparent bg-[#1A1612] will-change-transform"
-          >
-            <HeroCinematic />
-          </div>
+          <HeroCinematic />
         </div>
       </div>
+
+      <section
+        ref={chairmanRef}
+        id="chairman"
+        className="section-overlap section-overlap--dark relative z-10 bg-[#0A0A0A] px-5 py-12 md:px-8 md:py-16"
+      >
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
+            {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
+          </p>
+
+          <div ref={logoRef} className="mx-auto mt-6 max-w-[240px] md:mt-8 md:max-w-xs">
+            <Image
+              src={GROUP_HERO_LOGO}
+              alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
+              width={800}
+              height={320}
+              unoptimized
+              className="mx-auto h-auto w-full object-contain"
+              priority
+            />
+          </div>
+
+          <p
+            ref={wordsRef}
+            className="mt-6 text-base leading-[1.95] text-white/78 md:mt-8 md:text-lg md:leading-[2]"
+          >
+            {words.map((word, i) => (
+              <span key={`${word}-${i}`} className="chairman-word inline-block">
+                {word}&nbsp;
+              </span>
+            ))}
+          </p>
+
+          <div className="mt-8 md:mt-10">
+            <p className="font-heading text-xl font-semibold text-white md:text-2xl">
+              {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
+            </p>
+            <p className="mt-2 text-xs tracking-wide text-[#C9A962]/90 md:text-sm">
+              {t(CHAIRMAN_CONTENT.roleAr, CHAIRMAN_CONTENT.roleEn)}
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

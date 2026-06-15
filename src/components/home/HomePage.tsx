@@ -6,7 +6,7 @@ import { HeroChairmanSequence } from "@/components/home/HeroChairmanSequence";
 import { StatsBanner } from "@/components/home/StatsBanner";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
 import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
-import { CinematicStackSlider } from "@/components/home/CinematicStackSlider";
+import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { GroupSection } from "@/components/home/GroupSection";
 import { AmbientLight } from "@/components/effects/AmbientLight";
 import { CustomCursor } from "@/components/effects/CustomCursor";
@@ -20,9 +20,13 @@ export function HomePage() {
       <main className="relative z-[2]">
         <HeroChairmanSequence />
         <StatsBanner />
-        <InteractiveMap />
-        <ProjectTypesSection />
-        <CinematicStackSlider />
+        <div className="section-overlap section-overlap--light relative z-30">
+          <InteractiveMap />
+        </div>
+        <div className="section-overlap section-overlap--light relative z-40">
+          <ProjectTypesSection />
+        </div>
+        <FeaturedProjects />
         <GroupSection />
       </main>
       <SiteFooter />

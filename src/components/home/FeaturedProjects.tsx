@@ -45,7 +45,7 @@ export function FeaturedProjects() {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0A0A0A] py-20 md:py-28"
+      className="section-overlap section-overlap--dark relative z-50 overflow-hidden bg-[#0A0A0A] py-12 md:py-16"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(201,169,98,0.14),transparent_55%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/35 to-transparent" />
@@ -69,7 +69,7 @@ export function FeaturedProjects() {
           </p>
         </div>
 
-        <div className="relative mt-12 md:mt-16">
+        <div className="relative mt-8 md:mt-12">
           <div className="mb-6 flex items-center justify-between gap-4 px-1">
             <p className="text-xs tracking-[0.25em] text-white/40 uppercase">
               {String(index + 1).padStart(2, "0")}{" "}

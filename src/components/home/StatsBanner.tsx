@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Building2, FileText, Users } from "lucide-react";
 import { useLang } from "@/contexts/lang-context";
 import { SITE_STATS } from "@/data/site-content";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,7 +64,7 @@ function CountUp({
     const obj = { val: 0 };
     const tween = gsap.to(obj, {
       val: target,
-      duration: 2.2,
+      duration: 2,
       ease: "power2.out",
       onUpdate: () => {
         el.textContent = `${Math.round(obj.val)}${suffix ?? ""}`;
@@ -96,7 +97,7 @@ export function StatsBanner() {
 
     const trigger = ScrollTrigger.create({
       trigger: section,
-      start: "top 80%",
+      start: "top 85%",
       onEnter: () => {
         if (!triggeredRef.current) {
           triggeredRef.current = true;
@@ -116,23 +117,32 @@ export function StatsBanner() {
     <section
       id="stats"
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0A0A0A] py-16 md:py-24"
+      className="section-overlap section-overlap--dark relative z-20 overflow-hidden bg-[#0A0A0A] py-8 md:py-12"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,169,98,0.14),transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,169,98,0.1),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/35 to-transparent" />
 
-      <div className="relative mx-auto grid max-w-5xl grid-cols-1 gap-12 px-6 md:grid-cols-3 md:gap-8">
-        {STATS.map((stat) => {
+      <div className="relative mx-auto grid max-w-4xl grid-cols-2 gap-x-4 gap-y-8 px-5 md:grid-cols-3 md:gap-6 md:px-8">
+        {STATS.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.key} className="stat-card group text-center">
-              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-[#C9A962]/25 bg-[#C9A962]/8 text-[#C9A962] transition group-hover:border-[#C9A962]/45 group-hover:bg-[#C9A962]/14">
-                <Icon className="h-6 w-6" strokeWidth={1.5} />
+            <div
+              key={stat.key}
+              className={cn(
+                "stat-card group text-center",
+                index === 2 && "col-span-2 mx-auto w-full max-w-[200px] md:col-span-1 md:max-w-none",
+              )}
+            >
+              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-[#C9A962]/25 bg-[#C9A962]/8 text-[#C9A962] md:mb-4 md:h-12 md:w-12 md:rounded-2xl">
+                <Icon className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
               </div>
               <div
-                className={`stat-glow relative inline-block ${glow[stat.key] ? "is-active" : ""}`}
+                className={cn(
+                  "stat-glow relative inline-block",
+                  glow[stat.key] && "is-active",
+                )}
               >
-                <p className="text-5xl font-semibold text-[#C9A962] md:text-6xl lg:text-7xl">
+                <p className="text-4xl font-semibold text-[#C9A962] md:text-5xl lg:text-6xl">
                   <CountUp
                     target={SITE_STATS[stat.key]}
                     suffix={
@@ -145,7 +155,7 @@ export function StatsBanner() {
                   />
                 </p>
               </div>
-              <p className="mt-3 text-sm tracking-wide text-white/55 md:text-base">
+              <p className="mt-2 text-xs tracking-wide text-white/55 md:mt-2.5 md:text-sm">
                 {t(stat.labelAr, stat.labelEn)}
               </p>
             </div>
