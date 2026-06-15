@@ -16,7 +16,7 @@ function wrap(index: number) {
 
 export function FeaturedProjects() {
   const { t } = useLang();
-  const sectionRef = useScrollReveal<HTMLElement>({ y: 48, stagger: 0.1 });
+  const sectionRef = useScrollReveal<HTMLElement>({ y: 40, stagger: 0.1, flip: true });
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
 
@@ -45,9 +45,9 @@ export function FeaturedProjects() {
     <section
       id="projects"
       ref={sectionRef}
-      className="section-overlap section-overlap--dark relative z-50 overflow-hidden bg-[#0A0A0A] py-12 md:py-16"
+      className="section-overlap section-overlap--flip section-flip-source relative z-50 overflow-hidden py-12 md:py-16"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(201,169,98,0.14),transparent_55%)]" />
+      <div className="section-gradient-showcase pointer-events-none absolute inset-0" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/35 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">

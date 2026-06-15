@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function GroupSection() {
   const { t, lang } = useLang();
-  const sectionRef = useScrollReveal<HTMLElement>({ y: 36, stagger: 0.08 });
+  const sectionRef = useScrollReveal<HTMLElement>({ y: 36, stagger: 0.08, flip: true });
 
   const rows = [
     GROUP_SUBSIDIARIES.slice(0, 3),
@@ -21,10 +21,14 @@ export function GroupSection() {
   return (
     <section
       ref={sectionRef}
-      className="section-overlap section-overlap--dark group-metallic relative overflow-hidden py-14 md:py-20"
+      className="section-overlap section-overlap--flip section-flip-target group-metallic relative overflow-hidden py-14 md:py-20"
     >
       <div className="group-metallic-bg pointer-events-none absolute inset-0" aria-hidden />
       <div className="group-metallic-shine pointer-events-none absolute inset-0" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#141210] to-transparent"
+        aria-hidden
+      />
 
       <div className="relative mx-auto max-w-6xl px-4 md:px-8">
         <div data-reveal className="mx-auto max-w-3xl text-center">
@@ -42,46 +46,39 @@ export function GroupSection() {
           </p>
         </div>
 
-        <div data-reveal className="relative mx-auto mt-10 flex justify-center md:mt-12">
-          <div className="logo-frame logo-frame--hero logo-frame--dark group">
-            <div className="logo-frame-glow logo-frame-glow--dark" aria-hidden />
-            <div className="logo-frame-inner logo-frame-inner--hero logo-frame-inner--dark">
-              <Image
-                src={GROUP_HERO_LOGO}
-                alt={t("مجموعة الشبيلي العقارية", "AlShubaily Real Estate Group")}
-                width={800}
-                height={320}
-                unoptimized
-                className="relative z-[1] h-auto w-full max-w-[240px] object-contain md:max-w-[300px]"
-              />
-            </div>
+        <div data-reveal className="logo-3d-stage relative mx-auto mt-10 flex justify-center md:mt-12">
+          <div className="logo-3d-card logo-3d-card--hero group">
+            <div className="logo-3d-shadow" aria-hidden />
+            <Image
+              src={GROUP_HERO_LOGO}
+              alt={t("مجموعة الشبيلي العقارية", "AlShubaily Real Estate Group")}
+              width={800}
+              height={320}
+              unoptimized
+              className="logo-3d-img logo-3d-img--hero relative z-[1]"
+            />
           </div>
         </div>
 
-        <div className="mt-8 space-y-5 md:mt-10 md:space-y-6">
+        <div className="mt-8 space-y-6 md:mt-10 md:space-y-8">
           {rows.map((row, rowIndex) => (
             <div
               key={rowIndex}
               data-reveal
-              className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5"
+              className="grid grid-cols-2 gap-5 sm:grid-cols-3 sm:gap-6 md:gap-8"
             >
               {row.map((company) => (
                 <div key={company.id} className="flex justify-center">
-                  <div className="logo-frame logo-frame--sub logo-frame--dark group w-full max-w-[240px]">
-                    <div
-                      className="logo-frame-glow logo-frame-glow--sub logo-frame-glow--dark"
-                      aria-hidden
+                  <div className="logo-3d-card logo-3d-card--sub group w-full max-w-[220px]">
+                    <div className="logo-3d-shadow logo-3d-shadow--sub" aria-hidden />
+                    <Image
+                      src={company.logo}
+                      alt={lang === "ar" ? company.nameAr : company.nameEn}
+                      width={480}
+                      height={192}
+                      unoptimized
+                      className="logo-3d-img logo-3d-img--sub relative z-[1]"
                     />
-                    <div className="logo-frame-inner logo-frame-inner--sub logo-frame-inner--dark">
-                      <Image
-                        src={company.logo}
-                        alt={lang === "ar" ? company.nameAr : company.nameEn}
-                        width={480}
-                        height={192}
-                        unoptimized
-                        className="relative z-[1] h-14 w-full object-contain md:h-16"
-                      />
-                    </div>
                   </div>
                 </div>
               ))}

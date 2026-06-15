@@ -45,50 +45,48 @@ export function HeroChairmanSequence() {
     const wordSpans = wordsEl?.querySelectorAll(".chairman-word");
 
     const ctx = gsap.context(() => {
-      const heroTl = gsap.timeline({
+      gsap.timeline({
         scrollTrigger: {
           trigger: wrapper,
           start: "top top",
-          end: "+=40%",
+          end: "+=22%",
           pin: hero,
-          scrub: 0.9,
+          scrub: 0.65,
           anticipatePin: 1,
         },
-      });
-
-      heroTl.fromTo(
-        frame,
-        {
-          scale: 1,
-          borderRadius: 0,
-          borderColor: "rgba(201,169,98,0)",
-          boxShadow: "0 0 0 rgba(201,169,98,0)",
-        },
-        {
-          scale: 0.72,
-          borderRadius: 22,
-          borderColor: "rgba(201, 169, 98, 0.5)",
-          boxShadow: "0 32px 80px rgba(201, 169, 98, 0.2)",
-          ease: "power2.inOut",
-        },
-        0,
-      );
-
-      heroTl.to(frame, { opacity: 0.15, y: -48, ease: "power2.in" }, 0.55);
+      })
+        .fromTo(
+          frame,
+          {
+            scale: 1,
+            borderRadius: 0,
+            borderColor: "rgba(201,169,98,0)",
+            boxShadow: "0 0 0 rgba(201,169,98,0)",
+          },
+          {
+            scale: 0.78,
+            borderRadius: 20,
+            borderColor: "rgba(201, 169, 98, 0.45)",
+            boxShadow: "0 24px 64px rgba(201, 169, 98, 0.18)",
+            ease: "power2.inOut",
+          },
+          0,
+        )
+        .to(frame, { opacity: 0.2, y: -36, ease: "power2.in" }, 0.5);
 
       if (wordSpans?.length) {
         gsap.fromTo(
           wordSpans,
-          { opacity: 0, y: 18, filter: "blur(4px)" },
+          { opacity: 0, y: 14, filter: "blur(3px)" },
           {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            stagger: 0.035,
+            stagger: 0.03,
             ease: "power3.out",
             scrollTrigger: {
               trigger: chairman,
-              start: "top 82%",
+              start: "top 88%",
               toggleActions: "play none none reverse",
             },
           },
@@ -98,15 +96,15 @@ export function HeroChairmanSequence() {
       if (logoRef.current) {
         gsap.fromTo(
           logoRef.current,
-          { opacity: 0, y: 28 },
+          { opacity: 0, y: 20 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.9,
+            duration: 0.8,
             ease: "power3.out",
             scrollTrigger: {
               trigger: chairman,
-              start: "top 85%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           },
@@ -118,44 +116,48 @@ export function HeroChairmanSequence() {
   }, [lang]);
 
   return (
-    <div ref={wrapperRef} className="hero-chairman-wrapper">
+    <div
+      ref={wrapperRef}
+      className="hero-chairman-wrapper relative overflow-hidden bg-[#0A0A0A]"
+    >
       <div
         ref={heroRef}
-        className="relative flex h-[min(68svh,620px)] min-h-[380px] w-full items-center justify-center overflow-hidden bg-[#0A0A0A] max-lg:h-[min(58svh,480px)] max-lg:min-h-[340px]"
+        className="relative z-[1] h-[min(52svh,520px)] w-full max-lg:h-[min(46svh,420px)]"
       >
         <div
           ref={frameRef}
-          className="hero-cinematic-frame absolute inset-3 overflow-hidden border border-solid border-transparent bg-[#1A1612] will-change-transform md:inset-5"
+          className="hero-cinematic-frame absolute inset-2 overflow-hidden border border-solid border-transparent bg-[#1A1612] will-change-transform md:inset-4"
         >
           <HeroCinematic />
         </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       </div>
 
       <section
         ref={chairmanRef}
         id="chairman"
-        className="section-overlap section-overlap--dark relative z-10 bg-[#0A0A0A] px-5 py-12 md:px-8 md:py-16"
+        className="section-overlap section-overlap--tight relative z-10 -mt-14 bg-[#0A0A0A] px-5 pb-10 pt-2 md:-mt-20 md:pb-14 md:pt-4"
       >
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
             {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
           </p>
 
-          <div ref={logoRef} className="mx-auto mt-6 max-w-[240px] md:mt-8 md:max-w-xs">
+          <div ref={logoRef} className="mx-auto mt-5 max-w-[260px] md:mt-6 md:max-w-[300px]">
             <Image
               src={GROUP_HERO_LOGO}
               alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
               width={800}
               height={320}
               unoptimized
-              className="mx-auto h-auto w-full object-contain"
+              className="mx-auto h-auto w-full object-contain drop-shadow-[0_8px_24px_rgba(201,169,98,0.25)]"
               priority
             />
           </div>
 
           <p
             ref={wordsRef}
-            className="mt-6 text-base leading-[1.95] text-white/78 md:mt-8 md:text-lg md:leading-[2]"
+            className="mt-5 text-base leading-[1.9] text-white/78 md:mt-6 md:text-lg md:leading-[2]"
           >
             {words.map((word, i) => (
               <span key={`${word}-${i}`} className="chairman-word inline-block">
@@ -164,7 +166,7 @@ export function HeroChairmanSequence() {
             ))}
           </p>
 
-          <div className="mt-8 md:mt-10">
+          <div className="mt-7 md:mt-8">
             <p className="font-heading text-xl font-semibold text-white md:text-2xl">
               {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
             </p>

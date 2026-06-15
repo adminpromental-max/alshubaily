@@ -6,7 +6,7 @@ export const GROUP_LOGO_SPECS = {
     width: 800,
     height: 320,
     ratio: "5:2",
-    file: "Hero.png",
+    file: "Hero..png",
     noteAr: "اللوجو الرئيسي للمجموعة — PNG شفاف بدون خلفية",
     noteEn: "Main group logo — transparent PNG, no background",
   },
@@ -14,7 +14,7 @@ export const GROUP_LOGO_SPECS = {
     width: 480,
     height: 192,
     ratio: "5:2",
-    files: ["1.png", "2.png", "3.png", "4.png", "5.png", "6.png"],
+    files: ["11.png", "12.png", "13.png", "14.png", "15.png", "16.png"],
     noteAr: "لوجوهات الشركات التابعة — PNG شفاف بنفس النسبة",
     noteEn: "Subsidiary logos — transparent PNG with the same ratio",
   },
@@ -32,12 +32,13 @@ export type GroupSubsidiary = {
   chipClass: string;
 };
 
-export const GROUP_HERO_LOGO = `${LOGO_BASE}/Hero.png`;
+/** Main group logo — used in chairman + group sections */
+export const GROUP_HERO_LOGO = `${LOGO_BASE}/Hero..png`;
 
 export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   {
     id: "development",
-    logo: `${LOGO_BASE}/1.png`,
+    logo: `${LOGO_BASE}/11.png`,
     nameAr: "الشبيلي للتطوير العقاري",
     nameEn: "AlShubaily Real Estate Development",
     chipClass:
@@ -45,7 +46,7 @@ export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   },
   {
     id: "contracting",
-    logo: `${LOGO_BASE}/2.png`,
+    logo: `${LOGO_BASE}/12.png`,
     nameAr: "الشبيلي للمقاولات",
     nameEn: "AlShubaily Contracting",
     chipClass:
@@ -53,7 +54,7 @@ export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   },
   {
     id: "investment",
-    logo: `${LOGO_BASE}/3.png`,
+    logo: `${LOGO_BASE}/13.png`,
     nameAr: "الشبيلي للاستثمار",
     nameEn: "AlShubaily Investment",
     chipClass:
@@ -61,7 +62,7 @@ export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   },
   {
     id: "hospitality",
-    logo: `${LOGO_BASE}/4.png`,
+    logo: `${LOGO_BASE}/14.png`,
     nameAr: "الشبيلي للضيافة",
     nameEn: "AlShubaily Hospitality",
     chipClass:
@@ -69,7 +70,7 @@ export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   },
   {
     id: "trading",
-    logo: `${LOGO_BASE}/5.png`,
+    logo: `${LOGO_BASE}/15.png`,
     nameAr: "الشبيلي للتجارة",
     nameEn: "AlShubaily Trading",
     chipClass:
@@ -77,7 +78,7 @@ export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   },
   {
     id: "services",
-    logo: `${LOGO_BASE}/6.png`,
+    logo: `${LOGO_BASE}/16.png`,
     nameAr: "الشبيلي للخدمات",
     nameEn: "AlShubaily Services",
     chipClass:

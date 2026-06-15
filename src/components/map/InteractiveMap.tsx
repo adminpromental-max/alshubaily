@@ -32,10 +32,12 @@ const MapProjectCard3D = dynamic(
 
 const MAP_SRC = "/assets/map.png";
 const MAP_DEFAULT = { w: 2000, h: 1111 };
-const MAX_ZOOM_RATIO = 4.2;
+const MAX_ZOOM_RATIO = 3.6;
 const ZOOM_STEP_RATIO = 0.1;
 const MOBILE_BREAKPOINT = 1024;
 const MOBILE_COVER_OVERSCAN = 1.08;
+const PROJECT_ZOOM = 2.65;
+const REGION_ZOOM = 2.1;
 
 type MapMode = "overview" | "region" | "project";
 type Transform = { x: number; y: number; scale: number };
@@ -133,13 +135,15 @@ export function InteractiveMap() {
     transformRef.current = clamped;
 
     if (animate) {
+      gsap.killTweensOf(canvas);
       gsap.to(canvas, {
         x: clamped.x,
         y: clamped.y,
         scale: clamped.scale,
-        duration: 0.75,
+        duration: 0.65,
         ease: "power3.inOut",
         transformOrigin: "0 0",
+        overwrite: true,
       });
     } else {
       gsap.set(canvas, {
@@ -277,35 +281,52 @@ export function InteractiveMap() {
     fitMap(true);
   };
 
-  const selectRegion = (regionId: Exclude<RegionId, "all">) => {
-    const cluster = clusters.find((c) => c.id === regionId);
-    if (!cluster) return;
+  const selectRegion = useCallback(
+    (regionId: Exclude<RegionId, "all">) => {
+      const cluster = clusters.find((c) => c.id === regionId);
+      if (!cluster) return;
 
-    setActiveRegion(regionId);
-    setActiveId(null);
-    setMapMode("region");
-    setFilter(regionId);
-    zoomToPoint(cluster.x, cluster.y, 2.4, true, getSheetOffset() * 0.5);
-  };
+      setActiveRegion(regionId);
+      setActiveId(null);
+      setMapMode("region");
+      setFilter(regionId);
+      zoomToPoint(cluster.x, cluster.y, REGION_ZOOM, true, getSheetOffset() * 0.35);
+    },
+    [clusters, zoomToPoint],
+  );
 
-  const selectProject = (project: Project) => {
-    setActiveId(project.id);
-    setActiveRegion(project.region);
-    setMapMode("project");
-    setFilter(project.region);
-    zoomToPoint(project.x, project.y, 3.5, true, getSheetOffset());
-  };
+  const selectProject = useCallback(
+    (project: Project) => {
+      setActiveId(project.id);
+      setActiveRegion(project.region);
+      setMapMode("project");
+      setFilter(project.region);
+      zoomToPoint(project.x, project.y, PROJECT_ZOOM, true, getSheetOffset());
+    },
+    [zoomToPoint],
+  );
 
-  const closeProject = () => {
+  const closeProject = useCallback(() => {
     setActiveId(null);
     setMapMode("region");
     if (activeRegion) {
       const cluster = clusters.find((c) => c.id === activeRegion);
-      if (cluster) zoomToPoint(cluster.x, cluster.y, 2.4, true, getSheetOffset() * 0.5);
+      if (cluster) {
+        zoomToPoint(cluster.x, cluster.y, REGION_ZOOM, true, getSheetOffset() * 0.35);
+      }
     }
-  };
+  }, [activeRegion, clusters, zoomToPoint]);
 
   const onPointerDown = (e: React.PointerEvent) => {
+    const target = e.target as HTMLElement;
+    if (
+      target.closest(
+        "button, a, input, textarea, .map-float-controls, .map-zoom-stack, .map-desktop-panel, .map-bottom-sheet",
+      )
+    ) {
+      return;
+    }
+
     const viewport = viewportRef.current;
     if (!viewport) return;
 
@@ -314,11 +335,15 @@ export function InteractiveMap() {
     const vh = viewport.clientHeight;
     const scaledW = w * transformRef.current.scale;
     const scaledH = h * transformRef.current.scale;
-    const canPan = scaledW > vw + 2 || scaledH > vh + 2;
+    const zoomedIn =
+      transformRef.current.scale > baseScaleRef.current * 1.02;
+    const canPan =
+      mapMode !== "overview" ||
+      zoomedIn ||
+      scaledW > vw + 2 ||
+      scaledH > vh + 2;
 
-    if (!canPan && transformRef.current.scale <= baseScaleRef.current + 0.001) {
-      return;
-    }
+    if (!canPan) return;
 
     panStartRef.current = {
       x: e.clientX,
@@ -466,7 +491,10 @@ export function InteractiveMap() {
                       key={project.id}
                       type="button"
                       aria-label={lang === "ar" ? project.nameAr : project.nameEn}
-                      onClick={() => selectProject(project)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        selectProject(project);
+                      }}
                       className={cn(
                         "map-pin-premium group absolute -translate-x-1/2 -translate-y-full",
                         activeId === project.id && "is-active",
@@ -609,7 +637,7 @@ function ProjectCardContent({
   compact?: boolean;
 }) {
   return (
-    <div className={cn("map-sheet-content", compact && "map-sheet-content--compact")}>
+    <div className={cn("map-sheet-content flex min-h-0 flex-col", compact && "map-sheet-content--compact")}>
       {compact && (
         <MapProjectCard3D
           image={project.heroImage}
@@ -728,7 +756,7 @@ function RegionListContent({
   const region = REGIONS.find((r) => r.id === activeRegion);
 
   return (
-    <div className={cn("map-sheet-content", compact && "map-sheet-content--compact")}>
+    <div className={cn("map-sheet-content flex min-h-0 flex-col", compact && "map-sheet-content--compact")}>
       <p className="text-[10px] tracking-[0.25em] text-[#9A7B3A] uppercase">
         {t("مواقع المنطقة", "Region Sites")}
       </p>
@@ -738,7 +766,7 @@ function RegionListContent({
       <p className="mt-1 text-xs text-[#8A8175]">
         {regionProjects.length} {t("مشروع", "projects")}
       </p>
-      <ul className="mt-3 max-h-40 space-y-2 overflow-y-auto">
+      <ul className="map-sheet-list mt-3 space-y-2">
         {regionProjects.map((project) => (
           <li key={project.slug}>
             <button
