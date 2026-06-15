@@ -400,14 +400,14 @@ export function InteractiveMap() {
         <div
           className={cn(
             "relative w-full transition-opacity duration-300",
-            "h-[min(75vw,560px)] min-h-[340px] md:h-[min(65vh,680px)] md:min-h-[480px]",
+            "h-[min(80vw,480px)] min-h-[320px] md:h-[min(68vh,700px)] md:min-h-[500px]",
             ready ? "opacity-100" : "opacity-40",
           )}
         >
           {/* Map viewport */}
           <div
             ref={viewportRef}
-            className="map-viewport relative h-full w-full overflow-hidden rounded-[1.25rem] border border-[#E0D3C2]/60 bg-[#EDE8E0] shadow-[0_24px_80px_rgba(26,22,18,0.12)] md:rounded-[1.75rem]"
+            className="map-viewport relative h-full w-full overflow-hidden rounded-[1.25rem] border-2 border-[#6B5B3E]/70 bg-[#EDE8E0] shadow-[0_4px_0_#3A2E1A,0_28px_90px_rgba(26,22,18,0.22)] md:rounded-[1.75rem]"
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
@@ -538,6 +538,26 @@ export function InteractiveMap() {
               </div>
             </div>
 
+            {/* Globe-like inner vignette for 3D depth feel */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[5]"
+              aria-hidden
+              style={{
+                background:
+                  "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 55%, rgba(15,10,5,0.32) 80%, rgba(10,6,2,0.62) 100%)",
+                borderRadius: "inherit",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-0 z-[5]"
+              aria-hidden
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 45%), linear-gradient(315deg, rgba(0,0,0,0.15) 0%, transparent 45%)",
+                borderRadius: "inherit",
+              }}
+            />
+
             {/* Desktop panel — single panel, switches content */}
             {desktopPanelContent && (
               <aside className="map-desktop-panel hidden lg:block">
@@ -567,8 +587,12 @@ export function InteractiveMap() {
           </div>
 
           {/* Mobile bottom sheet — single sheet, switches content */}
-          <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden lg:hidden">
-            <MapBottomSheet open={panelView !== "none"} onClose={handlePanelClose}>
+          <div className="pointer-events-none absolute inset-0 z-[60] overflow-hidden lg:hidden">
+            <MapBottomSheet
+              open={panelView !== "none"}
+              onClose={handlePanelClose}
+              maxHeight="min(52vh, 400px)"
+            >
               {mobilePanelContent}
             </MapBottomSheet>
           </div>

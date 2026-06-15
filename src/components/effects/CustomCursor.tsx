@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "@/contexts/lang-context";
 
-const LERP = 0.14;
+const LERP = 0.28;
 
 export function CustomCursor() {
   const { t } = useLang();
