@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const NAV = [
   { href: "#map", ar: "المشاريع", en: "Projects" },
-  { href: "#about", ar: "من نحن", en: "About" },
+  { href: "#chairman", ar: "الرؤية", en: "Vision" },
   { href: "#contact", ar: "تواصل", en: "Contact" },
 ];
 

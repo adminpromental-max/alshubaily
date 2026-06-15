@@ -75,3 +75,16 @@ export const SITE_STATS = {
   investors: 850,
   requests: 2400,
 };
+
+export const CHAIRMAN_CONTENT = {
+  eyebrowAr: "الرؤية والرسالة",
+  eyebrowEn: "Vision & Message",
+  quoteAr:
+    "نبني وجهات عقارية واستثمارية تُجسّد طموح المملكة وتلتزم بأعلى معايير الجودة والاستدامة — لنصنع قيمة دائمة لمجتمعاتنا وشركائنا.",
+  quoteEn:
+    "We build real estate and investment destinations that embody the Kingdom's ambition and the highest standards of quality and sustainability — creating lasting value for our communities and partners.",
+  nameAr: "خالد سعود الشبيلي",
+  nameEn: "Khalid Saud AlShubaily",
+  roleAr: "رئيس مجلس الإدارة",
+  roleEn: "Chairman of the Board",
+};

@@ -2,25 +2,27 @@
 
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { HeroSection } from "@/components/home/HeroSection";
+import { HeroChairmanSequence } from "@/components/home/HeroChairmanSequence";
 import { StatsBanner } from "@/components/home/StatsBanner";
-import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
-import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { AboutSection } from "@/components/home/AboutSection";
+import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
+import { CinematicStackSlider } from "@/components/home/CinematicStackSlider";
 import { GroupSection } from "@/components/home/GroupSection";
+import { AmbientLight } from "@/components/effects/AmbientLight";
+import { CustomCursor } from "@/components/effects/CustomCursor";
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1A1612]">
+    <div className="relative min-h-screen bg-[#FAFAF8] text-[#1A1612]">
+      <AmbientLight />
+      <CustomCursor />
       <SiteHeader />
-      <main>
-        <HeroSection />
+      <main className="relative z-[2]">
+        <HeroChairmanSequence />
         <StatsBanner />
-        <ProjectTypesSection />
         <InteractiveMap />
-        <FeaturedProjects />
-        <AboutSection />
+        <ProjectTypesSection />
+        <CinematicStackSlider />
         <GroupSection />
       </main>
       <SiteFooter />

@@ -450,6 +450,7 @@ export function InteractiveMap() {
                       type="button"
                       onClick={() => selectRegion(cluster.id)}
                       className="map-cluster-premium absolute -translate-x-1/2 -translate-y-full"
+                      data-cursor="explore"
                       style={{ left: `${cluster.x}%`, top: `${cluster.y}%` }}
                     >
                       <span className="map-cluster-label">
@@ -471,6 +472,7 @@ export function InteractiveMap() {
                         activeId === project.id && "is-active",
                         activeId && activeId !== project.id && "is-dimmed",
                       )}
+                      data-cursor="explore"
                       style={{ left: `${project.x}%`, top: `${project.y}%` }}
                     >
                       <span
