@@ -86,6 +86,11 @@ export function InteractiveMap() {
   const [activeId, setActiveId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
 
+  const mapModeRef = useRef(mapMode);
+  mapModeRef.current = mapMode;
+  const activeIdRef = useRef(activeId);
+  activeIdRef.current = activeId;
+
   const clusters = getRegionClusters();
 
   const searchFiltered = useMemo(() => {
@@ -118,6 +123,7 @@ export function InteractiveMap() {
   const regionSheetOpen = Boolean(
     mapMode === "region" && activeRegion && !activeId,
   );
+  const panelOpen = sheetOpen || regionSheetOpen;
 
   const applyTransform = useCallback((animate = false) => {
     const canvas = canvasRef.current;
@@ -246,10 +252,21 @@ export function InteractiveMap() {
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return;
-    const observer = new ResizeObserver(() => fitMap(false));
+
+    const observer = new ResizeObserver(() => {
+      if (
+        mapModeRef.current === "overview" &&
+        activeIdRef.current === null
+      ) {
+        fitMap(false);
+      } else {
+        applyTransform(false);
+      }
+    });
+
     observer.observe(viewport);
     return () => observer.disconnect();
-  }, [fitMap]);
+  }, [applyTransform, fitMap]);
 
   const zoomFromCenter = (delta: number) => {
     const viewport = viewportRef.current;
@@ -286,8 +303,8 @@ export function InteractiveMap() {
       const cluster = clusters.find((c) => c.id === regionId);
       if (!cluster) return;
 
-      setActiveRegion(regionId);
       setActiveId(null);
+      setActiveRegion(regionId);
       setMapMode("region");
       setFilter(regionId);
       zoomToPoint(cluster.x, cluster.y, REGION_ZOOM, true, getSheetOffset() * 0.35);
@@ -316,6 +333,26 @@ export function InteractiveMap() {
       }
     }
   }, [activeRegion, clusters, zoomToPoint]);
+
+  const handlePanelClose = useCallback(() => {
+    if (activeIdRef.current !== null) {
+      setActiveId(null);
+      setMapMode("region");
+      if (activeRegion) {
+        const cluster = clusters.find((c) => c.id === activeRegion);
+        if (cluster) {
+          zoomToPoint(cluster.x, cluster.y, REGION_ZOOM, true, getSheetOffset() * 0.35);
+        }
+      }
+    } else {
+      setActiveId(null);
+      setActiveRegion(null);
+      setMapMode("overview");
+      setFilter("all");
+      setSearch("");
+      fitMap(true);
+    }
+  }, [activeRegion, clusters, fitMap, zoomToPoint]);
 
   const onPointerDown = (e: React.PointerEvent) => {
     const target = e.target as HTMLElement;
@@ -370,12 +407,12 @@ export function InteractiveMap() {
   };
 
   return (
-    <section id="map" className="relative bg-[#FAFAF8] py-12 md:py-20">
-      <div className="mx-auto mb-8 max-w-[1600px] px-4 md:px-6">
+    <section id="map" className="relative bg-[#FAFAF8] py-10 md:py-16">
+      <div className="mx-auto mb-6 max-w-[1600px] px-4 md:mb-8 md:px-6">
         <p className="text-[11px] tracking-[0.4em] text-[#9A7B3A] uppercase">
           {t("استكشف", "Explore")}
         </p>
-        <h2 className="mt-3 text-3xl font-semibold text-[#1A1612] md:text-5xl">
+        <h2 className="mt-2 text-2xl font-semibold text-[#1A1612] md:mt-3 md:text-5xl">
           {t("خريطة المشاريع", "Projects Map")}
         </h2>
       </div>
@@ -384,8 +421,8 @@ export function InteractiveMap() {
         <div
           className={cn(
             "relative w-full transition-opacity duration-300",
-            "max-lg:h-[min(82vh,760px)] max-lg:min-h-[580px]",
-            "lg:h-[min(82vh,780px)] lg:min-h-[520px]",
+            "h-[min(56vh,520px)] min-h-[360px] max-h-[560px]",
+            "lg:h-[min(68vh,680px)] lg:min-h-[480px] lg:max-h-none",
             ready ? "opacity-100" : "opacity-40",
           )}
         >
@@ -529,32 +566,30 @@ export function InteractiveMap() {
               </div>
             </div>
 
-            {/* Desktop side panel */}
-            {activeProject && (
-              <aside className="map-desktop-panel hidden lg:block">
-                <ProjectCardContent
-                  project={activeProject}
-                  lang={lang}
-                  t={t}
-                  onClose={closeProject}
-                  onRegionList={() => {
-                    setActiveId(null);
-                    setMapMode("region");
-                  }}
-                />
-              </aside>
-            )}
-
-            {regionSheetOpen && (
-              <aside className="map-desktop-panel hidden lg:block">
-                <RegionListContent
-                  regionProjects={regionProjects}
-                  activeRegion={activeRegion!}
-                  lang={lang}
-                  t={t}
-                  onSelect={selectProject}
-                  onReset={resetMap}
-                />
+            {/* Desktop — single panel */}
+            {panelOpen && (
+              <aside className="map-desktop-panel hidden lg:flex">
+                {activeProject ? (
+                  <ProjectCardContent
+                    project={activeProject}
+                    lang={lang}
+                    t={t}
+                    onClose={closeProject}
+                    onRegionList={() => {
+                      setActiveId(null);
+                      setMapMode("region");
+                    }}
+                  />
+                ) : activeRegion ? (
+                  <RegionListContent
+                    regionProjects={regionProjects}
+                    activeRegion={activeRegion}
+                    lang={lang}
+                    t={t}
+                    onSelect={selectProject}
+                    onReset={resetMap}
+                  />
+                ) : null}
               </aside>
             )}
 
@@ -579,42 +614,42 @@ export function InteractiveMap() {
             </div>
           </div>
 
-            {/* Mobile bottom sheets — slide up without covering full map */}
-            <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden lg:hidden">
-              <MapBottomSheet open={sheetOpen} onClose={closeProject}>
-                {activeProject && (
-                  <ProjectCardContent
-                    project={activeProject}
-                    lang={lang}
-                    t={t}
-                    onClose={closeProject}
-                    onRegionList={() => {
-                      setActiveId(null);
-                      setMapMode("region");
-                    }}
-                    compact
-                  />
-                )}
-              </MapBottomSheet>
-
-              <MapBottomSheet
-                open={regionSheetOpen}
-                onClose={resetMap}
-                maxHeight="min(40vh, 360px)"
-              >
-                {activeRegion && (
-                  <RegionListContent
-                    regionProjects={regionProjects}
-                    activeRegion={activeRegion}
-                    lang={lang}
-                    t={t}
-                    onSelect={selectProject}
-                    onReset={resetMap}
-                    compact
-                  />
-                )}
-              </MapBottomSheet>
-            </div>
+          {/* Mobile — single bottom sheet */}
+          <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden lg:hidden">
+            <MapBottomSheet
+              open={panelOpen}
+              onClose={handlePanelClose}
+              maxHeight={
+                activeProject
+                  ? "min(44vh, 400px)"
+                  : "min(38vh, 340px)"
+              }
+            >
+              {activeProject ? (
+                <ProjectCardContent
+                  project={activeProject}
+                  lang={lang}
+                  t={t}
+                  onClose={closeProject}
+                  onRegionList={() => {
+                    setActiveId(null);
+                    setMapMode("region");
+                  }}
+                  compact
+                />
+              ) : activeRegion ? (
+                <RegionListContent
+                  regionProjects={regionProjects}
+                  activeRegion={activeRegion}
+                  lang={lang}
+                  t={t}
+                  onSelect={selectProject}
+                  onReset={resetMap}
+                  compact
+                />
+              ) : null}
+            </MapBottomSheet>
+          </div>
         </div>
       </div>
     </section>

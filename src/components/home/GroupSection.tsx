@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function GroupSection() {
   const { t, lang } = useLang();
-  const sectionRef = useScrollReveal<HTMLElement>({ y: 36, stagger: 0.08, flip: true });
+  const sectionRef = useScrollReveal<HTMLElement>({ y: 28, stagger: 0.08, flip: false });
 
   const rows = [
     GROUP_SUBSIDIARIES.slice(0, 3),
@@ -21,7 +21,7 @@ export function GroupSection() {
   return (
     <section
       ref={sectionRef}
-      className="section-overlap section-overlap--flip section-flip-target group-metallic relative overflow-hidden py-14 md:py-20"
+      className="section-overlap section-overlap--flip section-flip-target group-metallic relative overflow-hidden py-12 md:py-20"
     >
       <div className="group-metallic-bg pointer-events-none absolute inset-0" aria-hidden />
       <div className="group-metallic-shine pointer-events-none absolute inset-0" aria-hidden />

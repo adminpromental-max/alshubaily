@@ -45,48 +45,67 @@ export function HeroChairmanSequence() {
     const wordSpans = wordsEl?.querySelectorAll(".chairman-word");
 
     const ctx = gsap.context(() => {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapper,
-          start: "top top",
-          end: "+=22%",
-          pin: hero,
-          scrub: 0.65,
-          anticipatePin: 1,
-        },
-      })
-        .fromTo(
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 1024px)", () => {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: wrapper,
+            start: "top top",
+            end: "+=18%",
+            pin: hero,
+            scrub: 0.55,
+            anticipatePin: 1,
+          },
+        })
+          .fromTo(
+            frame,
+            {
+              scale: 1,
+              borderRadius: 0,
+              borderColor: "rgba(201,169,98,0)",
+            },
+            {
+              scale: 0.84,
+              borderRadius: 18,
+              borderColor: "rgba(201, 169, 98, 0.4)",
+              ease: "power2.inOut",
+            },
+            0,
+          )
+          .to(frame, { opacity: 0.35, ease: "power2.in" }, 0.55);
+      });
+
+      mm.add("(max-width: 1023px)", () => {
+        gsap.fromTo(
           frame,
+          { scale: 1, opacity: 1 },
           {
-            scale: 1,
-            borderRadius: 0,
-            borderColor: "rgba(201,169,98,0)",
-            boxShadow: "0 0 0 rgba(201,169,98,0)",
+            scale: 0.96,
+            opacity: 0.92,
+            ease: "none",
+            scrollTrigger: {
+              trigger: hero,
+              start: "top top",
+              end: "bottom top",
+              scrub: 0.35,
+            },
           },
-          {
-            scale: 0.78,
-            borderRadius: 20,
-            borderColor: "rgba(201, 169, 98, 0.45)",
-            boxShadow: "0 24px 64px rgba(201, 169, 98, 0.18)",
-            ease: "power2.inOut",
-          },
-          0,
-        )
-        .to(frame, { opacity: 0.2, y: -36, ease: "power2.in" }, 0.5);
+        );
+      });
 
       if (wordSpans?.length) {
         gsap.fromTo(
           wordSpans,
-          { opacity: 0, y: 14, filter: "blur(3px)" },
+          { opacity: 0, y: 12 },
           {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
-            stagger: 0.03,
+            stagger: 0.025,
             ease: "power3.out",
             scrollTrigger: {
               trigger: chairman,
-              start: "top 88%",
+              start: "top 90%",
               toggleActions: "play none none reverse",
             },
           },
@@ -96,15 +115,15 @@ export function HeroChairmanSequence() {
       if (logoRef.current) {
         gsap.fromTo(
           logoRef.current,
-          { opacity: 0, y: 20 },
+          { opacity: 0, y: 16 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.7,
             ease: "power3.out",
             scrollTrigger: {
               trigger: chairman,
-              start: "top 90%",
+              start: "top 92%",
               toggleActions: "play none none reverse",
             },
           },
@@ -116,34 +135,31 @@ export function HeroChairmanSequence() {
   }, [lang]);
 
   return (
-    <div
-      ref={wrapperRef}
-      className="hero-chairman-wrapper relative overflow-hidden bg-[#0A0A0A]"
-    >
+    <div ref={wrapperRef} className="hero-chairman-wrapper bg-[#0A0A0A]">
       <div
         ref={heroRef}
-        className="relative z-[1] h-[min(52svh,520px)] w-full max-lg:h-[min(46svh,420px)]"
+        className="relative z-[1] h-[58svh] min-h-[400px] w-full lg:h-[min(72svh,720px)] lg:min-h-[520px]"
       >
         <div
           ref={frameRef}
-          className="hero-cinematic-frame absolute inset-2 overflow-hidden border border-solid border-transparent bg-[#1A1612] will-change-transform md:inset-4"
+          className="hero-cinematic-frame absolute inset-0 overflow-hidden bg-[#1A1612] will-change-transform lg:inset-3 lg:rounded-xl"
         >
           <HeroCinematic />
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-16 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/80 to-transparent lg:h-20" />
       </div>
 
       <section
         ref={chairmanRef}
         id="chairman"
-        className="section-overlap section-overlap--tight relative z-10 -mt-14 bg-[#0A0A0A] px-5 pb-10 pt-2 md:-mt-20 md:pb-14 md:pt-4"
+        className="relative z-10 bg-[#0A0A0A] px-4 pb-10 pt-6 md:px-8 md:pb-14 md:pt-8 lg:-mt-10"
       >
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
+          <p className="text-[10px] tracking-[0.4em] text-[#C9A962] uppercase md:text-[11px] md:tracking-[0.45em]">
             {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
           </p>
 
-          <div ref={logoRef} className="mx-auto mt-5 max-w-[260px] md:mt-6 md:max-w-[300px]">
+          <div ref={logoRef} className="mx-auto mt-5 max-w-[220px] md:mt-6 md:max-w-[280px]">
             <Image
               src={GROUP_HERO_LOGO}
               alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
@@ -157,7 +173,7 @@ export function HeroChairmanSequence() {
 
           <p
             ref={wordsRef}
-            className="mt-5 text-base leading-[1.9] text-white/78 md:mt-6 md:text-lg md:leading-[2]"
+            className="mt-5 text-[15px] leading-[1.85] text-white/78 md:mt-6 md:text-lg md:leading-[2]"
           >
             {words.map((word, i) => (
               <span key={`${word}-${i}`} className="chairman-word inline-block">
@@ -166,8 +182,8 @@ export function HeroChairmanSequence() {
             ))}
           </p>
 
-          <div className="mt-7 md:mt-8">
-            <p className="font-heading text-xl font-semibold text-white md:text-2xl">
+          <div className="mt-6 md:mt-8">
+            <p className="font-heading text-lg font-semibold text-white md:text-2xl">
               {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
             </p>
             <p className="mt-2 text-xs tracking-wide text-[#C9A962]/90 md:text-sm">
