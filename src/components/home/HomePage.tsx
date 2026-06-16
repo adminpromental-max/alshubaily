@@ -7,7 +7,7 @@ import { StatsBanner } from "@/components/home/StatsBanner";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
 import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { TaglineSection } from "@/components/home/TaglineSection";
+import { CTASection } from "@/components/home/CTASection";
 import { LogoMarqueeBanner } from "@/components/home/LogoMarqueeBanner";
 import { AmbientLight } from "@/components/effects/AmbientLight";
 import { CustomCursor } from "@/components/effects/CustomCursor";
@@ -38,10 +38,10 @@ export function HomePage() {
         {/* 4 — Showcase slider */}
         <FeaturedProjects />
 
-        {/* 5 — Tagline 3D billboard */}
-        <TaglineSection />
+        {/* 5 — CTA (glass buttons, arabesque bg) */}
+        <CTASection />
 
-        {/* 6 — Interactive map (wider) */}
+        {/* 6 — Interactive map */}
         <InteractiveMap />
       </main>
       <SiteFooter />

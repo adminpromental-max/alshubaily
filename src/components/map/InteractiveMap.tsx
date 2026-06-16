@@ -23,6 +23,7 @@ import { useLang } from "@/contexts/lang-context";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MapBottomSheet } from "./MapBottomSheet";
+import { MapProjectListPanel } from "./MapProjectListPanel";
 import dynamic from "next/dynamic";
 
 const MapProjectCard3D = dynamic(
@@ -396,11 +397,14 @@ export function InteractiveMap() {
         </h2>
       </div>
 
-      <div className="relative w-full px-2 md:px-3">
+      {/* Map + project list panel side by side on desktop */}
+      <div className="flex flex-col gap-4 px-2 md:flex-row md:items-start md:px-3">
+        {/* Map */}
+        <div className="min-w-0 flex-1">
         <div
           className={cn(
             "relative w-full transition-opacity duration-300",
-            "h-[min(85vw,520px)] min-h-[340px] md:h-[min(72vh,780px)] md:min-h-[560px]",
+            "h-[min(85vw,480px)] min-h-[320px] md:h-[min(80vh,760px)] md:min-h-[520px]",
             ready ? "opacity-100" : "opacity-40",
           )}
         >
@@ -597,7 +601,27 @@ export function InteractiveMap() {
             </MapBottomSheet>
           </div>
         </div>
-      </div>
+        </div>{/* end map flex-1 wrapper */}
+
+        {/* Project list panel — visible desktop only */}
+        <div className="hidden md:block md:w-[320px] lg:w-[360px] shrink-0">
+          <div
+            className="md:sticky md:top-24"
+            style={{
+              height: "min(80vh, 760px)",
+              minHeight: "520px",
+            }}
+          >
+            <MapProjectListPanel
+              activeProjectId={activeProject?.id ?? null}
+              onProjectClick={(id) => {
+                const p = PROJECTS.find((x) => x.id === id);
+                if (p) selectProject(p);
+              }}
+            />
+          </div>
+        </div>
+      </div>{/* end flex row */}
     </section>
   );
 }

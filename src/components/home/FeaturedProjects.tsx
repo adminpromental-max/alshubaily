@@ -49,8 +49,8 @@ export function FeaturedProjects() {
     >
       <div className="section-gradient-showcase pointer-events-none absolute inset-0" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/30 to-transparent" />
-      {/* Gradient bridge → cream TaglineSection below */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#FAF8F4]" />
+      {/* Bottom fade (subtle, CTASection handles the hard transition above) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-[#080605]" />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         {/* Header */}

@@ -44,8 +44,8 @@ export function LogoMarqueeBanner() {
         <HeroCinematic />
       </div>
 
-      {/* Overlay so logos stay readable */}
-      <div className="absolute inset-0 z-[1] bg-[#050402]/62" />
+      {/* Overlay — reduced opacity so cinematic slideshow shines through */}
+      <div className="absolute inset-0 z-[1] bg-[#050402]/38" />
       {/* Vignettes */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-28 bg-gradient-to-b from-[#0A0A0A]/80 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-28 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
@@ -85,21 +85,17 @@ export function LogoMarqueeBanner() {
             {MARQUEE_ITEMS.map((company, idx) => (
               <div
                 key={`${company.id}-${idx}`}
-                className="glass-logo-card group"
+                className="marquee-logo-pill"
                 title={lang === "ar" ? company.nameAr : company.nameEn}
               >
-                <div className="glass-logo-shine" aria-hidden />
-                <div className="glass-logo-border" aria-hidden />
-                <div className="glass-logo-inner">
-                  <Image
-                    src={company.logo}
-                    alt={lang === "ar" ? company.nameAr : company.nameEn}
-                    width={360}
-                    height={140}
-                    unoptimized
-                    className="glass-logo-img"
-                  />
-                </div>
+                <Image
+                  src={company.logo}
+                  alt={lang === "ar" ? company.nameAr : company.nameEn}
+                  width={360}
+                  height={140}
+                  unoptimized
+                  className="marquee-logo-bare"
+                />
               </div>
             ))}
           </div>
