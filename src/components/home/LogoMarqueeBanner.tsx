@@ -4,20 +4,21 @@ import Image from "next/image";
 import { useRef } from "react";
 import { useLang } from "@/contexts/lang-context";
 import { GROUP_HERO_LOGO, GROUP_SUBSIDIARIES } from "@/data/group-logos";
-import { cn } from "@/lib/utils";
 
-// Triple the logos so the marquee loop looks seamless at all speeds
+// Triple for seamless infinite loop
 const MARQUEE_ITEMS = [
   ...GROUP_SUBSIDIARIES,
   ...GROUP_SUBSIDIARIES,
   ...GROUP_SUBSIDIARIES,
 ];
 
+// Fallback icon path — replaced once user uploads Icon.png
+const GROUP_ICON = GROUP_HERO_LOGO;
+
 export function LogoMarqueeBanner() {
   const { t, lang } = useLang();
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Pause on hover
   const pause = () => {
     if (trackRef.current) trackRef.current.style.animationPlayState = "paused";
   };
@@ -30,7 +31,7 @@ export function LogoMarqueeBanner() {
       id="group"
       className="section-overlap section-overlap--dark relative overflow-hidden"
     >
-      {/* ── Background video ──────────────────────────────────── */}
+      {/* ── Background video ─────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -39,81 +40,74 @@ export function LogoMarqueeBanner() {
           playsInline
           className="h-full w-full object-cover"
           aria-hidden
-          /* fallback to first hero image if video fails */
           poster="/assets/hero/Hero-1.jpg"
         >
+          {/* swap to /assets/banner-bg.mp4 once uploaded */}
           <source src="/assets/intro/intro.mp4" type="video/mp4" />
         </video>
 
-        {/* Dark overlay — heavier so logos are clearly visible */}
-        <div className="absolute inset-0 bg-[#060504]/72" />
+        {/* Heavy dark overlay so logos are readable */}
+        <div className="absolute inset-0 bg-[#060504]/75" />
 
-        {/* Subtle noise/grain texture */}
-        <div
-          className="absolute inset-0 opacity-[0.045] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-            backgroundSize: "128px 128px",
-          }}
-        />
-
-        {/* Top + bottom vignette */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0A0A0A] to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+        {/* Top & bottom vignette to blend with adjacent sections */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#0A0A0A] to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       </div>
 
-      {/* ── Content ───────────────────────────────────────────── */}
-      <div className="relative z-10 py-8 md:py-12">
-        {/* Section label + hero logo — compact */}
-        <div className="mx-auto mb-6 max-w-4xl px-5 text-center md:mb-8 md:px-8">
-          <p className="text-[10px] tracking-[0.4em] text-[#C9A962] uppercase">
-            {t("هيكل المجموعة", "Group Structure")}
-          </p>
-          <div className="mx-auto mt-3 w-full max-w-[220px] md:mt-4 md:max-w-[280px]">
+      {/* ── Content ──────────────────────────────────────── */}
+      <div className="relative z-10 py-7 md:py-10">
+
+        {/* Icon + 2-word label (compact header) */}
+        <div className="mx-auto mb-5 flex flex-col items-center gap-2 px-5 text-center md:mb-7">
+          <div className="banner-icon-wrap">
             <Image
-              src={GROUP_HERO_LOGO}
-              alt={t("مجموعة الشبيلي العقارية", "AlShubaily Real Estate Group")}
-              width={800}
-              height={320}
+              src={GROUP_ICON}
+              alt={t("مجموعة الشبيلي", "AlShubaily Group")}
+              width={160}
+              height={160}
               unoptimized
               priority
-              className="h-auto w-full object-contain drop-shadow-[0_4px_20px_rgba(201,169,98,0.35)]"
+              className="h-full w-full object-contain drop-shadow-[0_4px_16px_rgba(201,169,98,0.4)]"
             />
           </div>
+          <p className="text-[11px] font-semibold tracking-[0.35em] text-white/70 uppercase">
+            {t("مجموعة الشبيلي", "AlShubaily Group")}
+          </p>
         </div>
 
-        {/* ── Marquee track ─────────────────────────────────── */}
+        {/* ── Marquee ──────────────────────────────────── */}
         <div
           className="marquee-viewport"
           onMouseEnter={pause}
           onMouseLeave={resume}
           aria-label={t("شركات مجموعة الشبيلي", "AlShubaily Group Companies")}
         >
-          {/* Left + right edge fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#060504]/80 to-transparent md:w-32" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#060504]/80 to-transparent md:w-32" />
+          {/* Edge fades */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#060504]/85 to-transparent md:w-36" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#060504]/85 to-transparent md:w-36" />
 
           <div ref={trackRef} className="marquee-track">
             {MARQUEE_ITEMS.map((company, idx) => (
               <div
                 key={`${company.id}-${idx}`}
-                className="marquee-logo-item group"
+                className="glass-logo-card group"
                 title={lang === "ar" ? company.nameAr : company.nameEn}
               >
-                <Image
-                  src={company.logo}
-                  alt={lang === "ar" ? company.nameAr : company.nameEn}
-                  width={480}
-                  height={160}
-                  unoptimized
-                  className={cn(
-                    "marquee-logo-img",
-                    "transition-all duration-300",
-                    "brightness-75 group-hover:brightness-110 group-hover:scale-110",
-                    "filter group-hover:drop-shadow-[0_0_18px_rgba(201,169,98,0.6)]",
-                  )}
-                />
+                {/* Glass frame layers */}
+                <div className="glass-logo-shine" aria-hidden />
+                <div className="glass-logo-border" aria-hidden />
+
+                {/* Logo image */}
+                <div className="glass-logo-inner">
+                  <Image
+                    src={company.logo}
+                    alt={lang === "ar" ? company.nameAr : company.nameEn}
+                    width={360}
+                    height={140}
+                    unoptimized
+                    className="glass-logo-img"
+                  />
+                </div>
               </div>
             ))}
           </div>
