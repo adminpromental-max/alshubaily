@@ -46,7 +46,6 @@ next-env.d.ts
 # duplicate uncompressed category PNGs (use .jpg versions)
 public/assets/projects/انواع المشاريع/*.png
 
-# large WIP uploads in dammam folder (use numbered .jpg in repo)
-public/assets/projects/مدينه الدمام الأوليمبيه/*.png
+# (Dammam PNG files now committed — compressed to 1000px)
 public/assets/intro.mp4
 public/assets/Banner-logos/banner-video.mp4

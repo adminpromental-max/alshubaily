@@ -273,7 +273,7 @@ export function DammamOlympicPage() {
         }
       }
 
-      // Section animations
+      // Section animations — trigger early so content never feels delayed
       sectionRefs.current.forEach((section) => {
         if (!section) return;
         const isLeft = section.dataset.side === "left";
@@ -282,16 +282,16 @@ export function DammamOlympicPage() {
         if (imgWrap) {
           gsap.fromTo(
             imgWrap,
-            { opacity: 0, x: isLeft ? -70 : 70, scale: 0.97 },
+            { opacity: 0, x: isLeft ? -50 : 50 },
             {
-              opacity: 1, x: 0, scale: 1,
-              duration: 1.15,
+              opacity: 1, x: 0,
+              duration: 1.0,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: section,
-                start: "top 82%",
+                start: "top 98%",
                 scroller: document.documentElement,
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
               },
             },
           );
@@ -301,17 +301,17 @@ export function DammamOlympicPage() {
         if (reveals.length) {
           gsap.fromTo(
             reveals,
-            { opacity: 0, y: 40 },
+            { opacity: 0, y: 28 },
             {
               opacity: 1, y: 0,
-              duration: 0.95,
-              stagger: 0.13,
+              duration: 0.85,
+              stagger: 0.1,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: section,
-                start: "top 80%",
+                start: "top 98%",
                 scroller: document.documentElement,
-                toggleActions: "play none none reverse",
+                toggleActions: "play none none none",
               },
             },
           );
@@ -327,7 +327,7 @@ export function DammamOlympicPage() {
   }));
 
   return (
-    <div className="olympic-page min-h-screen bg-[#FAF8F4] text-[#1A1612]">
+    <div className="olympic-page min-h-screen overflow-x-hidden bg-[#FAF8F4] text-[#1A1612]">
       <SiteHeader />
 
       {/* ── HERO — image has text on it, keep clean ──────────── */}
@@ -382,32 +382,36 @@ export function DammamOlympicPage() {
 
         return (
           <div key={idx}>
-            {/* Video banner */}
+            {/* Video banner — TV screen frame */}
             {showVideo && (
-              <div className="olympic-video-banner">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="olympic-video-player"
-                  poster={IMG("Hero.png")}
-                >
-                  <source
-                    src="https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov"
-                    type="video/mp4"
-                  />
-                  <source
-                    src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
-                    type="video/quicktime"
-                  />
-                </video>
-                <div className="olympic-video-overlay" />
-                <div className="olympic-video-caption">
-                  <p className="olympic-video-caption-text">
-                    {t("جولة داخل المدينة الأولمبية", "Olympic City Tour")}
-                  </p>
+              <div className="olympic-video-section">
+                <div className="olympic-tv-frame">
+                  <div className="olympic-tv-screen">
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="olympic-video-player"
+                      poster={IMG("Hero.png")}
+                    >
+                      <source
+                        src="https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov"
+                        type="video/mp4"
+                      />
+                      <source
+                        src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
+                        type="video/quicktime"
+                      />
+                    </video>
+                    <div className="olympic-video-overlay" />
+                  </div>
+                  {/* TV base */}
+                  <div className="olympic-tv-base" aria-hidden />
                 </div>
+                <p className="olympic-tv-caption">
+                  {t("جولة داخل المدينة الأولمبية", "Olympic City Tour")}
+                </p>
               </div>
             )}
 
