@@ -14,8 +14,9 @@ export const GROUP_HERO_LOGO = "/assets/Banner-logos/group-logo.png";
 /** Compact icon — used in the banner header */
 export const GROUP_ICON = `${BANNER_BASE}/Icon.png`;
 
-/** Background video for the logo marquee banner */
-export const BANNER_VIDEO = `${BANNER_BASE}/banner-video.mp4`;
+/** Background video for the logo marquee banner — hosted on Cloudinary CDN */
+export const BANNER_VIDEO =
+  "https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781615121/banner-video_ciymr0.mov";
 
 export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   {

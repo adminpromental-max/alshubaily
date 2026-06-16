@@ -40,7 +40,13 @@ export function LogoMarqueeBanner() {
           poster="/assets/hero/Hero-1.jpg"
           style={{ display: "block" }}
         >
+          {/* MP4 via Cloudinary auto-convert */}
           <source src={BANNER_VIDEO} type="video/mp4" />
+          {/* Original .mov fallback */}
+          <source
+            src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781615121/banner-video_ciymr0.mov"
+            type="video/quicktime"
+          />
         </video>
 
         {/* Dark overlay so logos pop */}
