@@ -6,6 +6,7 @@ import type { Project } from "@/data/projects";
 import { useLang } from "@/contexts/lang-context";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { DammamOlympicPage } from "./DammamOlympicPage";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +17,11 @@ const ImmersiveTour = dynamic(
 
 export function ProjectPageClient({ project }: { project: Project }) {
   const { t } = useLang();
+
+  // Rich presentation page for Dammam Olympic City
+  if (project.slug === "dammam-olympic-city") {
+    return <DammamOlympicPage />;
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFAF8] text-[#1A1612]">

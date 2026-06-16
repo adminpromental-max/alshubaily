@@ -2133,6 +2133,537 @@ body.has-custom-cursor button {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Dammam Olympic City — Immersive Presentation Page
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Hero ── */
+.olympic-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.olympic-hero-bg {
+  position: absolute;
+  inset: -10% 0;
+  z-index: 0;
+}
+
+.olympic-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 8, 5, 0.88) 0%,
+    rgba(10, 8, 5, 0.42) 45%,
+    rgba(10, 8, 5, 0.18) 100%
+  );
+}
+
+.olympic-hero-content {
+  position: relative;
+  z-index: 10;
+  padding: 0 1.5rem 4rem;
+  max-width: 900px;
+}
+
+@media (min-width: 768px) {
+  .olympic-hero-content {
+    padding: 0 3rem 5rem;
+  }
+}
+
+.olympic-back-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(201, 169, 98, 0.8);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+.olympic-back-link:hover { color: #C9A962; }
+
+.olympic-hero-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #C9A962;
+  margin-bottom: 0.75rem;
+}
+
+.olympic-hero-title {
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  font-weight: 700;
+  color: #FAFAF8;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.olympic-hero-title span {
+  display: block;
+  color: #C9A962;
+}
+
+.olympic-hero-sub {
+  margin-top: 1.25rem;
+  font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+  color: rgba(250, 248, 244, 0.65);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* Scroll indicator */
+.olympic-hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  inset-inline-end: 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.olympic-scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(201,169,98,0.6), transparent);
+  animation: scroll-line 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-line {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── Stats bar ── */
+.olympic-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: #0e0b08;
+  padding: 1.5rem 2rem;
+  flex-wrap: wrap;
+}
+
+.olympic-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 2rem;
+}
+
+.olympic-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #C9A962;
+  letter-spacing: -0.02em;
+}
+
+.olympic-stat-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(250, 248, 244, 0.5);
+}
+
+.olympic-stats-divider {
+  width: 1px;
+  height: 2.5rem;
+  background: rgba(201, 169, 98, 0.2);
+}
+
+@media (max-width: 640px) {
+  .olympic-stats-divider { display: none; }
+  .olympic-stat { padding: 0.5rem 1rem; }
+  .olympic-stats-bar { gap: 0.5rem; }
+}
+
+/* ── Alternating sections ── */
+.olympic-section {
+  padding: 5rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .olympic-section {
+    padding: 6rem 3rem;
+  }
+}
+
+.olympic-section-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .olympic-section-inner {
+    flex-direction: row;
+    gap: 5rem;
+  }
+  .olympic-section-inner--left {
+    flex-direction: row-reverse;
+  }
+}
+
+.olympic-section-img-wrap {
+  position: relative;
+  flex: 1.1;
+  min-width: 0;
+}
+
+.olympic-section-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow:
+    0 6px 0 rgba(30, 22, 10, 0.18),
+    0 24px 60px rgba(26, 22, 18, 0.18);
+}
+
+/* Golden corner accents on image */
+.olympic-img-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(201, 169, 98, 0.55);
+  border-style: solid;
+  z-index: 5;
+}
+
+.olympic-img-corner--tl {
+  top: 12px;
+  inset-inline-start: 12px;
+  border-width: 1.5px 0 0 1.5px;
+  border-radius: 2px 0 0 0;
+}
+
+.olympic-img-corner--br {
+  bottom: 12px;
+  inset-inline-end: 12px;
+  border-width: 0 1.5px 1.5px 0;
+  border-radius: 0 0 2px 0;
+}
+
+/* Step number badge */
+.olympic-step-badge {
+  position: absolute;
+  top: -14px;
+  inset-inline-end: 20px;
+  background: #C9A962;
+  color: #0e0b08;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  z-index: 6;
+}
+
+/* Section content */
+.olympic-section-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.olympic-section-eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #9A7B3A;
+  margin-bottom: 0.75rem;
+}
+
+.olympic-section-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  color: #1A1612;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.olympic-section-rule {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(to right, #C9A962, transparent);
+  margin-bottom: 1.25rem;
+  border-radius: 2px;
+}
+
+.olympic-section-body {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: #5C5348;
+  max-width: 480px;
+}
+
+/* ── Path connector ── */
+.olympic-path-connector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0;
+  overflow: visible;
+}
+
+.olympic-path-svg {
+  width: 60px;
+  height: 160px;
+}
+
+.olympic-path-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 140px;
+  opacity: 0.9;
+  animation: float-icon 4s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-52%) translateX(6px); }
+}
+
+/* ── Video Banner ── */
+.olympic-video-banner {
+  position: relative;
+  background: #0e0b08;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.olympic-video-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 340px;
+  padding: 3rem 2rem;
+  border-top: 1px solid rgba(201, 169, 98, 0.15);
+  border-bottom: 1px solid rgba(201, 169, 98, 0.15);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .olympic-video-placeholder { min-height: 480px; }
+}
+
+.olympic-video-icon {
+  width: 72px;
+  height: 72px;
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+.olympic-video-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(250, 248, 244, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.olympic-video-hint {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.45);
+  margin-top: 0.25rem;
+}
+
+/* ── Gallery ── */
+.olympic-gallery {
+  background: #FAF8F4;
+  padding: 4rem 1.25rem 5rem;
+}
+
+@media (min-width: 768px) {
+  .olympic-gallery { padding: 5rem 3rem 6rem; }
+}
+
+.olympic-gallery-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.olympic-gallery-eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #9A7B3A;
+  margin-bottom: 0.5rem;
+}
+
+.olympic-gallery-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #1A1612;
+  letter-spacing: -0.02em;
+}
+
+.olympic-gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .olympic-gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .olympic-gallery-item--0 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+}
+
+@media (min-width: 900px) {
+  .olympic-gallery-grid {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+  .olympic-gallery-item--0 {
+    grid-column: 1 / 2;
+    grid-row: 1;
+  }
+}
+
+.olympic-gallery-item {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 4px 20px rgba(26, 22, 18, 0.1);
+}
+
+.olympic-gallery-item--0 {
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 640px) {
+  .olympic-gallery-item--0 { aspect-ratio: auto; }
+}
+
+.olympic-gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,8,5,0.3), transparent 60%);
+  transition: opacity 0.3s;
+}
+
+.olympic-gallery-item:hover .olympic-gallery-overlay {
+  opacity: 0.6;
+}
+
+.olympic-gallery-item:hover img {
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── CTA ── */
+.olympic-cta {
+  background: #0e0b08;
+  padding: 5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.olympic-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,169,98,0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.olympic-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.olympic-cta-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #C9A962;
+}
+
+.olympic-cta-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #FAF8F4;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.olympic-cta-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+/* On dark background, override cta-glass-btn for contrast */
+.olympic-cta .cta-glass-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #FAFAF8;
+}
+
+.olympic-cta .cta-glass-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.olympic-cta .cta-glass-btn--gold {
+  background: rgba(201, 169, 98, 0.2);
+  border-color: rgba(201, 169, 98, 0.5);
+  color: #C9A962;
+}
+
+.olympic-cta .cta-glass-btn--gold:hover {
+  background: rgba(201, 169, 98, 0.35);
+  border-color: rgba(201, 169, 98, 0.8);
+  color: #E8C96C;
+}
+
+/* ─────────────────────────────────────────────────────────────
    Project Type Cards — 3D Flip
    ───────────────────────────────────────────────────────────── */
 
