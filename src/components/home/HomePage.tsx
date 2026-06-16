@@ -7,7 +7,7 @@ import { StatsBanner } from "@/components/home/StatsBanner";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
 import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
-import { GroupSection } from "@/components/home/GroupSection";
+import { LogoMarqueeBanner } from "@/components/home/LogoMarqueeBanner";
 import { AmbientLight } from "@/components/effects/AmbientLight";
 import { CustomCursor } from "@/components/effects/CustomCursor";
 
@@ -33,8 +33,8 @@ export function HomePage() {
         {/* Dark showcase slider */}
         <FeaturedProjects />
 
-        {/* Metallic group logos */}
-        <GroupSection />
+        {/* Logo marquee banner */}
+        <LogoMarqueeBanner />
       </main>
       <SiteFooter />
     </div>
