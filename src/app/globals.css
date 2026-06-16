@@ -2290,20 +2290,20 @@ body.has-custom-cursor button {
 
 /* ── Alternating sections ── */
 .olympic-section {
-  padding: 5rem 1.25rem;
+  padding: 3.5rem 1.25rem 2rem;
 }
 
 @media (min-width: 768px) {
   .olympic-section {
-    padding: 6rem 3rem;
+    padding: 4rem 3rem 2.5rem;
   }
 }
 
 .olympic-section-inner {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
-  max-width: 1280px;
+  gap: 2rem;
+  max-width: 1320px;
   margin: 0 auto;
   align-items: center;
 }
@@ -2311,7 +2311,7 @@ body.has-custom-cursor button {
 @media (min-width: 900px) {
   .olympic-section-inner {
     flex-direction: row;
-    gap: 5rem;
+    gap: 4rem;
   }
   .olympic-section-inner--left {
     flex-direction: row-reverse;
@@ -2320,19 +2320,30 @@ body.has-custom-cursor button {
 
 .olympic-section-img-wrap {
   position: relative;
-  flex: 1.1;
+  flex: 1.15;
   min-width: 0;
 }
 
+/* Use contain so full image (with its text) is always visible */
 .olympic-section-img {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  /* Generous height so portrait images aren't cropped */
+  aspect-ratio: 16 / 11;
   border-radius: 1.25rem;
   overflow: hidden;
+  background: #EDE8E0;
   box-shadow:
-    0 6px 0 rgba(30, 22, 10, 0.18),
-    0 24px 60px rgba(26, 22, 18, 0.18);
+    0 6px 0 rgba(30, 22, 10, 0.15),
+    0 24px 60px rgba(26, 22, 18, 0.14);
+  transition: box-shadow 0.4s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.olympic-section-img:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 10px 0 rgba(30, 22, 10, 0.14),
+    0 36px 80px rgba(26, 22, 18, 0.2);
 }
 
 /* Golden corner accents on image */
@@ -2384,35 +2395,35 @@ body.has-custom-cursor button {
 }
 
 .olympic-section-eyebrow {
-  font-size: 0.62rem;
-  letter-spacing: 0.4em;
+  font-size: 0.68rem;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
   color: #9A7B3A;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
 .olympic-section-title {
-  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: 700;
   color: #1A1612;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.1rem;
 }
 
 .olympic-section-rule {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(to right, #C9A962, transparent);
-  margin-bottom: 1.25rem;
+  width: 48px;
+  height: 2.5px;
+  background: linear-gradient(to right, #C9A962, rgba(201,169,98,0.2));
+  margin-bottom: 1.4rem;
   border-radius: 2px;
 }
 
 .olympic-section-body {
-  font-size: 0.95rem;
-  line-height: 1.85;
+  font-size: clamp(1rem, 1.8vw, 1.1rem);
+  line-height: 1.9;
   color: #5C5348;
-  max-width: 480px;
+  max-width: 500px;
 }
 
 /* ── Path connector ── */
@@ -2421,27 +2432,31 @@ body.has-custom-cursor button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0;
   overflow: visible;
+  /* Negative margins pull it closer to adjacent sections */
+  margin-top: -1rem;
+  margin-bottom: -1rem;
 }
 
 .olympic-path-svg {
-  width: 60px;
-  height: 160px;
+  width: 80px;
+  height: 280px;
 }
 
 .olympic-path-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 140px;
+  width: 180px;
   opacity: 0.9;
-  animation: float-icon 4s ease-in-out infinite;
+  animation: float-icon 3.8s ease-in-out infinite;
 }
 
 @keyframes float-icon {
-  0%, 100% { transform: translateY(-50%) translateX(0); }
-  50% { transform: translateY(-52%) translateX(6px); }
+  0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+  33% { transform: translateY(-54%) translateX(8px) rotate(1deg); }
+  66% { transform: translateY(-48%) translateX(-4px) rotate(-0.5deg); }
 }
 
 /* ── Video Banner ── */
@@ -2519,72 +2534,137 @@ body.has-custom-cursor button {
 }
 
 .olympic-gallery-title {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: 700;
   color: #1A1612;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
-.olympic-gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-@media (min-width: 640px) {
-  .olympic-gallery-grid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-  }
-  .olympic-gallery-item--0 {
-    grid-column: 1 / 2;
-    grid-row: 1 / 3;
-  }
-}
-
-@media (min-width: 900px) {
-  .olympic-gallery-grid {
-    grid-template-columns: 1.6fr 1fr 1fr;
-    grid-template-rows: 1fr;
-  }
-  .olympic-gallery-item--0 {
-    grid-column: 1 / 2;
-    grid-row: 1;
-  }
-}
-
-.olympic-gallery-item {
+/* ── Circle accordion gallery ── */
+.ocg-wrap {
   position: relative;
-  border-radius: 1rem;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
-  box-shadow: 0 4px 20px rgba(26, 22, 18, 0.1);
+  padding: 1rem 0 2rem;
 }
 
-.olympic-gallery-item--0 {
-  aspect-ratio: 4 / 5;
+.ocg-track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 1.5rem 2rem;
+  scrollbar-width: none;
+  cursor: grab;
 }
 
-@media (min-width: 640px) {
-  .olympic-gallery-item--0 { aspect-ratio: auto; }
+.ocg-track:active { cursor: grabbing; }
+.ocg-track::-webkit-scrollbar { display: none; }
+
+.ocg-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 168px;
+  height: 168px;
+  border-radius: 9999px;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+  background: #EDE8E0;
+  border: 2px solid rgba(201, 169, 98, 0.25);
+  box-shadow:
+    0 4px 16px rgba(26, 22, 18, 0.12),
+    0 0 0 0 rgba(201, 169, 98, 0);
+  transition:
+    width 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
-.olympic-gallery-overlay {
+/* Expand on hover/focus */
+.ocg-item--open,
+.ocg-item:hover,
+.ocg-item:focus {
+  width: 480px;
+  height: 300px;
+  border-radius: 1.5rem;
+  border-color: rgba(201, 169, 98, 0.55);
+  box-shadow:
+    0 8px 32px rgba(26, 22, 18, 0.2),
+    0 0 0 3px rgba(201, 169, 98, 0.15);
+}
+
+@media (max-width: 640px) {
+  .ocg-item--open,
+  .ocg-item:hover,
+  .ocg-item:focus {
+    width: 280px;
+    height: 220px;
+    border-radius: 1.25rem;
+  }
+  .ocg-item { width: 140px; height: 140px; }
+}
+
+.ocg-img {
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ocg-item--open .ocg-img,
+.ocg-item:hover .ocg-img {
+  transform: scale(1.03);
+}
+
+/* Golden ring decoration on circle state */
+.ocg-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(201, 169, 98, 0.3);
+  transition: opacity 0.4s, border-radius 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.ocg-item--open .ocg-ring,
+.ocg-item:hover .ocg-ring {
+  opacity: 0;
+}
+
+/* Glass shine */
+.ocg-shine {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,8,5,0.3), transparent 60%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 50%);
+  pointer-events: none;
+  opacity: 0;
   transition: opacity 0.3s;
+  border-radius: inherit;
 }
 
-.olympic-gallery-item:hover .olympic-gallery-overlay {
-  opacity: 0.6;
+.ocg-item--open .ocg-shine,
+.ocg-item:hover .ocg-shine {
+  opacity: 1;
 }
 
-.olympic-gallery-item:hover img {
-  transform: scale(1.04);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+/* Edge fades */
+.ocg-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.ocg-fade--start {
+  inset-inline-start: 0;
+  background: linear-gradient(to inline-end, #FAF8F4, transparent);
+}
+
+.ocg-fade--end {
+  inset-inline-end: 0;
+  background: linear-gradient(to inline-start, #FAF8F4, transparent);
 }
 
 /* ── CTA ── */

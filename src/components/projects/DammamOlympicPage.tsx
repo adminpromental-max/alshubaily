@@ -9,115 +9,157 @@ import { dammamAsset } from "@/data/asset-paths";
 import { useLang } from "@/contexts/lang-context";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { OlympicCircleGallery } from "./OlympicCircleGallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HERO = dammamAsset("Hero.jpg");
-const IMGS = [
-  dammamAsset("1.png"),
-  dammamAsset("2.png"),
-  dammamAsset("3.png"),
-  dammamAsset("4.jpg"),
-  dammamAsset("5.jpg"),
-  dammamAsset("6.jpg"),
-  dammamAsset("7.jpg"),
-];
+/* ── Asset paths ────────────────────────────────────────────── */
+const HERO = dammamAsset("Hero.png");
+const IMG = (f: string) => dammamAsset(f);
 
-// ── SVG Decorative Icons ─────────────────────────────────────
+/* ── SVG Character Icons ────────────────────────────────────── */
 
 function ScooterKidIcon() {
   return (
-    <svg viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+    <svg viewBox="0 0 180 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="w-full h-full">
       {/* Head */}
-      <circle cx="92" cy="14" r="10" fill="#9A7B3A" opacity="0.28" />
-      {/* Helmet */}
-      <path d="M82 14 Q82 4 92 4 Q102 4 102 14" fill="#C9A962" opacity="0.22" />
+      <circle cx="118" cy="16" r="13" fill="#9A7B3A" opacity="0.26" />
+      {/* Helmet visor */}
+      <path d="M105 16 Q105 3 118 3 Q131 3 131 16" fill="#C9A962" opacity="0.2" />
       {/* Body */}
-      <line x1="92" y1="24" x2="88" y2="46" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.28" />
-      {/* Arm forward */}
-      <line x1="90" y1="32" x2="108" y2="38" stroke="#9A7B3A" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
+      <line x1="118" y1="29" x2="113" y2="56" stroke="#9A7B3A" strokeWidth="5" strokeLinecap="round" opacity="0.26" />
+      {/* Arm to handlebar */}
+      <line x1="116" y1="40" x2="140" y2="47" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.26" />
       {/* Leg down */}
-      <line x1="88" y1="46" x2="82" y2="60" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
-      {/* Leg on scooter */}
-      <line x1="88" y1="46" x2="94" y2="58" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
+      <line x1="113" y1="56" x2="104" y2="74" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
+      {/* Leg on deck */}
+      <line x1="113" y1="56" x2="120" y2="72" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
       {/* Scooter deck */}
-      <rect x="40" y="60" width="68" height="5" rx="2.5" fill="#9A7B3A" opacity="0.22" />
+      <rect x="50" y="74" width="90" height="7" rx="3.5" fill="#9A7B3A" opacity="0.20" />
       {/* Handlebar post */}
-      <line x1="108" y1="60" x2="108" y2="40" stroke="#9A7B3A" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
+      <line x1="140" y1="74" x2="140" y2="48" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.26" />
       {/* Handlebar */}
-      <line x1="100" y1="40" x2="116" y2="40" stroke="#9A7B3A" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
+      <line x1="130" y1="48" x2="152" y2="48" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.26" />
       {/* Rear wheel */}
-      <circle cx="46" cy="69" r="10" fill="none" stroke="#9A7B3A" strokeWidth="2.5" opacity="0.28" />
-      <circle cx="46" cy="69" r="3" fill="#9A7B3A" opacity="0.18" />
+      <circle cx="58" cy="86" r="13" fill="none" stroke="#9A7B3A" strokeWidth="3" opacity="0.26" />
+      <circle cx="58" cy="86" r="4" fill="#9A7B3A" opacity="0.16" />
       {/* Front wheel */}
-      <circle cx="102" cy="69" r="10" fill="none" stroke="#9A7B3A" strokeWidth="2.5" opacity="0.28" />
-      <circle cx="102" cy="69" r="3" fill="#9A7B3A" opacity="0.18" />
-      {/* Motion lines */}
-      <line x1="10" y1="60" x2="30" y2="60" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.3" />
-      <line x1="4" y1="50" x2="20" y2="50" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.22" />
+      <circle cx="132" cy="86" r="13" fill="none" stroke="#9A7B3A" strokeWidth="3" opacity="0.26" />
+      <circle cx="132" cy="86" r="4" fill="#9A7B3A" opacity="0.16" />
+      {/* Motion streaks */}
+      <line x1="8" y1="74" x2="36" y2="74" stroke="#C9A962" strokeWidth="2" strokeDasharray="4 5" strokeLinecap="round" opacity="0.28" />
+      <line x1="4" y1="62" x2="26" y2="62" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.20" />
+      <line x1="12" y1="85" x2="32" y2="85" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.18" />
     </svg>
   );
 }
 
 function FootballPlayerIcon() {
   return (
-    <svg viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+    <svg viewBox="0 0 140 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="w-full h-full">
       {/* Head */}
-      <circle cx="35" cy="14" r="10" fill="#9A7B3A" opacity="0.28" />
+      <circle cx="44" cy="16" r="13" fill="#9A7B3A" opacity="0.26" />
       {/* Body */}
-      <line x1="35" y1="24" x2="35" y2="52" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.28" />
-      {/* Arms raised in celebration */}
-      <line x1="35" y1="34" x2="14" y2="22" stroke="#9A7B3A" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
-      <line x1="35" y1="34" x2="56" y2="22" stroke="#9A7B3A" strokeWidth="3" strokeLinecap="round" opacity="0.28" />
+      <line x1="44" y1="29" x2="44" y2="64" stroke="#9A7B3A" strokeWidth="6" strokeLinecap="round" opacity="0.26" />
+      {/* Arms raised */}
+      <line x1="44" y1="42" x2="20" y2="28" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <line x1="44" y1="42" x2="70" y2="30" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
       {/* Left leg - planted */}
-      <line x1="35" y1="52" x2="28" y2="72" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
-      <line x1="28" y1="72" x2="22" y2="80" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
+      <line x1="44" y1="64" x2="34" y2="88" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
+      <line x1="34" y1="88" x2="26" y2="98" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
       {/* Right leg - kicking */}
-      <line x1="35" y1="52" x2="52" y2="62" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
-      <line x1="52" y1="62" x2="72" y2="52" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.28" />
+      <line x1="44" y1="64" x2="68" y2="80" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
+      <line x1="68" y1="80" x2="92" y2="68" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
       {/* Football */}
-      <circle cx="85" cy="55" r="12" fill="none" stroke="#9A7B3A" strokeWidth="2" opacity="0.30" />
-      <path d="M85 43 Q90 50 85 55 Q80 60 85 67" stroke="#9A7B3A" strokeWidth="1.2" opacity="0.22" />
-      <path d="M73 55 Q79 51 85 55 Q91 59 97 55" stroke="#9A7B3A" strokeWidth="1.2" opacity="0.22" />
-      {/* Motion arc */}
-      <path d="M60 46 Q70 40 75 48" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 3" strokeLinecap="round" opacity="0.35" />
+      <circle cx="108" cy="72" r="15" fill="none" stroke="#9A7B3A" strokeWidth="2.5" opacity="0.28" />
+      <circle cx="108" cy="72" r="6" fill="#9A7B3A" opacity="0.12" />
+      <path d="M108 57 Q114 64 108 72 Q102 80 108 87" stroke="#9A7B3A" strokeWidth="1.5" opacity="0.20" />
+      <path d="M93 72 Q100 67 108 72 Q116 77 123 72" stroke="#9A7B3A" strokeWidth="1.5" opacity="0.20" />
+      {/* Arc of kick */}
+      <path d="M78 60 Q88 50 95 62" stroke="#C9A962" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" opacity="0.32" />
     </svg>
   );
 }
 
-// ── Path Connector ────────────────────────────────────────────
+function RunnerIcon() {
+  return (
+    <svg viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="w-full h-full">
+      {/* Head */}
+      <circle cx="60" cy="14" r="11" fill="#9A7B3A" opacity="0.26" />
+      {/* Body (leaning forward) */}
+      <line x1="60" y1="25" x2="72" y2="52" stroke="#9A7B3A" strokeWidth="5.5" strokeLinecap="round" opacity="0.26" />
+      {/* Arms pumping */}
+      <line x1="64" y1="36" x2="42" y2="28" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.26" />
+      <line x1="64" y1="36" x2="86" y2="46" stroke="#9A7B3A" strokeWidth="3.5" strokeLinecap="round" opacity="0.26" />
+      {/* Legs stride */}
+      <line x1="72" y1="52" x2="52" y2="76" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
+      <line x1="52" y1="76" x2="44" y2="92" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      <line x1="72" y1="52" x2="88" y2="68" stroke="#9A7B3A" strokeWidth="4.5" strokeLinecap="round" opacity="0.26" />
+      <line x1="88" y1="68" x2="102" y2="78" stroke="#9A7B3A" strokeWidth="4" strokeLinecap="round" opacity="0.26" />
+      {/* Motion streaks under feet */}
+      <line x1="24" y1="93" x2="44" y2="93" stroke="#C9A962" strokeWidth="2" strokeDasharray="4 4" strokeLinecap="round" opacity="0.28" />
+      <line x1="88" y1="80" x2="108" y2="84" stroke="#C9A962" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.22" />
+    </svg>
+  );
+}
 
-function PathConnector({ icon }: { icon: "scooter" | "football" }) {
+/* ── Path Connector ─────────────────────────────────────────── */
+
+const CONNECTOR_ICONS = [
+  <ScooterKidIcon key="scooter" />,
+  <FootballPlayerIcon key="football" />,
+  <RunnerIcon key="runner" />,
+  <ScooterKidIcon key="scooter2" />,
+  <FootballPlayerIcon key="football2" />,
+  <RunnerIcon key="runner2" />,
+];
+
+function PathConnector({ iconIndex }: { iconIndex: number }) {
   return (
     <div className="olympic-path-connector">
+      {/* Wide decorative SVG path */}
       <svg
-        viewBox="0 0 60 160"
+        viewBox="0 0 120 280"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="olympic-path-svg"
         aria-hidden
       >
+        {/* Main wavy path */}
         <path
-          d="M30 0 C48 30, 12 60, 30 90 C48 120, 12 140, 30 160"
+          d="M60 0 C90 28, 30 56, 60 84 C90 112, 30 140, 60 168 C90 196, 30 224, 60 252 C80 268, 60 280, 60 280"
           stroke="#C9A962"
-          strokeWidth="1.2"
-          strokeDasharray="5 7"
+          strokeWidth="1.8"
+          strokeDasharray="6 8"
           strokeLinecap="round"
-          opacity="0.4"
+          opacity="0.38"
         />
-        <circle cx="30" cy="0" r="3" fill="#C9A962" opacity="0.4" />
-        <circle cx="30" cy="80" r="4" fill="#C9A962" opacity="0.35" />
-        <circle cx="30" cy="160" r="3" fill="#C9A962" opacity="0.4" />
+        {/* Secondary faint parallel path */}
+        <path
+          d="M48 10 C72 36, 24 64, 52 92 C76 116, 22 148, 50 178 C74 204, 28 232, 56 260"
+          stroke="#C9A962"
+          strokeWidth="1"
+          strokeDasharray="3 10"
+          strokeLinecap="round"
+          opacity="0.16"
+        />
+        {/* Waypoint dots */}
+        {[0, 42, 84, 126, 168, 210, 252, 280].map((cy, i) => (
+          <circle key={i} cx="60" cy={cy} r={i % 3 === 0 ? 4 : 2.5} fill="#C9A962" opacity={i % 3 === 0 ? 0.42 : 0.28} />
+        ))}
+        {/* Diamond accents */}
+        <path d="M60 140 l5 5 l-5 5 l-5 -5 Z" fill="#C9A962" opacity="0.3" />
       </svg>
 
+      {/* Character icon */}
       <div className="olympic-path-icon">
-        {icon === "scooter" ? <ScooterKidIcon /> : <FootballPlayerIcon />}
+        {CONNECTOR_ICONS[iconIndex % CONNECTOR_ICONS.length]}
       </div>
     </div>
   );
 }
 
-// ── Stats Bar ─────────────────────────────────────────────────
+/* ── Stats ──────────────────────────────────────────────────── */
 
 function StatItem({ value, labelAr, labelEn }: { value: string; labelAr: string; labelEn: string }) {
   const { t } = useLang();
@@ -129,75 +171,88 @@ function StatItem({ value, labelAr, labelEn }: { value: string; labelAr: string;
   );
 }
 
-// ── Section (alternating) ─────────────────────────────────────
+/* ── Section content data ───────────────────────────────────── */
 
-interface SectionData {
-  img: string;
-  side: "left" | "right";
-  eyebrowAr: string;
-  eyebrowEn: string;
-  titleAr: string;
-  titleEn: string;
-  bodyAr: string;
-  bodyEn: string;
-}
-
-const SECTIONS: SectionData[] = [
+const SECTIONS = [
   {
-    img: IMGS[0],
-    side: "right",
+    file: "1.png",
+    side: "right" as const,
     eyebrowAr: "المنشأة الرئيسية",
     eyebrowEn: "Main Venue",
     titleAr: "الملعب الأولمبي الرئيسي",
     titleEn: "The Main Olympic Stadium",
-    bodyAr: "يستوعب أكثر من 45,000 متفرج ومصمم وفق أعلى المعايير الدولية لاستضافة البطولات الرياضية الكبرى والفعاليات متعددة التخصصات، مع تقنيات بث متطورة وتجربة مشاهدة استثنائية.",
-    bodyEn: "Accommodating over 45,000 spectators and designed to the highest international standards for major sporting championships and multi-discipline events, featuring advanced broadcast technology and an exceptional viewing experience.",
+    bodyAr: "يستوعب أكثر من 45,000 متفرج ومصمم وفق أعلى المعايير الدولية لاستضافة البطولات الكبرى والفعاليات متعددة التخصصات، مع تقنيات بث متطورة وتجربة مشاهدة استثنائية لا تُنسى.",
+    bodyEn: "Accommodating over 45,000 spectators, designed to the highest international standards for major championships and multi-discipline events with advanced broadcast technology.",
   },
   {
-    img: IMGS[1],
-    side: "left",
-    eyebrowAr: "منظومة متكاملة",
-    eyebrowEn: "Integrated Network",
+    file: "2.png",
+    side: "left" as const,
+    eyebrowAr: "منظومة رياضية",
+    eyebrowEn: "Sports Network",
     titleAr: "مرافق رياضية متكاملة",
     titleEn: "Integrated Sports Facilities",
-    bodyAr: "تضم المدينة أكثر من 30 منشأة رياضية متخصصة تشمل ملاعب كرة القدم، كرة السلة، السباحة، والرياضات المائية — بيئة رياضية شاملة في موقع واحد متكامل.",
-    bodyEn: "The city houses over 30 specialized sports facilities including football pitches, basketball courts, swimming pools, and water sports — a comprehensive athletic environment within one integrated destination.",
+    bodyAr: "أكثر من 30 منشأة رياضية متخصصة — ملاعب كرة القدم، كرة السلة، السباحة، الجمباز، والرياضات المائية — كلها في موقع واحد يرسم مستقبل الرياضة في المنطقة الشرقية.",
+    bodyEn: "Over 30 specialized sports facilities — football, basketball, swimming, gymnastics, and water sports — all within one destination shaping the future of sport in the Eastern Region.",
   },
   {
-    img: IMGS[2],
-    side: "right",
-    eyebrowAr: "قلب المدينة",
-    eyebrowEn: "City Heart",
+    file: "3.png",
+    side: "right" as const,
+    eyebrowAr: "التجارة والترفيه",
+    eyebrowEn: "Commerce & Entertainment",
     titleAr: "المركز التجاري والترفيهي",
     titleEn: "Commercial & Entertainment Hub",
-    bodyAr: "مركز حضري نابض يجمع المطاعم والمقاهي الفاخرة، محلات الأجهزة الرياضية، ومراكز التدريب الاحترافية في تجربة حضرية متكاملة تمزج بين الأداء الرياضي وأسلوب الحياة العصري.",
-    bodyEn: "A vibrant urban center combining fine dining, upscale cafes, premium sports retail, and professional training centers in a fully integrated urban experience that blends athletic performance with modern lifestyle.",
+    bodyAr: "مركز حضري نابض يجمع المطاعم الفاخرة والمقاهي، المحلات الرياضية الكبرى، ومراكز التدريب الاحترافية في تجربة متكاملة تمزج الأداء الرياضي بأسلوب الحياة العصري.",
+    bodyEn: "A vibrant urban center combining fine dining, upscale cafes, premium sports retail, and professional training centers in an experience that blends athletic performance with modern living.",
   },
   {
-    img: IMGS[3],
-    side: "left",
+    file: "4.jpg",
+    side: "left" as const,
     eyebrowAr: "البنية التحتية",
     eyebrowEn: "Infrastructure",
-    titleAr: "تقنية وبنية تحتية متقدمة",
+    titleAr: "تقنية وبنية متقدمة",
     titleEn: "Advanced Technology & Infrastructure",
-    bodyAr: "شبكة طرق متكاملة، أنظمة ذكاء اصطناعي لإدارة الحشود، منظومة استدامة بيئية متكاملة، وتوفير إمكانية الوصول الشامل لجميع الزوار — مدينة تُصمَّم للمستقبل.",
-    bodyEn: "Integrated road networks, AI-powered crowd management systems, a comprehensive environmental sustainability program, and fully accessible design for all visitors — a city engineered for the future.",
+    bodyAr: "شبكة طرق ذكية، أنظمة ذكاء اصطناعي لإدارة الحشود، منظومة استدامة بيئية متكاملة، وإمكانية وصول شاملة — مدينة أولمبية مصممة لتكون مرجعاً للمستقبل.",
+    bodyEn: "Smart road networks, AI-powered crowd management, a comprehensive environmental sustainability program, and fully accessible design — an Olympic city engineered as a blueprint for the future.",
+  },
+  {
+    file: "5.jpg",
+    side: "right" as const,
+    eyebrowAr: "الفضاءات العامة",
+    eyebrowEn: "Public Spaces",
+    titleAr: "الحدائق والمساحات المفتوحة",
+    titleEn: "Parks & Open Spaces",
+    bodyAr: "فضاءات خضراء واسعة تُشكّل رئة المدينة الأولمبية — ممشيات الأسرة، الملاعب المفتوحة، مناطق الاسترخاء — بيئة تجمع بين الطبيعة والنشاط في تصميم حضري متوازن.",
+    bodyEn: "Vast green spaces form the lungs of the Olympic city — family walkways, open-air courts, relaxation zones — an environment that merges nature and activity in a balanced urban design.",
+  },
+  {
+    file: "6.jpg",
+    side: "left" as const,
+    eyebrowAr: "الرياضات المائية",
+    eyebrowEn: "Aquatic Sports",
+    titleAr: "منشآت الرياضات المائية",
+    titleEn: "Aquatic Sports Complex",
+    bodyAr: "مجمع مائي عالمي يضم حمامات السباحة الأولمبية، منصات الغطس، وملاعب الكرة المائية — مصمم ليستضيف البطولات الدولية وليكون مقصداً للمتدربين المحترفين وعشاق الرياضة.",
+    bodyEn: "A world-class aquatic complex featuring Olympic pools, diving platforms, and water polo arenas — designed to host international championships and serve as a destination for elite athletes.",
+  },
+  {
+    file: "7.jpg",
+    side: "right" as const,
+    eyebrowAr: "الواجهة والممشيات",
+    eyebrowEn: "Waterfront & Promenades",
+    titleAr: "الواجهة البحرية",
+    titleEn: "The Waterfront Promenade",
+    bodyAr: "كورنيش بحري استثنائي يمتد على طول واجهة المدينة الأولمبية — ممشيات للدراجات والمشاة، مطاعم على الماء، وأجواء بحرية ساحرة تكتمل بها تجربة المدينة الرياضية الشاملة.",
+    bodyEn: "An exceptional seaside corniche stretching along the Olympic city's waterfront — cycling and walking promenades, waterside dining, and captivating maritime ambiance completing the comprehensive sports city experience.",
   },
 ];
 
-// ── Gallery ───────────────────────────────────────────────────
-
-const GALLERY_IMAGES = [IMGS[4], IMGS[5], IMGS[6]];
-
-// ── Main Page ─────────────────────────────────────────────────
+/* ── Main Page ─────────────────────────────────────────────── */
 
 export function DammamOlympicPage() {
   const { t } = useLang();
   const heroRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
-  const galleryRef = useRef<HTMLDivElement>(null);
 
-  // Scroll animations
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Hero parallax
@@ -205,7 +260,7 @@ export function DammamOlympicPage() {
         const bg = heroRef.current.querySelector(".olympic-hero-bg");
         if (bg) {
           gsap.to(bg, {
-            yPercent: 20,
+            yPercent: 18,
             ease: "none",
             scrollTrigger: {
               trigger: heroRef.current,
@@ -218,21 +273,39 @@ export function DammamOlympicPage() {
         }
       }
 
-      // Section fade-in animations
+      // Section animations
       sectionRefs.current.forEach((section) => {
         if (!section) return;
-        const img = section.querySelector(".olympic-section-img");
-        const content = section.querySelector(".olympic-section-content");
         const isLeft = section.dataset.side === "left";
 
-        if (img) {
+        const imgWrap = section.querySelector(".olympic-section-img");
+        if (imgWrap) {
           gsap.fromTo(
-            img,
-            { opacity: 0, x: isLeft ? -60 : 60 },
+            imgWrap,
+            { opacity: 0, x: isLeft ? -70 : 70, scale: 0.97 },
             {
-              opacity: 1,
-              x: 0,
-              duration: 1.1,
+              opacity: 1, x: 0, scale: 1,
+              duration: 1.15,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: section,
+                start: "top 82%",
+                scroller: document.documentElement,
+                toggleActions: "play none none reverse",
+              },
+            },
+          );
+        }
+
+        const reveals = section.querySelectorAll("[data-reveal]");
+        if (reveals.length) {
+          gsap.fromTo(
+            reveals,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1, y: 0,
+              duration: 0.95,
+              stagger: 0.13,
               ease: "power3.out",
               scrollTrigger: {
                 trigger: section,
@@ -243,60 +316,21 @@ export function DammamOlympicPage() {
             },
           );
         }
-
-        if (content) {
-          const items = content.querySelectorAll("[data-reveal]");
-          gsap.fromTo(
-            items,
-            { opacity: 0, y: 36 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.9,
-              stagger: 0.12,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: section,
-                start: "top 78%",
-                scroller: document.documentElement,
-                toggleActions: "play none none reverse",
-              },
-            },
-          );
-        }
       });
-
-      // Gallery images staggered
-      if (galleryRef.current) {
-        const imgs = galleryRef.current.querySelectorAll(".olympic-gallery-item");
-        gsap.fromTo(
-          imgs,
-          { opacity: 0, scale: 0.94, y: 30 },
-          {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            duration: 0.85,
-            stagger: 0.15,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: galleryRef.current,
-              start: "top 82%",
-              scroller: document.documentElement,
-              toggleActions: "play none none reverse",
-            },
-          },
-        );
-      }
     });
     return () => ctx.revert();
   }, []);
+
+  const galleryItems = SECTIONS.map((s) => ({
+    src: IMG(s.file),
+    label: t(s.titleAr, s.titleEn),
+  }));
 
   return (
     <div className="olympic-page min-h-screen bg-[#FAF8F4] text-[#1A1612]">
       <SiteHeader />
 
-      {/* ── HERO ────────────────────────────────────────────────── */}
+      {/* ── HERO — image has text on it, keep clean ──────────── */}
       <section ref={heroRef} className="olympic-hero">
         <div className="olympic-hero-bg">
           <Image
@@ -305,41 +339,29 @@ export function DammamOlympicPage() {
             fill
             priority
             unoptimized
-            className="object-cover"
+            className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="olympic-hero-overlay" />
+          {/* Subtle bottom vignette only, don't obscure image text */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0805]/80 to-transparent" />
         </div>
 
-        {/* Scroll indicator */}
-        <div className="olympic-hero-scroll" aria-hidden>
-          <span className="olympic-scroll-line" />
-          <span className="text-[9px] tracking-[0.35em] text-white/50 uppercase mt-2">
-            {t("تمرير", "Scroll")}
-          </span>
-        </div>
-
-        <div className="olympic-hero-content">
+        {/* Minimal overlay — back link + scroll cue */}
+        <div className="absolute inset-x-0 top-0 z-20 flex items-start justify-between p-6 pt-24 md:p-10 md:pt-28">
           <Link href="/#map" className="olympic-back-link">
             ← {t("العودة", "Back")}
           </Link>
-          <p data-reveal className="olympic-hero-eyebrow">
-            {t("المنطقة الشرقية · رياضي", "Eastern Region · Sports")}
-          </p>
-          <h1 data-reveal className="olympic-hero-title">
-            {t("مدينة الدمام", "Dammam")}
-            <span>{t("الأولمبية", "Olympic City")}</span>
-          </h1>
-          <p data-reveal className="olympic-hero-sub">
-            {t(
-              "وجهة رياضية وترفيهية متكاملة في قلب المنطقة الشرقية",
-              "An integrated sports & entertainment destination in the heart of the Eastern Region",
-            )}
-          </p>
+        </div>
+
+        <div className="olympic-hero-scroll" aria-hidden>
+          <span className="olympic-scroll-line" />
+          <span className="text-[9px] tracking-[0.35em] text-white/40 uppercase mt-2">
+            {t("تمرير", "Scroll")}
+          </span>
         </div>
       </section>
 
-      {/* ── STATS BAR ───────────────────────────────────────────── */}
+      {/* ── STATS ────────────────────────────────────────────── */}
       <div className="olympic-stats-bar">
         <StatItem value="+45,000" labelAr="مقعد" labelEn="Seats" />
         <div className="olympic-stats-divider" />
@@ -350,38 +372,57 @@ export function DammamOlympicPage() {
         <StatItem value="2030" labelAr="الاكتمال المتوقع" labelEn="Est. Completion" />
       </div>
 
-      {/* ── ALTERNATING SECTIONS ────────────────────────────────── */}
+      {/* ── ALTERNATING SECTIONS (all 7 images) ─────────────── */}
       {SECTIONS.map((sec, idx) => {
         const isLeft = sec.side === "left";
-        const showConnector = idx < SECTIONS.length - 1;
-        const showVideoAfter = idx === 1; // video banner between section 2 and 3
+        // Video banner after section 3 (between 3 and 4)
+        const showVideo = idx === 3;
+        // Path connectors between every section
+        const showPath = idx < SECTIONS.length - 1;
 
         return (
           <div key={idx}>
+            {/* Video banner before section 3 */}
+            {showVideo && (
+              <div className="olympic-video-banner">
+                <div className="olympic-video-placeholder">
+                  <div className="olympic-video-icon" aria-hidden>
+                    <svg viewBox="0 0 48 48" fill="none">
+                      <circle cx="24" cy="24" r="22" stroke="#C9A962" strokeWidth="1.5" opacity="0.5" />
+                      <polygon points="19,16 35,24 19,32" fill="#C9A962" opacity="0.7" />
+                    </svg>
+                  </div>
+                  <p className="olympic-video-label">
+                    {t("جولة داخل المدينة الأولمبية — فيديو قريباً", "Olympic City Tour — Video Coming Soon")}
+                  </p>
+                  <p className="olympic-video-hint">
+                    {t("مقاس الفيديو: 1920 × 1080 · MP4 H.264 · حتى 50MB", "Video spec: 1920 × 1080 · MP4 H.264 · up to 50MB")}
+                  </p>
+                </div>
+              </div>
+            )}
+
             <section
               ref={(el) => { sectionRefs.current[idx] = el; }}
               data-side={sec.side}
               className="olympic-section"
             >
-              <div
-                className={`olympic-section-inner ${isLeft ? "olympic-section-inner--left" : "olympic-section-inner--right"}`}
-              >
+              <div className={`olympic-section-inner ${isLeft ? "olympic-section-inner--left" : ""}`}>
+
                 {/* Image */}
                 <div className="olympic-section-img-wrap">
                   <div className="olympic-section-img">
                     <Image
-                      src={sec.img}
+                      src={IMG(sec.file)}
                       alt={t(sec.titleAr, sec.titleEn)}
                       fill
                       unoptimized
-                      className="object-cover"
-                      sizes="(max-width:768px) 100vw, 55vw"
+                      className="object-contain"
+                      sizes="(max-width:900px) 100vw, 55vw"
                     />
-                    {/* Golden corner accent */}
                     <div className="olympic-img-corner olympic-img-corner--tl" />
                     <div className="olympic-img-corner olympic-img-corner--br" />
                   </div>
-                  {/* Floating step number */}
                   <div className="olympic-step-badge">0{idx + 1}</div>
                 </div>
 
@@ -395,58 +436,21 @@ export function DammamOlympicPage() {
               </div>
             </section>
 
-            {/* Video banner between section 2 and 3 */}
-            {showVideoAfter && (
-              <div className="olympic-video-banner">
-                <div className="olympic-video-placeholder">
-                  <div className="olympic-video-icon" aria-hidden>
-                    <svg viewBox="0 0 48 48" fill="none">
-                      <circle cx="24" cy="24" r="22" stroke="#C9A962" strokeWidth="1.5" opacity="0.5" />
-                      <polygon points="19,16 35,24 19,32" fill="#C9A962" opacity="0.7" />
-                    </svg>
-                  </div>
-                  <p className="olympic-video-label">
-                    {t("جولة داخل المدينة الأولمبية — فيديو قريباً", "City Tour — Video Coming Soon")}
-                  </p>
-                  <p className="olympic-video-hint">
-                    {t("مقاس الفيديو المطلوب: 1920 × 1080 — MP4 H.264 — حتى 50MB", "Video specs: 1920 × 1080 · MP4 H.264 · up to 50MB")}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Path connector */}
-            {showConnector && !showVideoAfter && (
-              <PathConnector icon={idx % 2 === 0 ? "scooter" : "football"} />
-            )}
+            {showPath && <PathConnector iconIndex={idx} />}
           </div>
         );
       })}
 
-      {/* ── GALLERY ─────────────────────────────────────────────── */}
-      <div ref={galleryRef} className="olympic-gallery">
+      {/* ── CIRCLE GALLERY ─────────────────────────────────── */}
+      <div className="olympic-gallery">
         <div className="olympic-gallery-header">
           <p className="olympic-gallery-eyebrow">{t("معرض الصور", "Gallery")}</p>
           <h2 className="olympic-gallery-title">{t("لحظات من المشروع", "Project Moments")}</h2>
         </div>
-        <div className="olympic-gallery-grid">
-          {GALLERY_IMAGES.map((src, i) => (
-            <div key={i} className={`olympic-gallery-item olympic-gallery-item--${i}`}>
-              <Image
-                src={src}
-                alt=""
-                fill
-                unoptimized
-                className="object-cover"
-                sizes="(max-width:768px) 100vw, 33vw"
-              />
-              <div className="olympic-gallery-overlay" />
-            </div>
-          ))}
-        </div>
+        <OlympicCircleGallery images={galleryItems} />
       </div>
 
-      {/* ── CTA ─────────────────────────────────────────────────── */}
+      {/* ── CTA ─────────────────────────────────────────────── */}
       <section className="olympic-cta">
         <div className="olympic-cta-inner">
           <p className="olympic-cta-eyebrow">{t("ابدأ رحلتك الاستثمارية", "Start Your Investment Journey")}</p>
