@@ -6,7 +6,7 @@ export function TaglineSection() {
   const { t } = useLang();
 
   return (
-    <section className="relative bg-[#FAF8F4]">
+    <section data-parallax-section className="relative bg-[#FAF8F4]">
       {/* Seamless blend from dark FeaturedProjects above */}
       <div
         aria-hidden
@@ -21,7 +21,7 @@ export function TaglineSection() {
       <div className="relative z-10 mx-auto flex min-h-[320px] max-w-5xl items-center justify-center px-6 py-16 md:min-h-[360px] md:py-20">
 
         {/* Portrait frame */}
-        <div className="tagline-frame group">
+        <div data-parallax="mid" className="tagline-frame group">
           {/* Corner ornaments */}
           <span className="tl-corner" aria-hidden />
           <span className="tr-corner" aria-hidden />

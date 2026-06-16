@@ -117,9 +117,13 @@ export function StatsBanner() {
     <section
       id="stats"
       ref={sectionRef}
+      data-parallax-section
       className="relative overflow-hidden border-t border-[#C9A962]/12 bg-[#0A0A0A] py-8 md:py-12"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(201,169,98,0.1),transparent_50%)]" />
+      <div
+        data-parallax="bg"
+        className="pointer-events-none absolute inset-[-15%] bg-[radial-gradient(circle_at_50%_0%,rgba(201,169,98,0.1),transparent_50%)]"
+      />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/35 to-transparent" />
 
       <div className="relative mx-auto grid max-w-4xl grid-cols-2 gap-x-4 gap-y-8 px-5 md:grid-cols-3 md:gap-6 md:px-8">

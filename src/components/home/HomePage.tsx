@@ -11,8 +11,10 @@ import { TaglineSection } from "@/components/home/TaglineSection";
 import { LogoMarqueeBanner } from "@/components/home/LogoMarqueeBanner";
 import { AmbientLight } from "@/components/effects/AmbientLight";
 import { CustomCursor } from "@/components/effects/CustomCursor";
+import { usePageParallax } from "@/hooks/usePageParallax";
 
 export function HomePage() {
+  usePageParallax();
   return (
     <div className="relative min-h-screen bg-[#FAFAF8] text-[#1A1612]">
       <AmbientLight />

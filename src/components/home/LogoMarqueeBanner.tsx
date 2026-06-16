@@ -26,10 +26,11 @@ export function LogoMarqueeBanner() {
   return (
     <section
       id="group"
+      data-parallax-section
       className="relative overflow-hidden bg-[#050402]"
     >
-      {/* ── Background video — full width, no skew ─────────────── */}
-      <div className="absolute inset-0 z-0">
+      {/* ── Background video — full width, oversized for parallax ── */}
+      <div className="absolute inset-[-12%] z-0" data-parallax="bg">
         <video
           autoPlay
           muted
@@ -49,8 +50,11 @@ export function LogoMarqueeBanner() {
           />
         </video>
 
-        {/* Dark overlay so logos pop */}
-        <div className="absolute inset-0 bg-[#050402]/78" />
+        {/* Overlay — light enough to show video beauty, dark enough to pop logos */}
+        <div className="absolute inset-0 bg-[#050402]/52" />
+        {/* Subtle vignette top/bottom only */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050402]/70 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050402]/80 to-transparent" />
 
         {/* Bottom vignette */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
@@ -60,7 +64,7 @@ export function LogoMarqueeBanner() {
       <div className="relative z-10 py-10 md:py-14">
 
         {/* Icon + label */}
-        <div className="mx-auto mb-6 flex flex-col items-center gap-2 px-5 text-center md:mb-8">
+        <div data-parallax="fg" className="mx-auto mb-6 flex flex-col items-center gap-2 px-5 text-center md:mb-8">
           <div className="banner-icon-wrap">
             <Image
               src={GROUP_ICON}
