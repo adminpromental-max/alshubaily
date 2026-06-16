@@ -1481,6 +1481,136 @@ body.has-custom-cursor button {
   .about-map-stat-divider { display: none; }
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Tagline Section (between FeaturedProjects and LogoMarqueeBanner)
+   ───────────────────────────────────────────────────────────── */
+
+.tagline-section {
+  background: #FAF8F4;
+}
+
+/* Portrait frame wrapper */
+.tagline-frame {
+  position: relative;
+  border: 1px solid rgba(201, 169, 98, 0.3);
+  border-radius: 2px;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.tagline-frame:hover {
+  border-color: rgba(201, 169, 98, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(201, 169, 98, 0.12),
+    0 20px 60px rgba(201, 169, 98, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Inner decorative border (inset double frame effect) */
+.tagline-frame-inner {
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201, 169, 98, 0.15);
+  border-radius: 1px;
+  pointer-events: none;
+  transition: border-color 0.5s ease;
+}
+
+.tagline-frame:hover .tagline-frame-inner {
+  border-color: rgba(201, 169, 98, 0.28);
+}
+
+/* Corner ornaments — L-shaped golden brackets */
+.tl-corner,
+.tr-corner,
+.bl-corner,
+.br-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  opacity: 0.7;
+}
+
+.tagline-frame:hover .tl-corner,
+.tagline-frame:hover .tr-corner,
+.tagline-frame:hover .bl-corner,
+.tagline-frame:hover .br-corner {
+  width: 24px;
+  height: 24px;
+  opacity: 1;
+}
+
+.tl-corner {
+  top: -1.5px;
+  inset-inline-start: -1.5px;
+  border-top: 2.5px solid #C9A962;
+  border-inline-start: 2.5px solid #C9A962;
+}
+
+.tr-corner {
+  top: -1.5px;
+  inset-inline-end: -1.5px;
+  border-top: 2.5px solid #C9A962;
+  border-inline-end: 2.5px solid #C9A962;
+}
+
+.bl-corner {
+  bottom: -1.5px;
+  inset-inline-start: -1.5px;
+  border-bottom: 2.5px solid #C9A962;
+  border-inline-start: 2.5px solid #C9A962;
+}
+
+.br-corner {
+  bottom: -1.5px;
+  inset-inline-end: -1.5px;
+  border-bottom: 2.5px solid #C9A962;
+  border-inline-end: 2.5px solid #C9A962;
+}
+
+/* Eyebrow */
+.tagline-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #C9A962;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+/* Main headline */
+.tagline-headline {
+  font-family: var(--font-cairo), sans-serif;
+  font-size: clamp(1.55rem, 3.8vw, 3rem);
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1A1612;
+  letter-spacing: -0.01em;
+  transition: color 0.4s ease;
+}
+
+.tagline-frame:hover .tagline-headline {
+  color: #0d0b09;
+}
+
+/* Highlight second line on hover */
+.tagline-frame:hover .tagline-headline br + * {
+  color: #8A6E2F;
+}
+
+/* Golden underline divider */
+.tagline-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A962, transparent);
+  margin: 1.25rem auto 0;
+  transition: width 0.5s ease;
+}
+
+.tagline-frame:hover .tagline-divider {
+  width: 80px;
+}
+
 /* ── Logo Marquee Banner ─────────────────────────────────────── */
 .marquee-viewport {
   position: relative;

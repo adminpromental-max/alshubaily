@@ -7,6 +7,7 @@ import { StatsBanner } from "@/components/home/StatsBanner";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
 import { ProjectTypesSection } from "@/components/home/ProjectTypesSection";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
+import { TaglineSection } from "@/components/home/TaglineSection";
 import { LogoMarqueeBanner } from "@/components/home/LogoMarqueeBanner";
 import { AmbientLight } from "@/components/effects/AmbientLight";
 import { CustomCursor } from "@/components/effects/CustomCursor";
@@ -32,6 +33,9 @@ export function HomePage() {
 
         {/* Dark showcase slider */}
         <FeaturedProjects />
+
+        {/* Cream tagline break — portrait frame, Cairo headline */}
+        <TaglineSection />
 
         {/* Logo marquee banner */}
         <LogoMarqueeBanner />
