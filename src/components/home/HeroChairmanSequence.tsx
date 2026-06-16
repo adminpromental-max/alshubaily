@@ -108,10 +108,13 @@ export function HeroChairmanSequence() {
       {/* ── Hero — full viewport height ──────────────────────── */}
       <div
         data-parallax-section
-        className="hero-full-screen relative w-full bg-[#0A0A0A]"
+        className="hero-full-screen relative w-full overflow-hidden bg-[#0A0A0A]"
       >
-        {/* Cinematic video — oversized for parallax headroom */}
-        <div className="absolute inset-[-8%] overflow-hidden" data-parallax="bg">
+        {/* Cinematic bg — tall enough for parallax headroom, no horizontal bleed */}
+        <div
+          data-parallax="bg"
+          className="absolute inset-x-0 -top-[10%] -bottom-[10%]"
+        >
           <HeroCinematic />
         </div>
 

@@ -29,8 +29,8 @@ export function LogoMarqueeBanner() {
       data-parallax-section
       className="relative overflow-hidden bg-[#050402]"
     >
-      {/* ── Background video — full width, oversized for parallax ── */}
-      <div className="absolute inset-[-12%] z-0" data-parallax="bg">
+      {/* ── Background video — tall for parallax, no horizontal bleed ── */}
+      <div className="absolute inset-x-0 -top-[14%] -bottom-[14%] z-0" data-parallax="bg">
         <video
           autoPlay
           muted
@@ -61,7 +61,7 @@ export function LogoMarqueeBanner() {
       </div>
 
       {/* ── Content ─────────────────────────────────────────────── */}
-      <div className="relative z-10 py-10 md:py-14">
+      <div className="relative z-10 py-14 md:py-20 lg:py-28">
 
         {/* Icon + label */}
         <div data-parallax="fg" className="mx-auto mb-6 flex flex-col items-center gap-2 px-5 text-center md:mb-8">

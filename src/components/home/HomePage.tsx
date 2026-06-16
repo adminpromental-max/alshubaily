@@ -21,26 +21,28 @@ export function HomePage() {
       <CustomCursor />
       <SiteHeader />
       <main className="relative z-[2] isolate">
-        {/* Dark block: Hero → Vision & Message → Stats */}
+        {/* 1 — Hero + Chairman/Vision */}
         <div className="relative bg-[#0A0A0A]">
           <HeroChairmanSequence />
           <StatsBanner />
         </div>
 
-        {/* Light block: Map → Project Types */}
-        <div className="section-overlap section-overlap--light relative z-10 bg-[#FAFAF8]">
-          <InteractiveMap />
+        {/* 2 — Logo marquee banner (video bg, taller) */}
+        <LogoMarqueeBanner />
+
+        {/* 3 — Project type cards (light) */}
+        <div className="relative bg-[#FAFAF8]">
           <ProjectTypesSection />
         </div>
 
-        {/* Dark showcase slider */}
+        {/* 4 — Showcase slider */}
         <FeaturedProjects />
 
-        {/* Cream tagline break — portrait frame, Cairo headline */}
+        {/* 5 — Tagline 3D billboard */}
         <TaglineSection />
 
-        {/* Logo marquee banner */}
-        <LogoMarqueeBanner />
+        {/* 6 — Interactive map (wider) */}
+        <InteractiveMap />
       </main>
       <SiteFooter />
     </div>

@@ -1482,150 +1482,165 @@ body.has-custom-cursor button {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Tagline Section (between FeaturedProjects and LogoMarqueeBanner)
+   Tagline Section — 3D Glass Billboard
    ───────────────────────────────────────────────────────────── */
 
-.tagline-section {
-  background: #FAF8F4;
-}
-
-/* Portrait frame wrapper */
-.tagline-frame {
+/* ── Billboard panel ─────────────────────────────────────────── */
+.tagline-billboard {
   position: relative;
-  border: 1px solid rgba(201, 169, 98, 0.3);
-  border-radius: 2px;
-  transition: border-color 0.5s ease, box-shadow 0.5s ease;
-}
+  /* 3D perspective tilt — like a sign mounted on a gate */
+  transform: perspective(1100px) rotateX(3deg);
+  transform-origin: center bottom;
+  transform-style: preserve-3d;
 
-.tagline-frame:hover {
-  border-color: rgba(201, 169, 98, 0.55);
+  background:
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(201, 169, 98, 0.04) 100%
+    );
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+
+  /* Outer border — golden */
+  border: 1.5px solid rgba(201, 169, 98, 0.45);
+  border-radius: 4px;
+
+  /* 3D depth: stacked right/bottom shadows simulate raised panel */
   box-shadow:
-    0 0 0 1px rgba(201, 169, 98, 0.12),
-    0 20px 60px rgba(201, 169, 98, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    2px 5px 0 rgba(0, 0, 0, 0.35),
+    4px 10px 0 rgba(0, 0, 0, 0.22),
+    6px 15px 0 rgba(0, 0, 0, 0.12),
+    8px 20px 0 rgba(0, 0, 0, 0.06),
+    /* ambient golden glow */
+    0 0 40px rgba(201, 169, 98, 0.1),
+    0 40px 100px rgba(0, 0, 0, 0.35),
+    /* inner top highlight */
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
 }
 
-/* Inner decorative border (inset double frame effect) */
-.tagline-frame-inner {
+.tagline-billboard:hover {
+  transform: perspective(1100px) rotateX(1.5deg) translateY(-4px);
+  box-shadow:
+    2px 7px 0 rgba(0, 0, 0, 0.35),
+    4px 14px 0 rgba(0, 0, 0, 0.22),
+    6px 21px 0 rgba(0, 0, 0, 0.12),
+    8px 28px 0 rgba(0, 0, 0, 0.06),
+    0 0 60px rgba(201, 169, 98, 0.2),
+    0 60px 120px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Diagonal glass shine */
+.billboard-glass-shine {
   position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(201, 169, 98, 0.15);
-  border-radius: 1px;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.04) 35%,
+    transparent 55%
+  );
   pointer-events: none;
-  transition: border-color 0.5s ease;
+  z-index: 1;
 }
 
-.tagline-frame:hover .tagline-frame-inner {
-  border-color: rgba(201, 169, 98, 0.28);
-}
-
-/* Corner ornaments — L-shaped golden brackets */
-.tl-corner,
-.tr-corner,
-.bl-corner,
-.br-corner {
+/* Top & bottom rule lines */
+.billboard-rule {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
-  opacity: 0.7;
+  inset-inline: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 169, 98, 0.45) 20%,
+    rgba(201, 169, 98, 0.55) 50%,
+    rgba(201, 169, 98, 0.45) 80%,
+    transparent
+  );
 }
 
-.tagline-frame:hover .tl-corner,
-.tagline-frame:hover .tr-corner,
-.tagline-frame:hover .bl-corner,
-.tagline-frame:hover .br-corner {
-  width: 24px;
-  height: 24px;
-  opacity: 1;
+.billboard-rule--top { top: 6px; }
+.billboard-rule--bottom { bottom: 6px; }
+
+/* Corner bolt ornaments */
+.billboard-bolt {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8d097, #c9a962 60%, #8a6e2f);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s ease;
 }
 
-.tl-corner {
-  top: -1.5px;
-  inset-inline-start: -1.5px;
-  border-top: 2.5px solid #C9A962;
-  border-inline-start: 2.5px solid #C9A962;
-}
+.tagline-billboard:hover .billboard-bolt { transform: scale(1.2); }
 
-.tr-corner {
-  top: -1.5px;
-  inset-inline-end: -1.5px;
-  border-top: 2.5px solid #C9A962;
-  border-inline-end: 2.5px solid #C9A962;
-}
+.billboard-bolt--tl { top: 10px; inset-inline-start: 12px; }
+.billboard-bolt--tr { top: 10px; inset-inline-end: 12px; }
+.billboard-bolt--bl { bottom: 10px; inset-inline-start: 12px; }
+.billboard-bolt--br { bottom: 10px; inset-inline-end: 12px; }
 
-.bl-corner {
-  bottom: -1.5px;
-  inset-inline-start: -1.5px;
-  border-bottom: 2.5px solid #C9A962;
-  border-inline-start: 2.5px solid #C9A962;
-}
-
-.br-corner {
-  bottom: -1.5px;
-  inset-inline-end: -1.5px;
-  border-bottom: 2.5px solid #C9A962;
-  border-inline-end: 2.5px solid #C9A962;
-}
-
-/* Group name — large golden */
-.tagline-group-name {
-  font-family: var(--font-cairo), sans-serif;
-  font-size: clamp(1.25rem, 3vw, 1.9rem);
+/* Eyebrow */
+.billboard-eyebrow {
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
   color: #C9A962;
-  margin-bottom: 0.9rem;
-  transition: color 0.4s ease;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(201, 169, 98, 0.5);
+  transition: text-shadow 0.4s ease;
 }
 
-.tagline-frame:hover .tagline-group-name {
-  color: #b8922a;
+.tagline-billboard:hover .billboard-eyebrow {
+  text-shadow: 0 0 32px rgba(201, 169, 98, 0.8);
 }
 
-/* Main headline */
-.tagline-headline {
+/* Headline lines */
+.billboard-headline {
   font-family: var(--font-cairo), sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: clamp(1.3rem, 3.2vw, 2.5rem);
-  font-weight: 600;
-  line-height: 1.55;
-  color: #1A1612;
-  letter-spacing: -0.01em;
-  transition: color 0.4s ease;
+  gap: 0.3rem;
 }
 
-.tagline-frame:hover .tagline-headline {
-  color: #0d0b09;
-}
-
-.tagline-line {
+.billboard-line {
   display: block;
 }
 
-.tagline-line:last-child {
-  color: #5C4A2A;
-  font-size: 0.88em;
-  transition: color 0.4s ease;
+.billboard-line--main {
+  font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
-.tagline-frame:hover .tagline-line:last-child {
-  color: #8A6E2F;
+.billboard-line--sub {
+  font-size: clamp(1rem, 2.5vw, 1.9rem);
+  font-weight: 400;
+  color: rgba(201, 169, 98, 0.85);
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 12px rgba(201, 169, 98, 0.3);
 }
 
-/* Golden underline divider */
-.tagline-divider {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #C9A962, transparent);
-  margin: 1.4rem auto 0;
-  transition: width 0.5s ease;
+.tagline-billboard:hover .billboard-line--main {
+  color: #ffffff;
 }
 
-.tagline-frame:hover .tagline-divider {
-  width: 90px;
+.tagline-billboard:hover .billboard-line--sub {
+  color: #d4b56a;
+  text-shadow: 0 0 24px rgba(201, 169, 98, 0.5);
 }
 
 /* ── Logo Marquee Banner ─────────────────────────────────────── */

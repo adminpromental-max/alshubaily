@@ -1,16 +1,12 @@
 "use client";
 
 /**
- * usePageParallax — GSAP ScrollTrigger parallax for the homepage.
+ * usePageParallax — GSAP ScrollTrigger parallax.
+ * Works with the Lenis + ScrollTrigger proxy setup in SmoothScrollProvider.
  *
- * Usage: call once in HomePage (or any page root).
- * Elements are selected by data attributes, so no prop drilling needed.
- *
- * Parallax layers:
- *   data-parallax="bg"      → slow background drift (videos, images)  –25% → +25%
- *   data-parallax="mid"     → medium depth (section titles, frames)   –15% → +15%
- *   data-parallax="fg"      → foreground drift (text, badges)         –8%  → +8%
- *   data-parallax="float"   → upward float as section enters          starts below
+ * data-parallax="bg"    → slow background drift (videos, large bgs)
+ * data-parallax="mid"   → medium depth (frames, decorative blocks)
+ * data-parallax="fg"    → foreground (icons, labels)
  */
 
 import { useEffect } from "react";
@@ -21,85 +17,81 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function usePageParallax() {
   useEffect(() => {
-    // Wait a tick for DOM to settle
+    // Defer until after Lenis + ScrollTrigger proxy are ready
     const timer = setTimeout(() => {
+      const scroller = document.documentElement;
+
       const ctx = gsap.context(() => {
-        // ── Background layer (videos, large section bgs) ────────────────
+
+        // ── Slow background layer ──────────────────────────────
         gsap.utils.toArray<HTMLElement>('[data-parallax="bg"]').forEach((el) => {
+          const section =
+            el.closest("[data-parallax-section]") ?? el.parentElement;
           gsap.fromTo(
             el,
-            { y: "-12%" },
+            { y: "-10%" },
             {
-              y: "12%",
+              y: "10%",
               ease: "none",
               scrollTrigger: {
-                trigger: el.closest("[data-parallax-section]") ?? el.parentElement,
+                trigger: section,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.8,
+                scroller,
+              },
+            },
+          );
+        });
+
+        // ── Mid layer ─────────────────────────────────────────
+        gsap.utils.toArray<HTMLElement>('[data-parallax="mid"]').forEach((el) => {
+          const section =
+            el.closest("[data-parallax-section]") ?? el.parentElement;
+          gsap.fromTo(
+            el,
+            { y: "-6%" },
+            {
+              y: "6%",
+              ease: "none",
+              scrollTrigger: {
+                trigger: section,
                 start: "top bottom",
                 end: "bottom top",
                 scrub: 0.6,
+                scroller,
               },
             },
           );
         });
 
-        // ── Mid layer (section frames, decorative blocks) ───────────────
-        gsap.utils.toArray<HTMLElement>('[data-parallax="mid"]').forEach((el) => {
+        // ── Foreground layer ──────────────────────────────────
+        gsap.utils.toArray<HTMLElement>('[data-parallax="fg"]').forEach((el) => {
+          const section =
+            el.closest("[data-parallax-section]") ?? el.parentElement;
           gsap.fromTo(
             el,
-            { y: "-8%" },
+            { y: "4%" },
             {
-              y: "8%",
+              y: "-4%",
               ease: "none",
               scrollTrigger: {
-                trigger: el.closest("[data-parallax-section]") ?? el.parentElement,
+                trigger: section,
                 start: "top bottom",
                 end: "bottom top",
                 scrub: 0.5,
+                scroller,
               },
             },
           );
         });
 
-        // ── Foreground layer (headlines, eyebrows) ──────────────────────
-        gsap.utils.toArray<HTMLElement>('[data-parallax="fg"]').forEach((el) => {
-          gsap.fromTo(
-            el,
-            { y: "5%" },
-            {
-              y: "-5%",
-              ease: "none",
-              scrollTrigger: {
-                trigger: el.closest("[data-parallax-section]") ?? el.parentElement,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.4,
-              },
-            },
-          );
-        });
-
-        // ── Float-in on enter (section titles, stats) ───────────────────
-        gsap.utils.toArray<HTMLElement>('[data-parallax="float"]').forEach((el) => {
-          gsap.fromTo(
-            el,
-            { y: 48, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 1.1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: el,
-                start: "top 88%",
-                toggleActions: "play none none none",
-              },
-            },
-          );
-        });
+        // Refresh after setup
+        ScrollTrigger.refresh();
       });
 
       return () => ctx.revert();
-    }, 100);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
