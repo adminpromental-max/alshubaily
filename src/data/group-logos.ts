@@ -33,7 +33,7 @@ export type GroupSubsidiary = {
 };
 
 /** Main group logo — used in chairman + group sections */
-export const GROUP_HERO_LOGO = `${LOGO_BASE}/Hero..png`;
+export const GROUP_HERO_LOGO = `${LOGO_BASE}/Hero-logo-AL (1).png`;
 
 export const GROUP_SUBSIDIARIES: GroupSubsidiary[] = [
   {
