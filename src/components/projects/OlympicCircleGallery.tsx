@@ -30,13 +30,15 @@ export function OlympicCircleGallery({ images }: Props) {
               alt={img.label ?? ""}
               fill
               unoptimized
-              sizes="(max-width:768px) 180px, 400px"
+              sizes="(max-width:640px) 260px, 480px"
               className="ocg-img"
             />
             {/* ring decoration */}
             <div className="ocg-ring" aria-hidden />
             {/* shimmer on hover */}
             <div className="ocg-shine" aria-hidden />
+            {/* page corner lift */}
+            <div className="ocg-corner" aria-hidden />
           </div>
         ))}
       </div>

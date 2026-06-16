@@ -2328,21 +2328,28 @@ body.has-custom-cursor button {
 .olympic-section-img {
   position: relative;
   width: 100%;
-  /* Generous height so portrait images aren't cropped */
+  /* Generous height — portrait images keep full content */
   aspect-ratio: 16 / 11;
+  min-height: 240px;
   border-radius: 1.25rem;
   overflow: hidden;
   background: #EDE8E0;
   box-shadow:
-    0 6px 0 rgba(30, 22, 10, 0.15),
+    0 3px 0 #d4c9b4,
+    0 6px 0 rgba(190, 175, 148, 0.4),
     0 24px 60px rgba(26, 22, 18, 0.14);
   transition: box-shadow 0.4s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+@media (min-width: 900px) {
+  .olympic-section-img { min-height: 360px; }
+}
+
 .olympic-section-img:hover {
-  transform: translateY(-4px) scale(1.01);
+  transform: translateY(-5px) scale(1.01);
   box-shadow:
-    0 10px 0 rgba(30, 22, 10, 0.14),
+    0 5px 0 #d4c9b4,
+    0 10px 0 rgba(190, 175, 148, 0.3),
     0 36px 80px rgba(26, 22, 18, 0.2);
 }
 
@@ -2464,50 +2471,46 @@ body.has-custom-cursor button {
   position: relative;
   background: #0e0b08;
   overflow: hidden;
-  margin: 2rem 0;
+  /* Cinematic 21:9 feel */
+  aspect-ratio: 16 / 7;
+  min-height: 300px;
+  max-height: 620px;
 }
 
-.olympic-video-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  min-height: 340px;
-  padding: 3rem 2rem;
-  border-top: 1px solid rgba(201, 169, 98, 0.15);
-  border-bottom: 1px solid rgba(201, 169, 98, 0.15);
-  text-align: center;
+.olympic-video-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-@media (min-width: 768px) {
-  .olympic-video-placeholder { min-height: 480px; }
+.olympic-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(14, 11, 8, 0.7) 0%,
+    rgba(14, 11, 8, 0.1) 40%,
+    rgba(14, 11, 8, 0.2) 100%
+  );
+  pointer-events: none;
 }
 
-.olympic-video-icon {
-  width: 72px;
-  height: 72px;
-  animation: pulse-ring 2.5s ease-in-out infinite;
+.olympic-video-caption {
+  position: absolute;
+  inset-x: 0;
+  bottom: 0;
+  padding: 2rem;
+  z-index: 5;
 }
 
-@keyframes pulse-ring {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.08); opacity: 1; }
-}
-
-.olympic-video-label {
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgba(250, 248, 244, 0.8);
-  letter-spacing: 0.04em;
-}
-
-.olympic-video-hint {
-  font-size: 0.68rem;
-  letter-spacing: 0.25em;
+.olympic-video-caption-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: rgba(201, 169, 98, 0.45);
-  margin-top: 0.25rem;
+  color: rgba(201, 169, 98, 0.7);
 }
 
 /* ── Gallery ── */
@@ -2571,18 +2574,23 @@ body.has-custom-cursor button {
   outline: none;
   background: #EDE8E0;
   border: 2px solid rgba(201, 169, 98, 0.25);
+  /* 3D raised look — layered shadows simulate depth */
   box-shadow:
-    0 4px 16px rgba(26, 22, 18, 0.12),
-    0 0 0 0 rgba(201, 169, 98, 0);
+    0 2px 0 #d4c9b4,
+    0 4px 0 rgba(190, 175, 148, 0.6),
+    0 6px 0 rgba(190, 175, 148, 0.3),
+    0 8px 20px rgba(26, 22, 18, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
   transition:
     width 0.65s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.65s cubic-bezier(0.22, 1, 0.36, 1),
     border-radius 0.65s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.3s,
-    box-shadow 0.3s;
+    box-shadow 0.4s,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Expand on hover/focus */
+/* Lift + expand on hover */
 .ocg-item--open,
 .ocg-item:hover,
 .ocg-item:focus {
@@ -2590,30 +2598,75 @@ body.has-custom-cursor button {
   height: 300px;
   border-radius: 1.5rem;
   border-color: rgba(201, 169, 98, 0.55);
+  transform: translateY(-6px);
   box-shadow:
-    0 8px 32px rgba(26, 22, 18, 0.2),
+    0 4px 0 #d4c9b4,
+    0 8px 0 rgba(190, 175, 148, 0.5),
+    0 12px 0 rgba(190, 175, 148, 0.2),
+    0 16px 48px rgba(26, 22, 18, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
     0 0 0 3px rgba(201, 169, 98, 0.15);
 }
 
 @media (max-width: 640px) {
+  .ocg-item {
+    width: 132px;
+    height: 132px;
+  }
   .ocg-item--open,
   .ocg-item:hover,
   .ocg-item:focus {
-    width: 280px;
-    height: 220px;
-    border-radius: 1.25rem;
+    width: 260px;
+    height: 200px;
+    border-radius: 1rem;
   }
-  .ocg-item { width: 140px; height: 140px; }
+}
+
+/* Page corner lift — bottom-end triangle that grows on hover */
+.ocg-corner {
+  position: absolute;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: 0;
+  height: 0;
+  background: linear-gradient(
+    225deg,
+    #faf8f4 0%,
+    rgba(250, 248, 244, 0.85) 35%,
+    rgba(222, 215, 200, 0.4) 65%,
+    transparent 100%
+  );
+  /* Shadow behind the curl flap */
+  box-shadow: -3px -3px 6px rgba(0, 0, 0, 0.14);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.ocg-item--open .ocg-corner,
+.ocg-item:hover .ocg-corner,
+.ocg-item:focus .ocg-corner {
+  width: 54px;
+  height: 54px;
+  box-shadow: -4px -4px 8px rgba(0, 0, 0, 0.18);
 }
 
 .ocg-img {
   object-fit: cover;
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s;
+  filter: brightness(0.88) saturate(0.9);
 }
 
 .ocg-item--open .ocg-img,
-.ocg-item:hover .ocg-img {
-  transform: scale(1.03);
+.ocg-item:hover .ocg-img,
+.ocg-item:focus .ocg-img {
+  transform: scale(1.04);
+  filter: brightness(1.05) saturate(1.1);
 }
 
 /* Golden ring decoration on circle state */
@@ -2659,12 +2712,19 @@ body.has-custom-cursor button {
 
 .ocg-fade--start {
   inset-inline-start: 0;
-  background: linear-gradient(to inline-end, #FAF8F4, transparent);
+  background: linear-gradient(to right, #FAF8F4 40%, transparent);
 }
 
 .ocg-fade--end {
   inset-inline-end: 0;
-  background: linear-gradient(to inline-start, #FAF8F4, transparent);
+  background: linear-gradient(to left, #FAF8F4 40%, transparent);
+}
+
+[dir="rtl"] .ocg-fade--start {
+  background: linear-gradient(to left, #FAF8F4 40%, transparent);
+}
+[dir="rtl"] .ocg-fade--end {
+  background: linear-gradient(to right, #FAF8F4 40%, transparent);
 }
 
 /* ── CTA ── */

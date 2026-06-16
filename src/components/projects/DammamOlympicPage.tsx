@@ -382,21 +382,30 @@ export function DammamOlympicPage() {
 
         return (
           <div key={idx}>
-            {/* Video banner before section 3 */}
+            {/* Video banner */}
             {showVideo && (
               <div className="olympic-video-banner">
-                <div className="olympic-video-placeholder">
-                  <div className="olympic-video-icon" aria-hidden>
-                    <svg viewBox="0 0 48 48" fill="none">
-                      <circle cx="24" cy="24" r="22" stroke="#C9A962" strokeWidth="1.5" opacity="0.5" />
-                      <polygon points="19,16 35,24 19,32" fill="#C9A962" opacity="0.7" />
-                    </svg>
-                  </div>
-                  <p className="olympic-video-label">
-                    {t("جولة داخل المدينة الأولمبية — فيديو قريباً", "Olympic City Tour — Video Coming Soon")}
-                  </p>
-                  <p className="olympic-video-hint">
-                    {t("مقاس الفيديو: 1920 × 1080 · MP4 H.264 · حتى 50MB", "Video spec: 1920 × 1080 · MP4 H.264 · up to 50MB")}
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="olympic-video-player"
+                  poster={IMG("Hero.png")}
+                >
+                  <source
+                    src="https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov"
+                    type="video/mp4"
+                  />
+                  <source
+                    src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
+                    type="video/quicktime"
+                  />
+                </video>
+                <div className="olympic-video-overlay" />
+                <div className="olympic-video-caption">
+                  <p className="olympic-video-caption-text">
+                    {t("جولة داخل المدينة الأولمبية", "Olympic City Tour")}
                   </p>
                 </div>
               </div>
