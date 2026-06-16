@@ -387,7 +387,7 @@ export function InteractiveMap() {
 
   return (
     <section id="map" className="relative bg-[#FAFAF8] py-10 md:py-16">
-      <div className="mx-auto mb-6 max-w-[1600px] px-4 md:mb-8 md:px-8 lg:px-12">
+      <div className="mb-6 px-4 md:mb-8 md:px-10 lg:px-14">
         <p className="text-[11px] tracking-[0.4em] text-[#9A7B3A] uppercase">
           {t("استكشف", "Explore")}
         </p>
@@ -396,7 +396,7 @@ export function InteractiveMap() {
         </h2>
       </div>
 
-      <div className="relative mx-auto w-full max-w-[1600px] px-2 md:px-4">
+      <div className="relative w-full px-2 md:px-3">
         <div
           className={cn(
             "relative w-full transition-opacity duration-300",

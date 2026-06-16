@@ -11,8 +11,9 @@ import { GROUP_HERO_LOGO } from "@/data/group-logos";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HeroCinematic = dynamic(
-  () => import("./HeroCinematic").then((m) => m.HeroCinematic),
+// Hero now uses the Cloudinary video; the image slideshow moves to the banner
+const HeroVideoBackground = dynamic(
+  () => import("./HeroVideoBackground").then((m) => m.HeroVideoBackground),
   {
     ssr: false,
     loading: () => <div className="absolute inset-0 bg-[#0A0A0A]" />,
@@ -110,12 +111,12 @@ export function HeroChairmanSequence() {
         data-parallax-section
         className="hero-full-screen relative w-full overflow-hidden bg-[#0A0A0A]"
       >
-        {/* Cinematic bg — tall enough for parallax headroom, no horizontal bleed */}
+        {/* Video background — tall for parallax, no horizontal bleed */}
         <div
           data-parallax="bg"
           className="absolute inset-x-0 -top-[10%] -bottom-[10%]"
         >
-          <HeroCinematic />
+          <HeroVideoBackground />
         </div>
 
         {/* Bottom gradient fade */}

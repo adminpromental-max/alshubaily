@@ -1493,13 +1493,15 @@ body.has-custom-cursor button {
   transform-origin: center bottom;
   transform-style: preserve-3d;
 
+  /* Dark panel on cream background */
   background:
     linear-gradient(
       160deg,
-      rgba(255, 255, 255, 0.09) 0%,
-      rgba(255, 255, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
       rgba(201, 169, 98, 0.04) 100%
-    );
+    ),
+    #0e0b08;
   backdrop-filter: blur(24px) saturate(1.6);
   -webkit-backdrop-filter: blur(24px) saturate(1.6);
 
@@ -1856,3 +1858,146 @@ body.has-custom-cursor button {
 .hero-cinematic-frame {
   transform-origin: center center;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Project Type Cards — 3D Flip
+   ───────────────────────────────────────────────────────────── */
+
+.flip-card {
+  perspective: 1200px;
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  border-radius: 1rem;
+  border: none;
+  background: transparent;
+  padding: 0;
+  text-align: start;
+  display: block;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 1rem;
+}
+
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(160deg, #1a1410 0%, #0e0b08 60%, #12100d 100%);
+  border: 1.5px solid rgba(201, 169, 98, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Eye icon wrapper */
+.flip-eye-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.flip-card:hover .flip-eye-wrap,
+.flip-card.is-flipped .flip-eye-wrap {
+  opacity: 0;
+}
+
+.flip-eye-icon {
+  width: 52px;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(255,255,255,0.25));
+  transition: transform 0.3s ease;
+}
+
+.flip-card:hover .flip-eye-icon {
+  transform: scale(1.12);
+}
+
+/* Back face content */
+.flip-back-content {
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+  text-align: start;
+}
+
+.flip-back-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C9A962;
+}
+
+.flip-back-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FAF8F4;
+  margin: 0;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .flip-back-title { font-size: 1.3rem; }
+}
+
+.flip-back-bio {
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: rgba(250, 248, 244, 0.7);
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .flip-back-bio { font-size: 0.85rem; }
+}
+
+.flip-back-hint {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.5);
+}
+
+/* Golden rule accent on back */
+.flip-card-back::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 1.25rem;
+  inset-inline-end: 1.25rem;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,169,98,0.3), transparent);
+  pointer-events: none;
+  transform: translateY(50px);
+  opacity: 0.5;
+}
+

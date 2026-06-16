@@ -1,11 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRef } from "react";
 import { useLang } from "@/contexts/lang-context";
-import { GROUP_ICON, BANNER_VIDEO, GROUP_SUBSIDIARIES } from "@/data/group-logos";
+import { GROUP_ICON, GROUP_SUBSIDIARIES } from "@/data/group-logos";
 
-// Triple the list for a seamless infinite loop
+// Banner now uses the cinematic image slideshow (swapped from hero)
+const HeroCinematic = dynamic(
+  () => import("./HeroCinematic").then((m) => m.HeroCinematic),
+  { ssr: false, loading: () => <div className="absolute inset-0 bg-[#080605]" /> },
+);
+
 const MARQUEE_ITEMS = [
   ...GROUP_SUBSIDIARIES,
   ...GROUP_SUBSIDIARIES,
@@ -29,36 +35,20 @@ export function LogoMarqueeBanner() {
       data-parallax-section
       className="relative overflow-hidden bg-[#050402]"
     >
-      {/* ── Background video — tall for parallax, no horizontal bleed ── */}
-      <div className="absolute inset-x-0 -top-[14%] -bottom-[14%] z-0" data-parallax="bg">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="h-full w-full object-cover"
-          aria-hidden
-          poster="/assets/hero/Hero-1.jpg"
-          style={{ display: "block" }}
-        >
-          {/* MP4 via Cloudinary auto-convert */}
-          <source src={BANNER_VIDEO} type="video/mp4" />
-          {/* Original .mov fallback */}
-          <source
-            src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781615121/banner-video_ciymr0.mov"
-            type="video/quicktime"
-          />
-        </video>
-
-        {/* Overlay — light enough to show video beauty, dark enough to pop logos */}
-        <div className="absolute inset-0 bg-[#050402]/52" />
-        {/* Subtle vignette top/bottom only */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050402]/70 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050402]/80 to-transparent" />
-
-        {/* Bottom vignette */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+      {/* ── Cinematic slideshow bg ────────────────────────────────── */}
+      <div
+        data-parallax="bg"
+        className="absolute inset-x-0 -top-[14%] -bottom-[14%] z-0"
+        aria-hidden
+      >
+        <HeroCinematic />
       </div>
+
+      {/* Overlay so logos stay readable */}
+      <div className="absolute inset-0 z-[1] bg-[#050402]/62" />
+      {/* Vignettes */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-28 bg-gradient-to-b from-[#0A0A0A]/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-28 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
 
       {/* ── Content ─────────────────────────────────────────────── */}
       <div className="relative z-10 py-14 md:py-20 lg:py-28">
@@ -81,14 +71,13 @@ export function LogoMarqueeBanner() {
           </p>
         </div>
 
-        {/* ── Marquee track ──────────────────────────────────────── */}
+        {/* ── Marquee ──────────────────────────────────────────── */}
         <div
           className="marquee-viewport"
           onMouseEnter={pause}
           onMouseLeave={resume}
           aria-label={t("شركات مجموعة الشبيلي", "AlShubaily Group Companies")}
         >
-          {/* Edge fades */}
           <div className="pointer-events-none absolute inset-y-0 start-0 z-10 w-20 bg-gradient-to-r from-[#050402]/90 to-transparent md:w-36" />
           <div className="pointer-events-none absolute inset-y-0 end-0 z-10 w-20 bg-gradient-to-l from-[#050402]/90 to-transparent md:w-36" />
 

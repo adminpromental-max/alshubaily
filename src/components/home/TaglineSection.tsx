@@ -8,18 +8,12 @@ export function TaglineSection() {
   return (
     <section
       data-parallax-section
-      className="tagline-section relative overflow-hidden bg-[#0e0b08]"
+      className="tagline-section relative overflow-hidden bg-[#FAF8F4]"
     >
-      {/* Ambient golden radial behind billboard */}
+      {/* Top bridge from FeaturedProjects (dark → cream) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_55%,rgba(201,169,98,0.07),transparent_70%)]"
-      />
-
-      {/* Top bridge from FeaturedProjects (dark) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#080605] to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#080605] to-[#FAF8F4]"
       />
 
       <div className="relative z-10 mx-auto flex min-h-[320px] max-w-5xl items-center justify-center px-6 py-16 md:min-h-[360px] md:py-20">
