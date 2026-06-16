@@ -1568,22 +1568,30 @@ body.has-custom-cursor button {
   border-inline-end: 2.5px solid #C9A962;
 }
 
-/* Eyebrow */
-.tagline-eyebrow {
-  font-size: 0.65rem;
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
+/* Group name — large golden */
+.tagline-group-name {
+  font-family: var(--font-cairo), sans-serif;
+  font-size: clamp(1.25rem, 3vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
   color: #C9A962;
-  margin-bottom: 1rem;
-  opacity: 0.9;
+  margin-bottom: 0.9rem;
+  transition: color 0.4s ease;
+}
+
+.tagline-frame:hover .tagline-group-name {
+  color: #b8922a;
 }
 
 /* Main headline */
 .tagline-headline {
   font-family: var(--font-cairo), sans-serif;
-  font-size: clamp(1.55rem, 3.8vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: clamp(1.3rem, 3.2vw, 2.5rem);
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.55;
   color: #1A1612;
   letter-spacing: -0.01em;
   transition: color 0.4s ease;
@@ -1593,8 +1601,17 @@ body.has-custom-cursor button {
   color: #0d0b09;
 }
 
-/* Highlight second line on hover */
-.tagline-frame:hover .tagline-headline br + * {
+.tagline-line {
+  display: block;
+}
+
+.tagline-line:last-child {
+  color: #5C4A2A;
+  font-size: 0.88em;
+  transition: color 0.4s ease;
+}
+
+.tagline-frame:hover .tagline-line:last-child {
   color: #8A6E2F;
 }
 
@@ -1603,12 +1620,12 @@ body.has-custom-cursor button {
   width: 40px;
   height: 2px;
   background: linear-gradient(90deg, transparent, #C9A962, transparent);
-  margin: 1.25rem auto 0;
+  margin: 1.4rem auto 0;
   transition: width 0.5s ease;
 }
 
 .tagline-frame:hover .tagline-divider {
-  width: 80px;
+  width: 90px;
 }
 
 /* ── Logo Marquee Banner ─────────────────────────────────────── */

@@ -26,9 +26,9 @@ export function LogoMarqueeBanner() {
   return (
     <section
       id="group"
-      className="section-overlap section-overlap--dark relative overflow-hidden"
+      className="relative overflow-hidden bg-[#050402]"
     >
-      {/* ── Background video ───────────────────────────────────── */}
+      {/* ── Background video — full width, no skew ─────────────── */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -38,15 +38,14 @@ export function LogoMarqueeBanner() {
           className="h-full w-full object-cover"
           aria-hidden
           poster="/assets/hero/Hero-1.jpg"
+          style={{ display: "block" }}
         >
           <source src={BANNER_VIDEO} type="video/mp4" />
         </video>
 
         {/* Dark overlay so logos pop */}
-        <div className="absolute inset-0 bg-[#050402]/80" />
+        <div className="absolute inset-0 bg-[#050402]/78" />
 
-        {/* Top vignette — blends with the TaglineSection above */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#FAF8F4] to-transparent" />
         {/* Bottom vignette */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       </div>

@@ -8,8 +8,8 @@ export type GroupSubsidiary = {
   chipClass: string;
 };
 
-/** Main group logo — used in chairman section */
-export const GROUP_HERO_LOGO = "/assets/Alshubaily-logo.png";
+/** Main group logo — used in chairman / vision section */
+export const GROUP_HERO_LOGO = "/assets/Banner-logos/group-logo.png";
 
 /** Compact icon — used in the banner header */
 export const GROUP_ICON = `${BANNER_BASE}/Icon.png`;
