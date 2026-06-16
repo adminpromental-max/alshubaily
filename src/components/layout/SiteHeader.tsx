@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 const NAV = [
   { href: "#map", ar: "المشاريع", en: "Projects" },
   { href: "#chairman", ar: "الرؤية", en: "Vision" },
+  { href: "/about", ar: "من نحن", en: "About" },
   { href: "#contact", ar: "تواصل", en: "Contact" },
 ];
 
@@ -37,15 +38,25 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
-            >
-              {t(item.ar, item.en)}
-            </a>
-          ))}
+          {NAV.map((item) =>
+            item.href.startsWith("/") ? (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
+              >
+                {t(item.ar, item.en)}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
+              >
+                {t(item.ar, item.en)}
+              </a>
+            ),
+          )}
         </nav>
 
         <Button
