@@ -3011,3 +3011,398 @@ body.has-custom-cursor button {
   opacity: 0.5;
 }
 
+/* ════════════════════════════════════════════════════════════
+   DSS — Dammam Split-Screen Preview  (/dammam-preview)
+   ════════════════════════════════════════════════════════════ */
+
+/* Page shell */
+.dss-page {
+  font-family: var(--font-cairo), sans-serif;
+}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.dss-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.dss-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.80) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.dss-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 3rem 2.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dss-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+.dss-back:hover { color: #fff; }
+
+.dss-hero-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a96e;
+}
+
+.dss-hero-title {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin: 0;
+}
+.dss-hero-title em {
+  display: block;
+  font-style: normal;
+  color: #c9a96e;
+}
+
+/* Stats strip in hero */
+.dss-hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.dss-hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.dss-hero-stat-value {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.dss-hero-stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Scroll cue */
+.dss-scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+}
+
+.dss-scroll-cue span {
+  display: block;
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(to bottom, transparent, rgba(201, 169, 110, 0.7));
+  animation: dss-cue 2s ease-in-out infinite;
+}
+
+@keyframes dss-cue {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50%       { transform: scaleY(0.4); opacity: 0.3; }
+}
+
+/* ── Split layout ──────────────────────────────────────────── */
+.dss-split {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Left sticky panel */
+.dss-left {
+  position: sticky;
+  top: 0;
+  width: 50%;
+  height: 100svh;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #0d0b08;
+  display: flex;
+  flex-direction: column;
+  /* border-right: 1px solid rgba(201,169,110,0.15); */
+}
+
+/* Image stack / crossfade */
+.dss-img-stack {
+  position: absolute;
+  inset: 0;
+}
+
+.dss-img-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dss-img-slide--active {
+  opacity: 1;
+}
+
+/* Subtle gradient at bottom of left panel */
+.dss-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 11, 8, 0.55) 0%,
+    transparent 40%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Progress dots */
+.dss-dots {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dss-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dss-dot--active {
+  background: #c9a96e;
+  transform: scale(1.6);
+}
+
+/* Chapter counter */
+.dss-counter {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 2rem;
+  z-index: 5;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.dss-counter-current {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #c9a96e;
+  line-height: 1;
+}
+
+.dss-counter-sep {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 1rem;
+  margin: 0 0.2rem;
+}
+
+/* Right scrollable panel */
+.dss-right {
+  flex: 1;
+  background: #FAF8F4;
+}
+
+/* Each chapter section */
+.dss-chapter {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 3.5rem 5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* Watermark chapter number */
+.dss-chapter-num {
+  position: absolute;
+  top: 3.5rem;
+  left: 3rem;
+  font-size: clamp(5rem, 14vw, 10rem);
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Mobile image (hidden on desktop) */
+.dss-mobile-img {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 52vw;
+  max-height: 340px;
+  margin-bottom: 1.75rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #0d0b08;
+}
+
+.dss-chapter-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.dss-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin-bottom: 0.6rem;
+}
+
+.dss-title {
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: #1a1208;
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+
+.dss-rule {
+  width: 3rem;
+  height: 2px;
+  background: #c9a96e;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+}
+
+.dss-body {
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.85;
+  color: #5a4b38;
+}
+
+/* ── Video section ─────────────────────────────────────────── */
+.dss-video-section {
+  background: #08070c;
+  padding: 5rem 2rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* ── Gallery section ───────────────────────────────────────── */
+.dss-gallery {
+  background: #FAF8F4;
+  padding: 5rem 2rem 4rem;
+}
+
+.dss-gallery-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* ── Responsive: mobile ──────────────────────────────────────
+   Below md breakpoint: collapse split into single column     */
+@media (max-width: 767px) {
+  /* Hide sticky left panel — show inline images instead */
+  .dss-left {
+    display: none;
+  }
+
+  .dss-split {
+    flex-direction: column;
+  }
+
+  .dss-right {
+    width: 100%;
+  }
+
+  .dss-chapter {
+    min-height: unset;
+    padding: 3rem 1.5rem 2.5rem;
+  }
+
+  .dss-chapter-num {
+    font-size: 5rem;
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  /* Show mobile image blocks */
+  .dss-mobile-img {
+    display: block;
+  }
+
+  .dss-hero-stats {
+    gap: 1.5rem;
+  }
+
+  .dss-hero-content {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+/* RTL support for right-side panels */
+[dir="rtl"] .dss-chapter-content {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+[dir="rtl"] .dss-dots {
+  right: auto;
+  left: 1.5rem;
+}
+
+[dir="rtl"] .dss-counter {
+  left: auto;
+  right: 2rem;
+}
+
+[dir="rtl"] .dss-chapter-num {
+  left: auto;
+  right: 3rem;
+}
+
+
