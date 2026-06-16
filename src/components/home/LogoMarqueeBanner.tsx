@@ -64,13 +64,13 @@ export function LogoMarqueeBanner() {
       </div>
 
       {/* ── Content ───────────────────────────────────────────── */}
-      <div className="relative z-10 py-14 md:py-18">
-        {/* Section label + hero logo */}
-        <div className="mx-auto mb-10 max-w-4xl px-5 text-center md:mb-12 md:px-8">
-          <p className="text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
+      <div className="relative z-10 py-8 md:py-12">
+        {/* Section label + hero logo — compact */}
+        <div className="mx-auto mb-6 max-w-4xl px-5 text-center md:mb-8 md:px-8">
+          <p className="text-[10px] tracking-[0.4em] text-[#C9A962] uppercase">
             {t("هيكل المجموعة", "Group Structure")}
           </p>
-          <div className="mx-auto mt-5 w-full max-w-[300px] md:mt-6 md:max-w-[380px]">
+          <div className="mx-auto mt-3 w-full max-w-[220px] md:mt-4 md:max-w-[280px]">
             <Image
               src={GROUP_HERO_LOGO}
               alt={t("مجموعة الشبيلي العقارية", "AlShubaily Real Estate Group")}
@@ -81,12 +81,6 @@ export function LogoMarqueeBanner() {
               className="h-auto w-full object-contain drop-shadow-[0_4px_20px_rgba(201,169,98,0.35)]"
             />
           </div>
-          <p className="mt-3 text-sm text-white/40 md:text-base">
-            {t(
-              "منظومة متكاملة من الشركات التابعة تحت مظلة واحدة",
-              "An integrated ecosystem of subsidiaries under one umbrella",
-            )}
-          </p>
         </div>
 
         {/* ── Marquee track ─────────────────────────────────── */}
