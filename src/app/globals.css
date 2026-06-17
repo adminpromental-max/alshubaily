@@ -2380,7 +2380,7 @@ body.has-custom-cursor button {
   min-height: 240px;
   border-radius: 1.25rem;
   overflow: hidden;
-  background: #EDE8E0;
+  background: #14110d; /* dark bg so transparent PNGs remain visible */
   box-shadow:
     0 3px 0 #d4c9b4,
     0 6px 0 rgba(190, 175, 148, 0.4),
@@ -2564,21 +2564,21 @@ body.has-custom-cursor button {
 
 .olympic-video-section {
   background: #1a1410;
-  padding: 3rem 1.5rem 2rem;
+  padding: 2.5rem 1.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
-  .olympic-video-section { padding: 4rem 3rem 2.5rem; }
+  .olympic-video-section { padding: 3rem 2rem 2.5rem; }
 }
 
-/* TV set outer bezel */
+/* TV set outer bezel — compact size */
 .olympic-tv-frame {
   width: 100%;
-  max-width: 1100px;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2634,6 +2634,79 @@ body.has-custom-cursor button {
   );
   pointer-events: none;
   z-index: 2;
+}
+
+/* Info card overlay — stronger contrast for text readability */
+.olympic-tv-info-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 4, 2, 0.82) 0%,
+    rgba(6, 4, 2, 0.70) 60%,
+    rgba(6, 4, 2, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+/* Info text container — sits on top of image */
+.olympic-tv-info {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.75rem 2rem;
+  gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .olympic-tv-info { padding: 2.5rem 3rem; }
+}
+
+.olympic-tv-info-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C9A962;
+  margin-bottom: 0.25rem;
+}
+
+.olympic-tv-info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+.olympic-tv-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.olympic-tv-info-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.6);
+}
+
+.olympic-tv-info-value {
+  font-size: clamp(0.82rem, 1.6vw, 1.05rem);
+  font-weight: 600;
+  color: #FAF8F4;
+  letter-spacing: 0.01em;
+}
+
+.olympic-tv-info-desc {
+  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
+  line-height: 1.8;
+  color: rgba(250, 248, 244, 0.6);
+  border-top: 1px solid rgba(201, 169, 98, 0.18);
+  padding-top: 0.85rem;
+  max-width: 560px;
 }
 
 /* TV stand / base */

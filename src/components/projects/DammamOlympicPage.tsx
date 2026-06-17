@@ -385,65 +385,63 @@ export function DammamOlympicPage() {
         return (
           <div key={idx}>
 
-            {/* Video banner with project info ─ appears mid-page */}
+            {/* Project info card — image bg + overlay + text inside ── */}
             {showVideo && (
               <div className="olympic-video-section">
-                {/* Project info strip above the TV */}
-                <div className="olympic-video-info">
-                  <div className="olympic-video-info-grid">
-                    <div className="olympic-video-info-item">
-                      <span className="olympic-video-info-label">{t("المشروع", "Project")}</span>
-                      <span className="olympic-video-info-value">{t("مدينة الدمام الأولمبية", "Dammam Olympic City")}</span>
-                    </div>
-                    <div className="olympic-video-info-item">
-                      <span className="olympic-video-info-label">{t("الموقع", "Location")}</span>
-                      <span className="olympic-video-info-value">{t("الدمام، المنطقة الشرقية", "Dammam, Eastern Region")}</span>
-                    </div>
-                    <div className="olympic-video-info-item">
-                      <span className="olympic-video-info-label">{t("المساحة الكلية", "Total Area")}</span>
-                      <span className="olympic-video-info-value">2,400,000 m²</span>
-                    </div>
-                    <div className="olympic-video-info-item">
-                      <span className="olympic-video-info-label">{t("النوع", "Type")}</span>
-                      <span className="olympic-video-info-value">{t("متعدد الاستخدامات الرياضية", "Multi-Use Sports City")}</span>
-                    </div>
-                    <div className="olympic-video-info-item">
-                      <span className="olympic-video-info-label">{t("الحالة", "Status")}</span>
-                      <span className="olympic-video-info-value">{t("قيد التطوير · 2030", "Under Development · 2030")}</span>
-                    </div>
-                  </div>
-                  <p className="olympic-video-info-desc">
-                    {t(
-                      "مدينة رياضية متكاملة تُجسّد طموحات رؤية 2030 في الاستضافة العالمية وتطوير منظومة الرياضة السعودية، تضم الملاعب والمرافق الدولية وتخدم مجتمع المنطقة الشرقية بأكمله.",
-                      "An integrated sports city embodying Vision 2030's ambitions for global hosting and developing Saudi Arabia's sports ecosystem — serving the entire Eastern Region community.",
-                    )}
-                  </p>
-                </div>
-
-                {/* TV screen frame */}
                 <div className="olympic-tv-frame">
                   <div className="olympic-tv-screen">
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      className="olympic-video-player"
-                      poster={HERO_POSTER}
-                    >
-                      <source src={VIDEO_URL} type="video/mp4" />
-                      <source
-                        src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
-                        type="video/quicktime"
-                      />
-                    </video>
-                    <div className="olympic-video-overlay" />
+
+                    {/* Static background image */}
+                    <Image
+                      src={HERO_POSTER}
+                      alt=""
+                      fill
+                      unoptimized
+                      className="object-cover"
+                      sizes="(max-width:768px) 100vw, 700px"
+                    />
+
+                    {/* Contrast overlay so text is readable */}
+                    <div className="olympic-tv-info-overlay" />
+
+                    {/* Project info text — all inside the screen */}
+                    <div className="olympic-tv-info">
+                      <p className="olympic-tv-info-tag">
+                        {t("نبذة عن المشروع", "Project Overview")}
+                      </p>
+                      <div className="olympic-tv-info-grid">
+                        <div className="olympic-tv-info-item">
+                          <span className="olympic-tv-info-label">{t("المشروع", "Project")}</span>
+                          <span className="olympic-tv-info-value">{t("مدينة الدمام الأولمبية", "Dammam Olympic City")}</span>
+                        </div>
+                        <div className="olympic-tv-info-item">
+                          <span className="olympic-tv-info-label">{t("الموقع", "Location")}</span>
+                          <span className="olympic-tv-info-value">{t("الدمام، المنطقة الشرقية", "Dammam, Eastern Region")}</span>
+                        </div>
+                        <div className="olympic-tv-info-item">
+                          <span className="olympic-tv-info-label">{t("المساحة الكلية", "Total Area")}</span>
+                          <span className="olympic-tv-info-value">2,400,000 m²</span>
+                        </div>
+                        <div className="olympic-tv-info-item">
+                          <span className="olympic-tv-info-label">{t("النوع", "Type")}</span>
+                          <span className="olympic-tv-info-value">{t("متعدد الاستخدامات الرياضية", "Multi-Use Sports City")}</span>
+                        </div>
+                        <div className="olympic-tv-info-item">
+                          <span className="olympic-tv-info-label">{t("الحالة", "Status")}</span>
+                          <span className="olympic-tv-info-value">{t("قيد التطوير · 2030", "Under Development · 2030")}</span>
+                        </div>
+                      </div>
+                      <p className="olympic-tv-info-desc">
+                        {t(
+                          "مدينة رياضية متكاملة تُجسّد طموحات رؤية 2030 في الاستضافة العالمية وتطوير منظومة الرياضة السعودية، تضم الملاعب والمرافق الدولية وتخدم مجتمع المنطقة الشرقية بأكمله.",
+                          "An integrated sports city embodying Vision 2030's ambitions for global hosting and developing Saudi Arabia's sports ecosystem — serving the entire Eastern Region community.",
+                        )}
+                      </p>
+                    </div>
+
                   </div>
                   <div className="olympic-tv-base" aria-hidden />
                 </div>
-                <p className="olympic-tv-caption">
-                  {t("جولة داخل المدينة الأولمبية", "Olympic City Tour")}
-                </p>
               </div>
             )}
 
