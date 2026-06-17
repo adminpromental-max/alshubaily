@@ -2515,6 +2515,148 @@ body.has-custom-cursor button {
 }
 
 /* ── Video Banner — TV frame ── */
+/* ── Football Pitch Info Banner ─────────────────────────────── */
+.olympic-pitch-banner {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 3rem auto;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  /* min height for content */
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+/* Green pitch background with stripe pattern */
+.olympic-pitch-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #1a6b2a 0%, #145520 50%, #0f4218 100%);
+  overflow: hidden;
+}
+
+/* Alternating dark/light stripes */
+.pitch-stripe {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 20%;
+  background: rgba(0,0,0,0.07);
+}
+.pitch-stripe:nth-child(1) { left: 0%; }
+.pitch-stripe:nth-child(2) { left: 20%; background: transparent; }
+.pitch-stripe:nth-child(3) { left: 40%; }
+.pitch-stripe:nth-child(4) { left: 60%; background: transparent; }
+
+/* Center circle */
+.pitch-center-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  pointer-events: none;
+}
+
+/* Center line */
+.pitch-center-line {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1.5px;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-50%);
+}
+
+/* Penalty boxes */
+.pitch-penalty-box {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 140px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+}
+.pitch-penalty-box--left  { left: 0; border-left: none; border-radius: 0 0.5rem 0.5rem 0; }
+.pitch-penalty-box--right { right: 0; border-right: none; border-radius: 0.5rem 0 0 0.5rem; }
+
+/* Dark gradient overlay on pitch */
+.olympic-pitch-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.58) 60%,
+    rgba(0,0,0,0.42) 100%
+  );
+}
+
+/* Content */
+.olympic-pitch-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .olympic-pitch-content { padding: 3rem 3.5rem; }
+}
+
+.olympic-pitch-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #5fce7a;
+  font-weight: 600;
+}
+
+.olympic-pitch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.25rem;
+}
+
+.olympic-pitch-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.olympic-pitch-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(95, 206, 122, 0.65);
+}
+
+.olympic-pitch-value {
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-weight: 700;
+  color: #FAFAF8;
+  letter-spacing: 0.01em;
+}
+
+.olympic-pitch-desc {
+  font-size: clamp(0.78rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: rgba(250, 248, 244, 0.6);
+  border-top: 1px solid rgba(95, 206, 122, 0.2);
+  padding-top: 1rem;
+  max-width: 580px;
+}
+
 /* Video info panel (project details above TV frame) */
 .olympic-video-info {
   width: 100%;

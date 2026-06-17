@@ -85,7 +85,7 @@
 ## 2. صفحة مشروع مدينة الدمام الأولمبية
 ## Dammam Olympic City Project Page
 
-**المسار:** `public/assets/projects/مدينه الدمام الأوليمبيه/`
+**المسار:** `public/assets/projects/dammam-olympic/`
 
 ### 2.1 Hero Image (صورة الخلفية للبوستر)
 | المواصفة | القيمة |
@@ -204,7 +204,7 @@ public/
 │   ├── Banner-logos/             ← لوجوهات البانر + أيقون المجموعة + فيديو البانر
 │   ├── group/                    ← صور المجموعة العامة
 │   └── projects/
-│       ├── مدينه الدمام الأوليمبيه/
+│       ├── dammam-olympic/
 │       │   ├── Hero.png          ← 1920×1080
 │       │   ├── 1.png             ← 1200×900
 │       │   ├── 2.png             ← 1200×900
