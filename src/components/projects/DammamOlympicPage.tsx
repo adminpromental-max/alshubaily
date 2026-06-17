@@ -14,8 +14,9 @@ import { OlympicCircleGallery } from "./OlympicCircleGallery";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── Asset paths ────────────────────────────────────────────── */
-const HERO = dammamAsset("Hero.png");
+const HERO_POSTER = dammamAsset("Hero.png");
 const IMG = (f: string) => dammamAsset(f);
+const VIDEO_URL = "https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov";
 
 /* ── SVG Character Icons ────────────────────────────────────── */
 
@@ -171,58 +172,38 @@ function StatItem({ value, labelAr, labelEn }: { value: string; labelAr: string;
   );
 }
 
-/* ── Section content data ───────────────────────────────────── */
+/* ── Section content data — 4 key highlights ───────────────── */
 
 const SECTIONS = [
   {
     file: "1.png",
     side: "right" as const,
-    eyebrowAr: "المنشأة الرئيسية",
-    eyebrowEn: "Main Venue",
+    eyebrowAr: "استاد رياضي عالمي",
+    eyebrowEn: "World-Class Stadium",
     titleAr: "الملعب الأولمبي الرئيسي",
     titleEn: "The Main Olympic Stadium",
-    bodyAr: "يستوعب أكثر من 45,000 متفرج ومصمم وفق أعلى المعايير الدولية لاستضافة البطولات الكبرى والفعاليات متعددة التخصصات، مع تقنيات بث متطورة وتجربة مشاهدة استثنائية لا تُنسى.",
-    bodyEn: "Accommodating over 45,000 spectators, designed to the highest international standards for major championships and multi-discipline events with advanced broadcast technology.",
+    bodyAr: "يستوعب أكثر من 45,000 متفرج ومصمم وفق أعلى المعايير الدولية لاستضافة البطولات الكبرى والفعاليات متعددة التخصصات، مع تقنيات بث متطورة وتجربة مشاهدة استثنائية لا تُنسى في قلب الدمام.",
+    bodyEn: "Accommodating over 45,000 spectators, designed to the highest international standards for major championships and multi-discipline events, with advanced broadcast technology at the heart of Dammam.",
   },
   {
     file: "2.png",
     side: "left" as const,
-    eyebrowAr: "منظومة رياضية",
-    eyebrowEn: "Sports Network",
+    eyebrowAr: "ملاعب رياضية متخصصة",
+    eyebrowEn: "Specialized Sports Venues",
     titleAr: "مرافق رياضية متكاملة",
     titleEn: "Integrated Sports Facilities",
-    bodyAr: "أكثر من 30 منشأة رياضية متخصصة — ملاعب كرة القدم، كرة السلة، السباحة، الجمباز، والرياضات المائية — كلها في موقع واحد يرسم مستقبل الرياضة في المنطقة الشرقية.",
-    bodyEn: "Over 30 specialized sports facilities — football, basketball, swimming, gymnastics, and water sports — all within one destination shaping the future of sport in the Eastern Region.",
-  },
-  {
-    file: "3.png",
-    side: "right" as const,
-    eyebrowAr: "التجارة والترفيه",
-    eyebrowEn: "Commerce & Entertainment",
-    titleAr: "المركز التجاري والترفيهي",
-    titleEn: "Commercial & Entertainment Hub",
-    bodyAr: "مركز حضري نابض يجمع المطاعم الفاخرة والمقاهي، المحلات الرياضية الكبرى، ومراكز التدريب الاحترافية في تجربة متكاملة تمزج الأداء الرياضي بأسلوب الحياة العصري.",
-    bodyEn: "A vibrant urban center combining fine dining, upscale cafes, premium sports retail, and professional training centers in an experience that blends athletic performance with modern living.",
-  },
-  {
-    file: "4.jpg",
-    side: "left" as const,
-    eyebrowAr: "البنية التحتية",
-    eyebrowEn: "Infrastructure",
-    titleAr: "تقنية وبنية متقدمة",
-    titleEn: "Advanced Technology & Infrastructure",
-    bodyAr: "شبكة طرق ذكية، أنظمة ذكاء اصطناعي لإدارة الحشود، منظومة استدامة بيئية متكاملة، وإمكانية وصول شاملة — مدينة أولمبية مصممة لتكون مرجعاً للمستقبل.",
-    bodyEn: "Smart road networks, AI-powered crowd management, a comprehensive environmental sustainability program, and fully accessible design — an Olympic city engineered as a blueprint for the future.",
+    bodyAr: "أكثر من 30 منشأة رياضية متخصصة — ملاعب كرة القدم، كرة السلة، السباحة، الجمباز، والرياضات المائية — كلها في موقع واحد يرسم مستقبل الرياضة في المنطقة الشرقية ويستقطب أبطال الغد.",
+    bodyEn: "Over 30 specialized sports facilities — football, basketball, swimming, gymnastics, and water sports — all in one destination shaping the future of sport and attracting tomorrow's champions.",
   },
   {
     file: "5.jpg",
     side: "right" as const,
-    eyebrowAr: "الفضاءات العامة",
-    eyebrowEn: "Public Spaces",
+    eyebrowAr: "مساحات خضراء",
+    eyebrowEn: "Green Spaces",
     titleAr: "الحدائق والمساحات المفتوحة",
     titleEn: "Parks & Open Spaces",
-    bodyAr: "فضاءات خضراء واسعة تُشكّل رئة المدينة الأولمبية — ممشيات الأسرة، الملاعب المفتوحة، مناطق الاسترخاء — بيئة تجمع بين الطبيعة والنشاط في تصميم حضري متوازن.",
-    bodyEn: "Vast green spaces form the lungs of the Olympic city — family walkways, open-air courts, relaxation zones — an environment that merges nature and activity in a balanced urban design.",
+    bodyAr: "فضاءات خضراء واسعة تُشكّل رئة المدينة الأولمبية — ممشيات الأسرة، الملاعب المفتوحة، ومناطق الاسترخاء. بيئة تجمع بين الطبيعة والنشاط في تصميم حضري متوازن يعكس رؤية 2030.",
+    bodyEn: "Vast green spaces forming the lungs of the Olympic city — family walkways, open courts, and relaxation zones. An environment merging nature and activity in a balanced urban design reflecting Vision 2030.",
   },
   {
     file: "6.jpg",
@@ -231,18 +212,8 @@ const SECTIONS = [
     eyebrowEn: "Aquatic Sports",
     titleAr: "منشآت الرياضات المائية",
     titleEn: "Aquatic Sports Complex",
-    bodyAr: "مجمع مائي عالمي يضم حمامات السباحة الأولمبية، منصات الغطس، وملاعب الكرة المائية — مصمم ليستضيف البطولات الدولية وليكون مقصداً للمتدربين المحترفين وعشاق الرياضة.",
-    bodyEn: "A world-class aquatic complex featuring Olympic pools, diving platforms, and water polo arenas — designed to host international championships and serve as a destination for elite athletes.",
-  },
-  {
-    file: "7.jpg",
-    side: "right" as const,
-    eyebrowAr: "الواجهة والممشيات",
-    eyebrowEn: "Waterfront & Promenades",
-    titleAr: "الواجهة البحرية",
-    titleEn: "The Waterfront Promenade",
-    bodyAr: "كورنيش بحري استثنائي يمتد على طول واجهة المدينة الأولمبية — ممشيات للدراجات والمشاة، مطاعم على الماء، وأجواء بحرية ساحرة تكتمل بها تجربة المدينة الرياضية الشاملة.",
-    bodyEn: "An exceptional seaside corniche stretching along the Olympic city's waterfront — cycling and walking promenades, waterside dining, and captivating maritime ambiance completing the comprehensive sports city experience.",
+    bodyAr: "مجمع مائي عالمي يضم حمامات السباحة الأولمبية، منصات الغطس، وملاعب الكرة المائية — مصمم ليستضيف البطولات الدولية وليكون مقصداً حصرياً للمحترفين وعشاق الرياضة على مدار العام.",
+    bodyEn: "A world-class aquatic complex with Olympic pools, diving platforms, and water polo arenas — designed to host international championships and serve as a year-round destination for elite athletes.",
   },
 ];
 
@@ -321,36 +292,79 @@ export function DammamOlympicPage() {
     return () => ctx.revert();
   }, []);
 
-  const galleryItems = SECTIONS.map((s) => ({
-    src: IMG(s.file),
-    label: t(s.titleAr, s.titleEn),
-  }));
+  /* Gallery shows ALL 7 project images */
+  const ALL_GALLERY = [
+    { src: IMG("1.png"), label: t("الملعب الأولمبي الرئيسي", "Main Olympic Stadium") },
+    { src: IMG("2.png"), label: t("مرافق رياضية متكاملة", "Integrated Sports Facilities") },
+    { src: IMG("3.png"), label: t("المركز التجاري", "Commercial Hub") },
+    { src: IMG("4.jpg"), label: t("البنية التحتية", "Infrastructure") },
+    { src: IMG("5.jpg"), label: t("الحدائق والمساحات", "Parks & Open Spaces") },
+    { src: IMG("6.jpg"), label: t("منشآت الرياضات المائية", "Aquatic Sports Complex") },
+    { src: IMG("7.jpg"), label: t("الواجهة البحرية", "Waterfront Promenade") },
+  ];
 
   return (
     <div className="olympic-page min-h-screen overflow-x-hidden bg-[#FAF8F4] text-[#1A1612]">
       <SiteHeader />
 
-      {/* ── HERO — image has text on it, keep clean ──────────── */}
+      {/* ── HERO — full-screen video with text overlay ───────── */}
       <section ref={heroRef} className="olympic-hero">
-        <div className="olympic-hero-bg">
-          <Image
-            src={HERO}
-            alt="مدينة الدمام الأولمبية"
-            fill
-            priority
-            unoptimized
-            className="object-cover object-center"
-            sizes="100vw"
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+          poster={HERO_POSTER}
+        >
+          <source src={VIDEO_URL} type="video/mp4" />
+          <source
+            src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
+            type="video/quicktime"
           />
-          {/* Subtle bottom vignette only, don't obscure image text */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0805]/80 to-transparent" />
-        </div>
+        </video>
 
-        {/* Minimal overlay — back link + scroll cue */}
-        <div className="absolute inset-x-0 top-0 z-20 flex items-start justify-between p-6 pt-24 md:p-10 md:pt-28">
+        {/* Gradient overlays */}
+        <div className="olympic-hero-overlay" />
+
+        {/* Hero content */}
+        <div className="olympic-hero-content">
           <Link href="/#map" className="olympic-back-link">
-            ← {t("العودة", "Back")}
+            ← {t("العودة للمشاريع", "Back to Projects")}
           </Link>
+
+          <p className="olympic-hero-eyebrow">
+            {t("الدمام · المنطقة الشرقية · رياضي", "Dammam · Eastern Region · Sports")}
+          </p>
+
+          <h1 className="olympic-hero-title">
+            {t("مدينة الدمام", "Dammam")}
+            <span>{t("الأولمبية", "Olympic City")}</span>
+          </h1>
+
+          {/* Inline stats */}
+          <div className="olympic-hero-stats-row">
+            <div className="olympic-hero-stat">
+              <span className="olympic-hero-stat-val">+45,000</span>
+              <span className="olympic-hero-stat-lbl">{t("مقعد", "Seats")}</span>
+            </div>
+            <div className="olympic-hero-stat-sep" />
+            <div className="olympic-hero-stat">
+              <span className="olympic-hero-stat-val">+30</span>
+              <span className="olympic-hero-stat-lbl">{t("منشأة رياضية", "Sports Venues")}</span>
+            </div>
+            <div className="olympic-hero-stat-sep" />
+            <div className="olympic-hero-stat">
+              <span className="olympic-hero-stat-val">2.4M m²</span>
+              <span className="olympic-hero-stat-lbl">{t("مساحة إجمالية", "Total Area")}</span>
+            </div>
+            <div className="olympic-hero-stat-sep" />
+            <div className="olympic-hero-stat">
+              <span className="olympic-hero-stat-val">2030</span>
+              <span className="olympic-hero-stat-lbl">{t("الاكتمال المتوقع", "Est. Completion")}</span>
+            </div>
+          </div>
         </div>
 
         <div className="olympic-hero-scroll" aria-hidden>
@@ -361,30 +375,52 @@ export function DammamOlympicPage() {
         </div>
       </section>
 
-      {/* ── STATS ────────────────────────────────────────────── */}
-      <div className="olympic-stats-bar">
-        <StatItem value="+45,000" labelAr="مقعد" labelEn="Seats" />
-        <div className="olympic-stats-divider" />
-        <StatItem value="+30" labelAr="منشأة رياضية" labelEn="Sports Venues" />
-        <div className="olympic-stats-divider" />
-        <StatItem value="2.4M m²" labelAr="مساحة إجمالية" labelEn="Total Area" />
-        <div className="olympic-stats-divider" />
-        <StatItem value="2030" labelAr="الاكتمال المتوقع" labelEn="Est. Completion" />
-      </div>
-
-      {/* ── ALTERNATING SECTIONS (all 7 images) ─────────────── */}
+      {/* ── ALTERNATING SECTIONS (4 key highlights) ─────────── */}
       {SECTIONS.map((sec, idx) => {
         const isLeft = sec.side === "left";
-        // Video banner after section 3 (between 3 and 4)
-        const showVideo = idx === 3;
-        // Path connectors between every section
+        // Video banner after section 1 (between sections 1 and 2)
+        const showVideo = idx === 2;
         const showPath = idx < SECTIONS.length - 1;
 
         return (
           <div key={idx}>
-            {/* Video banner — TV screen frame */}
+
+            {/* Video banner with project info ─ appears mid-page */}
             {showVideo && (
               <div className="olympic-video-section">
+                {/* Project info strip above the TV */}
+                <div className="olympic-video-info">
+                  <div className="olympic-video-info-grid">
+                    <div className="olympic-video-info-item">
+                      <span className="olympic-video-info-label">{t("المشروع", "Project")}</span>
+                      <span className="olympic-video-info-value">{t("مدينة الدمام الأولمبية", "Dammam Olympic City")}</span>
+                    </div>
+                    <div className="olympic-video-info-item">
+                      <span className="olympic-video-info-label">{t("الموقع", "Location")}</span>
+                      <span className="olympic-video-info-value">{t("الدمام، المنطقة الشرقية", "Dammam, Eastern Region")}</span>
+                    </div>
+                    <div className="olympic-video-info-item">
+                      <span className="olympic-video-info-label">{t("المساحة الكلية", "Total Area")}</span>
+                      <span className="olympic-video-info-value">2,400,000 m²</span>
+                    </div>
+                    <div className="olympic-video-info-item">
+                      <span className="olympic-video-info-label">{t("النوع", "Type")}</span>
+                      <span className="olympic-video-info-value">{t("متعدد الاستخدامات الرياضية", "Multi-Use Sports City")}</span>
+                    </div>
+                    <div className="olympic-video-info-item">
+                      <span className="olympic-video-info-label">{t("الحالة", "Status")}</span>
+                      <span className="olympic-video-info-value">{t("قيد التطوير · 2030", "Under Development · 2030")}</span>
+                    </div>
+                  </div>
+                  <p className="olympic-video-info-desc">
+                    {t(
+                      "مدينة رياضية متكاملة تُجسّد طموحات رؤية 2030 في الاستضافة العالمية وتطوير منظومة الرياضة السعودية، تضم الملاعب والمرافق الدولية وتخدم مجتمع المنطقة الشرقية بأكمله.",
+                      "An integrated sports city embodying Vision 2030's ambitions for global hosting and developing Saudi Arabia's sports ecosystem — serving the entire Eastern Region community.",
+                    )}
+                  </p>
+                </div>
+
+                {/* TV screen frame */}
                 <div className="olympic-tv-frame">
                   <div className="olympic-tv-screen">
                     <video
@@ -393,12 +429,9 @@ export function DammamOlympicPage() {
                       loop
                       playsInline
                       className="olympic-video-player"
-                      poster={IMG("Hero.png")}
+                      poster={HERO_POSTER}
                     >
-                      <source
-                        src="https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov"
-                        type="video/mp4"
-                      />
+                      <source src={VIDEO_URL} type="video/mp4" />
                       <source
                         src="https://res.cloudinary.com/dfzaghfsv/video/upload/v1781634357/Dammam_Olympic_n4rvqh.mov"
                         type="video/quicktime"
@@ -406,7 +439,6 @@ export function DammamOlympicPage() {
                     </video>
                     <div className="olympic-video-overlay" />
                   </div>
-                  {/* TV base */}
                   <div className="olympic-tv-base" aria-hidden />
                 </div>
                 <p className="olympic-tv-caption">
@@ -454,13 +486,13 @@ export function DammamOlympicPage() {
         );
       })}
 
-      {/* ── CIRCLE GALLERY ─────────────────────────────────── */}
+      {/* ── CIRCLE GALLERY — all 7 project images ──────────── */}
       <div className="olympic-gallery">
         <div className="olympic-gallery-header">
           <p className="olympic-gallery-eyebrow">{t("معرض الصور", "Gallery")}</p>
           <h2 className="olympic-gallery-title">{t("لحظات من المشروع", "Project Moments")}</h2>
         </div>
-        <OlympicCircleGallery images={galleryItems} />
+        <OlympicCircleGallery images={ALL_GALLERY} />
       </div>
 
       {/* ── CTA ─────────────────────────────────────────────── */}

@@ -1,70 +1,244 @@
-# Image Specifications — AlShubaily Website
+# مواصفات الصور والفيديوهات — AlShubaily Website
+# Image & Video Specifications
 
-Use these dimensions when preparing final assets from the client.
+> **ملاحظة مهمة:** كل الصور يجب أن تكون بامتداد `.jpg` أو `.png` وحجم لا يتجاوز **1.5MB** لكل ملف.
+> **Important:** All images should be `.jpg` or `.png`, max **1.5MB** per file.
 
-## Hero Slideshow (Home)
+---
 
+## 1. الصفحة الرئيسية — Homepage
 
-| Asset   | Path                       | Recommended Size       | Format  | Notes                             |
-| ------- | -------------------------- | ---------------------- | ------- | --------------------------------- |
-| Slide 1 | `/assets/hero/slide-1.png` | **1920 × 1080** (16:9) | PNG/JPG | Main portfolio / flagship project |
-| Slide 2 | `/assets/hero/slide-2.png` | **1920 × 1080**        | PNG/JPG | Kingdom map or aerial view        |
-| Slide 3 | `/assets/hero/slide-3.png` | **1920 × 1080**        | PNG/JPG | Group / corporate image           |
-| Slide 4 | `/assets/hero/slide-4.png` | **1920 × 1080**        | PNG/JPG | Featured development              |
+### 1.1 Hero Video (الفيديو الرئيسي في البانر)
+| المواصفة | القيمة |
+|----------|--------|
+| النوع | فيديو |
+| الأبعاد المثالية | **1920 × 1080 px** (16:9) |
+| المدة المقترحة | 15–45 ثانية |
+| الحجم الأقصى | **50MB** |
+| الصيغة | `.mp4` أو `.mov` — يُرفع على Cloudinary |
+| المسار | Cloudinary CDN URL |
+| ملاحظة | يُستخدم poster image (صورة ثابتة) أثناء التحميل |
 
+### 1.2 Hero Poster / Fallback Image
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1920 × 1080 px** |
+| الحجم الأقصى | **500KB** |
+| الصيغة | `.jpg` |
+| المسار | `public/assets/` |
 
-## Interactive Map
+---
 
+### 1.3 Logo Marquee Banner — شريط اللوجوهات
+| المواصفة | القيمة |
+|----------|--------|
+| قياس كل لوجو | **300 × 120 px** |
+| نوع الخلفية | **شفافة (transparent)** |
+| الصيغة | `.png` |
+| المسار | `public/assets/Banner-logos/` |
+| عدد اللوجوهات | 10–14 لوجو |
+| ملاحظة | اللوجوهات تكون بيضاء/ذهبية لتظهر على الخلفية الداكنة |
 
-| Asset | Path                          | Recommended Size          | Format          | Notes                                          |
-| ----- | ----------------------------- | ------------------------- | --------------- | ---------------------------------------------- |
-| Map   | `/assets/map.png`             | **2000 × 1111** (current) | PNG             | Keep marker positions aligned with design file |
-| Logo  | `/assets/Alshubaily-logo.png` | **400 × 440** min         | PNG transparent | Header & footer                                |
+### 1.4 Group Icon (أيقون المجموعة في البانر)
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **160 × 160 px** (مربع) |
+| نوع الخلفية | **شفافة** |
+| الصيغة | `.png` |
+| المسار | `public/assets/Banner-logos/` |
 
+---
 
-## Project Pages (×18 projects)
+### 1.5 Featured Projects Slider — سلايدر المشاريع
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1200 × 800 px** |
+| نسبة العرض للارتفاع | **3:2** |
+| الحجم الأقصى | **500KB** |
+| الصيغة | `.jpg` |
+| ملاحظة | صور واضحة بدون نصوص — تُعرض بـ object-cover |
 
+---
 
-| Asset              | Path pattern                 | Recommended Size | Format  | Notes                 |
-| ------------------ | ---------------------------- | ---------------- | ------- | --------------------- |
-| Hero               | per project in `projects.ts` | **1920 × 1080**  | PNG/JPG | One hero per project  |
-| Gallery (3 images) | per project gallery array    | **1600 × 1000**  | PNG/JPG | Immersive scroll tour |
+### 1.6 Project Types Cards — كروت أنواع المشاريع
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **600 × 800 px** (portrait) |
+| نسبة العرض للارتفاع | **3:4** |
+| الحجم الأقصى | **300KB** |
+| الصيغة | `.jpg` |
+| عدد الكروت | 6 |
 
+---
 
-## Featured Cards (Home)
+### 1.7 Group Logos (صور اللوجوهات في قسم اللوجوهات)
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **400 × 200 px** |
+| نوع الخلفية | **شفافة** |
+| الصيغة | `.png` |
+| المسار | `public/assets/logos/` |
+| ملاحظة | تُعرض على خلفية داكنة — اللوجو يكون أبيض أو ذهبي |
 
-Uses project `heroImage` — same as project hero: **1920 × 1080** (cropped to 4:3 in UI).
+---
 
-## About Section
+## 2. صفحة مشروع مدينة الدمام الأولمبية
+## Dammam Olympic City Project Page
 
+**المسار:** `public/assets/projects/مدينه الدمام الأوليمبيه/`
 
-| Asset       | Path                                    | Recommended Size      | Format  |
-| ----------- | --------------------------------------- | --------------------- | ------- |
-| About image | `/assets/hero/slide-3.png` or dedicated | **1200 × 1500** (4:5) | PNG/JPG |
+### 2.1 Hero Image (صورة الخلفية للبوستر)
+| المواصفة | القيمة |
+|----------|--------|
+| اسم الملف | `Hero.png` |
+| الأبعاد | **1920 × 1080 px** |
+| الحجم الأقصى | **1.2MB** |
+| ملاحظة | تُستخدم كـ poster للفيديو + خلفية احتياطية |
 
+### 2.2 فيديو الهيرو (Hero Video)
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1920 × 1080 px** (16:9) |
+| المدة | 20–60 ثانية |
+| الحجم الأقصى | **80MB** |
+| الصيغة | `.mp4` أو `.mov` — يُرفع على Cloudinary |
+| الرابط الحالي | `https://res.cloudinary.com/dfzaghfsv/video/upload/...Dammam_Olympic_n4rvqh.mov` |
 
-## Subsidiaries (Group Section)
+### 2.3 صور الأقسام الأربعة — 4 Section Images
+> هذه الصور تظهر في الأقسام المتناوبة (صورة + نص) وتأخذ **55% من عرض الصفحة** على الديسكتوب.
 
+| # | اسم الملف | الموضوع | الأبعاد المثالية | الحجم الأقصى |
+|---|-----------|---------|-----------------|--------------|
+| 1 | `1.png` | **الملعب الأولمبي الرئيسي** — استاد رياضي عالمي | **1200 × 900 px** | 1.2MB |
+| 2 | `2.png` | **المرافق الرياضية** — ملاعب متكاملة | **1200 × 900 px** | 1.2MB |
+| 3 | `5.jpg` | **الحدائق والمساحات الخضراء** | **1200 × 900 px** | 600KB |
+| 4 | `6.jpg` | **منشآت الرياضات المائية** | **1200 × 900 px** | 600KB |
 
-| Asset                       | Path                         | Recommended Size   | Format          |
-| --------------------------- | ---------------------------- | ------------------ | --------------- |
-| Combined logos strip        | `/assets/logos.png`          | **2400 × 800**     | PNG transparent |
-| Individual logos (optional) | `/assets/subsidiaries/*.png` | **400 × 400** each | PNG transparent |
+> **نسبة العرض للارتفاع المثالية:** **4:3** — الصور تُعرض بـ `object-contain` لذا لن تُقطع.
 
+### 2.4 صور المعرض الدائري — Circle Gallery (كل 7 صور)
+> هذه الصور تظهر في دوائر صغيرة تتمدد عند التمرير عليها.
 
-## Intro Video (optional, disabled by default)
+| # | اسم الملف | الأبعاد | ملاحظة |
+|---|-----------|---------|--------|
+| 1 | `1.png` | **800 × 800 px** (مربع) | ✅ موجود |
+| 2 | `2.png` | **800 × 800 px** (مربع) | ✅ موجود |
+| 3 | `3.png` | **800 × 800 px** (مربع) | ✅ موجود |
+| 4 | `4.jpg` | **800 × 800 px** (مربع) | ✅ موجود |
+| 5 | `5.jpg` | **800 × 800 px** (مربع) | ✅ موجود |
+| 6 | `6.jpg` | **800 × 800 px** (مربع) | ✅ موجود |
+| 7 | `7.jpg` | **800 × 800 px** (مربع) | ✅ موجود |
 
+---
 
-| Asset | Path                      | Recommended Size | Format    |
-| ----- | ------------------------- | ---------------- | --------- |
-| Video | `/assets/intro/intro.mp4` | **1920 × 1080**  | MP4 H.264 |
-| Audio | `/assets/intro/intro.mp3` | —                | MP3       |
+## 3. صفحات المشاريع الأخرى — Other Project Pages
 
+**المسار:** `public/assets/projects/[اسم المشروع]/`
 
-## Quality Guidelines
+### 3.1 صورة الـ Hero لكل مشروع
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1920 × 1080 px** |
+| الحجم الأقصى | **700KB** |
+| الصيغة | `.jpg` |
+| ملاحظة | تُعرض بـ object-cover في خلفية كاملة الشاشة |
 
-- Export at **2×** for retina where possible.
-- Keep file size under **500 KB** per web JPG (use WebP if converting).
-- Use **sRGB** color profile.
-- Map markers are positioned by **percentage** — do not crop the map without updating `projects.ts` coordinates.
+### 3.2 صور المعرض لكل مشروع
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1200 × 800 px** |
+| الحجم الأقصى | **500KB** |
+| الصيغة | `.jpg` |
+| ملاحظة | 4–8 صور لكل مشروع |
 
+### 3.3 الصورة المصغرة (Thumbnail) للكرت في الخريطة والسلايدر
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **600 × 400 px** |
+| نسبة العرض للارتفاع | **3:2** |
+| الحجم الأقصى | **200KB** |
+| الصيغة | `.jpg` |
+
+---
+
+## 4. صفحة من نحن — About Page
+
+### 4.1 صورة البانر
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **1920 × 600 px** |
+| الحجم الأقصى | **500KB** |
+| الصيغة | `.jpg` |
+
+### 4.2 صور الفريق / الإدارة
+| المواصفة | القيمة |
+|----------|--------|
+| الأبعاد | **400 × 500 px** (portrait) |
+| الحجم الأقصى | **200KB** |
+| الصيغة | `.jpg` |
+
+---
+
+## 5. قواعد عامة للرفع — General Upload Rules
+
+```
+✅ الصيغ المقبولة: .jpg, .png, .webp
+✅ أقصى حجم لصورة ثابتة: 1.5MB
+✅ أقصى حجم للفيديو: 80MB (يُرفع على Cloudinary)
+✅ الدقة الموصى بها: 72–150 DPI (للويب)
+✅ مساحة اللون: sRGB
+
+❌ لا ترفعي TIFF أو BMP أو RAW
+❌ لا ترفعي ملفات أكبر من 2MB مباشرة في Git
+❌ لا ترفعي فيديوهات في Git — استخدمي Cloudinary دائماً
+```
+
+---
+
+## 6. مسارات الملفات — File Paths
+
+```
+public/
+├── assets/
+│   ├── logos/                    ← لوجوهات الشركات
+│   ├── Banner-logos/             ← لوجوهات البانر + أيقون المجموعة + فيديو البانر
+│   ├── group/                    ← صور المجموعة العامة
+│   └── projects/
+│       ├── مدينه الدمام الأوليمبيه/
+│       │   ├── Hero.png          ← 1920×1080
+│       │   ├── 1.png             ← 1200×900
+│       │   ├── 2.png             ← 1200×900
+│       │   ├── 3.png             ← 1200×900
+│       │   ├── 4.jpg             ← 1200×900
+│       │   ├── 5.jpg             ← 1200×900
+│       │   ├── 6.jpg             ← 1200×900
+│       │   └── 7.jpg             ← 1200×900
+│       ├── [اسم مشروع آخر]/
+│       │   ├── hero.jpg
+│       │   ├── 1.jpg
+│       │   └── ...
+│       └── ...
+```
+
+---
+
+## 7. ضغط الصور — Image Compression
+
+لضغط الصور قبل الرفع:
+
+**macOS Terminal:**
+```bash
+# ضغط صورة واحدة (تقليل الأبعاد إلى 1200px عرض)
+sips -Z 1200 image.png
+
+# ضغط كل الصور في فولدر
+sips -Z 1200 /path/to/folder/*.jpg
+
+# تحويل PNG إلى JPG
+sips -s format jpeg image.png --out image.jpg
+```
+
+**أدوات أونلاين:**
+- [Squoosh](https://squoosh.app) — الأفضل للصور
+- [TinyPNG](https://tinypng.com) — PNG و JPG
+- [Cloudinary Upload](https://cloudinary.com) — للفيديوهات

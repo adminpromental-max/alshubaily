@@ -2217,6 +2217,53 @@ body.has-custom-cursor button {
   line-height: 1.7;
 }
 
+/* Hero inline stats row */
+.olympic-hero-stats-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0;
+  margin-top: 2rem;
+}
+
+.olympic-hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0 1.25rem;
+}
+
+.olympic-hero-stat:first-child { padding-inline-start: 0; }
+
+.olympic-hero-stat-val {
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.olympic-hero-stat-lbl {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.olympic-hero-stat-sep {
+  width: 1px;
+  height: 2.5rem;
+  background: rgba(201, 169, 98, 0.3);
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .olympic-hero-stats-row {
+    gap: 0.4rem 0;
+  }
+  .olympic-hero-stat { padding: 0 0.85rem; }
+  .olympic-hero-stat-sep { height: 2rem; }
+}
+
 /* Scroll indicator */
 .olympic-hero-scroll {
   position: absolute;
@@ -2468,6 +2515,53 @@ body.has-custom-cursor button {
 }
 
 /* ── Video Banner — TV frame ── */
+/* Video info panel (project details above TV frame) */
+.olympic-video-info {
+  width: 100%;
+  max-width: 1100px;
+  margin-bottom: 2.5rem;
+  padding: 2rem 2rem 1.75rem;
+  border: 1px solid rgba(201, 169, 98, 0.18);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.olympic-video-info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.olympic-video-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.olympic-video-info-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 98, 0.55);
+}
+
+.olympic-video-info-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(250, 248, 244, 0.9);
+  letter-spacing: 0.02em;
+}
+
+.olympic-video-info-desc {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: rgba(250, 248, 244, 0.45);
+  max-width: 700px;
+  border-top: 1px solid rgba(201, 169, 98, 0.1);
+  padding-top: 1rem;
+}
+
 .olympic-video-section {
   background: #1a1410;
   padding: 3rem 1.5rem 2rem;
