@@ -3,11 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect, useCallback } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { dammamAsset } from "@/data/asset-paths";
 import { useLang } from "@/contexts/lang-context";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { OlympicCircleGallery } from "./OlympicCircleGallery";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /* ── Assets ─────────────────────────────────────────────────── */
 const HERO = dammamAsset("Hero.png");
@@ -94,24 +98,38 @@ export function DammamSplitScreen() {
   const { t } = useLang();
   const [activeIdx, setActiveIdx] = useState(0);
   const chapterRefs = useRef<(HTMLElement | null)[]>([]);
+  const stTriggers = useRef<ReturnType<typeof ScrollTrigger.create>[]>([]);
 
-  /* Track which chapter is in viewport */
+  /* Track which chapter is active.
+     IntersectionObserver doesn't work with Lenis (uses scrollerProxy).
+     We use GSAP ScrollTrigger which is already bridged to Lenis. */
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    chapterRefs.current.forEach((el, idx) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) setActiveIdx(idx);
-          });
-        },
-        { threshold: 0.35, rootMargin: "-15% 0px -15% 0px" },
-      );
-      obs.observe(el);
-      observers.push(obs);
+    const frame = requestAnimationFrame(() => {
+      stTriggers.current.forEach((t) => t.kill());
+      stTriggers.current = [];
+
+      chapterRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        stTriggers.current.push(
+          ScrollTrigger.create({
+            trigger: el,
+            start: "top 60%",
+            end: "bottom 40%",
+            scroller: document.documentElement,
+            onEnter: () => setActiveIdx(idx),
+            onEnterBack: () => setActiveIdx(idx),
+          }),
+        );
+      });
+
+      ScrollTrigger.refresh();
     });
-    return () => observers.forEach((o) => o.disconnect());
+
+    return () => {
+      cancelAnimationFrame(frame);
+      stTriggers.current.forEach((t) => t.kill());
+      stTriggers.current = [];
+    };
   }, []);
 
   const scrollToChapter = useCallback((idx: number) => {
