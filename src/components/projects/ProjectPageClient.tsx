@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { DammamOlympicPage } from "./DammamOlympicPage";
 import { BeachResortPage } from "./BeachResortPage";
 import TidaraTowersPage from "./TidaraTowersPage";
+import TidaraCinematicPage from "./TidaraCinematicPage";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -30,9 +31,9 @@ export function ProjectPageClient({ project }: { project: Project }) {
     return <BeachResortPage />;
   }
 
-  // Rich presentation page for Tidara Towers
+  // Cinematic presentation page for Tidara Towers
   if (project.slug === "tidara-towers") {
-    return <TidaraTowersPage />;
+    return <TidaraCinematicPage />;
   }
 
   return (
