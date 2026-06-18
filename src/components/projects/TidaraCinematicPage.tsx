@@ -6,20 +6,24 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/contexts/lang-context";
+import { tidaraAsset } from "@/data/asset-paths";
+import { useSmoothScroll } from "@/providers/SmoothScrollProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const BASE  = "/assets/projects/tidara-tower";
-const VIDEO = "https://res.cloudinary.com/dfzaghfsv/video/upload/v1781801274/Cinematic_architectural_film__on4pal.mp4";
+/* Cloudinary — compressed for faster start */
+const VIDEO =
+  "https://res.cloudinary.com/dfzaghfsv/video/upload/f_auto,q_auto:eco,w_1280,vc_h264/v1781801274/Cinematic_architectural_film__on4pal.mp4";
 
 const ASSETS = {
-  introPoster:  `${BASE}/intro-poster.jpg`,
-  facade:       `${BASE}/facade-ribs.jpg`,
-  panorama:     `${BASE}/panorama.jpg`,
-  towerNight:   `${BASE}/tower-night.jpg`,
-  podiumBg:     `${BASE}/walkthrough-1.png`,
-  hotelBg:      `${BASE}/interior-1.png`,
-  adminBg:      `${BASE}/walkthrough-4.png`,
+  introPoster: tidaraAsset("Hero.png"),
+  facade:      tidaraAsset("facade-ribs.png"),
+  panorama:    tidaraAsset("panorama.png"),
+  towerNight:  tidaraAsset("tower-night.png"),
+  /* café & marina promenade */
+  podiumBg:    tidaraAsset("walkthrough-3.png"),
+  hotelBg:     tidaraAsset("interior-1.png"),
+  adminBg:     tidaraAsset("walkthrough-4.png"),
 };
 
 const STATS = [
@@ -70,7 +74,7 @@ function CinematicLoader({ onDone }: { onDone: () => void }) {
   const [out, setOut] = useState(false);
 
   useEffect(() => {
-    const dur = 2000, t0 = performance.now();
+    const dur = 1200, t0 = performance.now();
     let raf: number;
     const step = (now: number) => {
       const p    = Math.min((now - t0) / dur, 1);
@@ -136,10 +140,11 @@ function MusicToggle() {
 }
 
 /* ── Parametric Ribs ─────────────────────────────────────────── */
-function ParametricRibs() {
+function ParametricRibs({ ready }: { ready: boolean }) {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+    if (!ready) return;
     const svg = ref.current; if (!svg) return;
     const lines = Array.from(svg.querySelectorAll("line"));
     lines.forEach((l) => { l.style.strokeDasharray = "1"; l.style.strokeDashoffset = "1"; });
@@ -164,8 +169,9 @@ function ParametricRibs() {
         });
       }
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   const N = 36;
   const ribs = Array.from({ length: N }, (_, i) => {
@@ -247,14 +253,16 @@ function PanoramaDrag({ src, t }: { src: string; t: (a: string, b: string) => st
 /* ── Main Page ───────────────────────────────────────────────── */
 export default function TidaraCinematicPage() {
   const { t, lang } = useLang();
+  const { lenis } = useSmoothScroll();
   const [loaded, setLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const [activeBld, setActiveBld] = useState(0);
   const [formSent, setFormSent] = useState(false);
   const introRef = useRef<HTMLElement>(null);
 
   /* Intro GSAP reveals */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !lenis) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(".tdc-eyebrow",
         { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.2 });
@@ -277,12 +285,13 @@ export default function TidaraCinematicPage() {
         });
       }
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, lenis]);
 
   /* Parametric text */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !lenis) return;
     const ctx = gsap.context(() => {
       [".tdc-pl1", ".tdc-pl2"].forEach((sel, i) => {
         gsap.fromTo(sel, { opacity: 0, y: 28 }, {
@@ -296,12 +305,13 @@ export default function TidaraCinematicPage() {
         });
       });
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, lenis]);
 
   /* Stats count-up */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !lenis) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(".tdc-stat-item",
         { opacity: 0, y: 30 },
@@ -316,12 +326,13 @@ export default function TidaraCinematicPage() {
         },
       );
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, lenis]);
 
   /* Journey crossfade */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !lenis) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -336,12 +347,13 @@ export default function TidaraCinematicPage() {
         .to(".tdc-bld-1",  { opacity: 0, scale: 1.04, duration: 0.5 }, 0.6)
         .fromTo(".tdc-bld-2", { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.5 }, 0.6);
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, lenis]);
 
   /* Generic scroll reveals */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || !lenis) return;
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".tdc-reveal").forEach((el) => {
         gsap.fromTo(el, { opacity: 0, y: 32 }, {
@@ -354,8 +366,9 @@ export default function TidaraCinematicPage() {
         });
       });
     });
+    ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [loaded]);
+  }, [loaded, lenis]);
 
   const handleForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -377,8 +390,25 @@ export default function TidaraCinematicPage() {
         ════════════════════════════════════════════════════ */}
         <section ref={introRef} className="tdc-intro">
           <div className="tdc-intro-bg">
-            <video autoPlay muted loop playsInline poster={ASSETS.introPoster}
-              className="absolute inset-0 h-full w-full object-cover">
+            <Image
+              src={ASSETS.introPoster}
+              alt="Tidara Towers"
+              fill
+              priority
+              unoptimized
+              className={`object-cover object-center transition-opacity duration-700 ${videoReady ? "opacity-0" : "opacity-100"}`}
+              sizes="100vw"
+            />
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={ASSETS.introPoster}
+              onCanPlay={() => setVideoReady(true)}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${videoReady ? "opacity-100" : "opacity-0"}`}
+            >
               <source src={VIDEO} type="video/mp4" />
             </video>
           </div>
@@ -431,7 +461,7 @@ export default function TidaraCinematicPage() {
               <div className="tdc-param-overlay" />
             </div>
             <div className="tdc-ribs-container">
-              <ParametricRibs />
+              <ParametricRibs ready={loaded && !!lenis} />
             </div>
             <div className="tdc-param-text">
               <p className="tdc-param-tag">{t("لغة التصميم", "Design Language")}</p>
