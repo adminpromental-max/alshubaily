@@ -7,6 +7,7 @@ import { useLang } from "@/contexts/lang-context";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { DammamOlympicPage } from "./DammamOlympicPage";
+import { BeachResortPage } from "./BeachResortPage";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,11 @@ export function ProjectPageClient({ project }: { project: Project }) {
   // Rich presentation page for Dammam Olympic City
   if (project.slug === "dammam-olympic-city") {
     return <DammamOlympicPage />;
+  }
+
+  // Rich presentation page for Beach House Resort
+  if (project.slug === "alshubaily-new-beach") {
+    return <BeachResortPage />;
   }
 
   return (
