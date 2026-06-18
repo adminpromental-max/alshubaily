@@ -1,4 +1,4 @@
-import { dammamAsset, beachAsset } from "@/data/asset-paths";
+import { dammamAsset, beachAsset, tidaraAsset } from "@/data/asset-paths";
 
 export type RegionId = "all" | "mecca" | "hail" | "riyadh" | "eastern";
 
@@ -384,6 +384,33 @@ export const PROJECTS: Project[] = [
     descriptionAr: "وجهة مستوحاة من التراث تحتفي بإرث المنطقة الشرقية.",
     heroImage: "/assets/hero/Hero-1.jpg",
     gallery: DEFAULT_GALLERY,
+  },
+  {
+    id: 19,
+    slug: "tidara-towers",
+    nameEn: "Tidara Towers",
+    nameAr: "أبراج تيدارا",
+    region: "eastern",
+    regionEn: "Eastern Region",
+    regionAr: "المنطقة الشرقية",
+    typeEn: "Mixed-Use",
+    typeAr: "متعدد الاستخدامات",
+    color: "#1E6B8A",
+    x: 82.0,
+    y: 47.0,
+    descriptionEn:
+      "A landmark waterfront mixed-use development on the Al-Khobar marina — where architecture, landscape, and public life merge at the city's edge.",
+    descriptionAr:
+      "مشروع متعدد الاستخدامات على واجهة الخبر البحرية — حيث تلتقي العمارة والمشهد الطبيعي وحياة المجتمع عند حافة المدينة.",
+    heroImage: tidaraAsset("Hero.png"),
+    gallery: [
+      tidaraAsset("Hero.png"),
+      tidaraAsset("walkthrough-1.png"),
+      tidaraAsset("walkthrough-2.png"),
+      tidaraAsset("walkthrough-3.png"),
+      tidaraAsset("walkthrough-4.png"),
+      tidaraAsset("walkthrough-5.png"),
+    ],
   },
   {
     id: 18,
