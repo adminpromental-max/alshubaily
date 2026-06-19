@@ -2525,11 +2525,11 @@ body.has-custom-cursor button {
   align-items: stretch;
 }
 
-/* Decorative background — deep charcoal with subtle gold grain */
+/* Banner background image */
 .olympic-pitch-bg {
   position: absolute;
   inset: 0;
-  background: #0F0D0A;
+  background: url('/assets/projects/dammam-olympic/banner.png') center center / cover no-repeat;
   overflow: hidden;
 }
 
@@ -2601,15 +2601,15 @@ body.has-custom-cursor button {
 .pitch-penalty-box--left  { display: none; }
 .pitch-penalty-box--right { display: none; }
 
-/* Very light overlay for readability */
+/* Dark overlay so text stays readable over the image */
 .olympic-pitch-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.3) 0%,
-    transparent 50%,
-    rgba(0, 0, 0, 0.2) 100%
+    105deg,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.65) 100%
   );
 }
 
