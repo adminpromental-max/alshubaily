@@ -1,4 +1,5 @@
 import { dammamAsset, beachAsset, tidaraAsset } from "@/data/asset-paths";
+import { DAMMAM_HIGHLIGHTS } from "@/data/dammam-content";
 
 export type RegionId = "all" | "mecca" | "hail" | "riyadh" | "eastern";
 
@@ -296,13 +297,8 @@ export const PROJECTS: Project[] = [
     y: 49.5,
     descriptionEn: "A world-class sports and wellness city in the heart of Dammam.",
     descriptionAr: "مدينة رياضية وصحية عالمية المستوى في قلب الدمام.",
-    heroImage: dammamAsset("Hero.jpg"),
-    gallery: [
-      dammamAsset("Hero.jpg"),
-      dammamAsset("4.jpg"),
-      dammamAsset("5.jpg"),
-      dammamAsset("6.jpg"),
-    ],
+    heroImage: dammamAsset("City-landscape.png"),
+    gallery: DAMMAM_HIGHLIGHTS.map((h) => dammamAsset(h.file)),
   },
   {
     id: 14,

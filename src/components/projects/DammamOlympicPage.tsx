@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { dammamAsset } from "@/data/asset-paths";
+import { DAMMAM_HIGHLIGHTS, DAMMAM_HERO_POSTER } from "@/data/dammam-content";
 import { useLang } from "@/contexts/lang-context";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -14,7 +15,7 @@ import { OlympicCircleGallery } from "./OlympicCircleGallery";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── Asset paths ────────────────────────────────────────────── */
-const HERO_POSTER = dammamAsset("Hero.png");
+const HERO_POSTER = DAMMAM_HERO_POSTER;
 const IMG = (f: string) => dammamAsset(f);
 const VIDEO_URL = "https://res.cloudinary.com/dfzaghfsv/video/upload/q_auto,f_mp4/v1781634357/Dammam_Olympic_n4rvqh.mov";
 
@@ -160,62 +161,8 @@ function PathConnector({ iconIndex }: { iconIndex: number }) {
   );
 }
 
-/* ── Stats ──────────────────────────────────────────────────── */
-
-function StatItem({ value, labelAr, labelEn }: { value: string; labelAr: string; labelEn: string }) {
-  const { t } = useLang();
-  return (
-    <div className="olympic-stat">
-      <span className="olympic-stat-value">{value}</span>
-      <span className="olympic-stat-label">{t(labelAr, labelEn)}</span>
-    </div>
-  );
-}
-
-/* ── Section content data — 4 key highlights ───────────────── */
-
-const SECTIONS = [
-  {
-    file: "1.png",
-    side: "right" as const,
-    eyebrowAr: "استاد رياضي عالمي",
-    eyebrowEn: "World-Class Stadium",
-    titleAr: "الملعب الأولمبي الرئيسي",
-    titleEn: "The Main Olympic Stadium",
-    bodyAr: "يستوعب أكثر من 45,000 متفرج ومصمم وفق أعلى المعايير الدولية لاستضافة البطولات الكبرى والفعاليات متعددة التخصصات، مع تقنيات بث متطورة وتجربة مشاهدة استثنائية لا تُنسى في قلب الدمام.",
-    bodyEn: "Accommodating over 45,000 spectators, designed to the highest international standards for major championships and multi-discipline events, with advanced broadcast technology at the heart of Dammam.",
-  },
-  {
-    file: "2.png",
-    side: "left" as const,
-    eyebrowAr: "ملاعب رياضية متخصصة",
-    eyebrowEn: "Specialized Sports Venues",
-    titleAr: "مرافق رياضية متكاملة",
-    titleEn: "Integrated Sports Facilities",
-    bodyAr: "أكثر من 30 منشأة رياضية متخصصة — ملاعب كرة القدم، كرة السلة، السباحة، الجمباز، والرياضات المائية — كلها في موقع واحد يرسم مستقبل الرياضة في المنطقة الشرقية ويستقطب أبطال الغد.",
-    bodyEn: "Over 30 specialized sports facilities — football, basketball, swimming, gymnastics, and water sports — all in one destination shaping the future of sport and attracting tomorrow's champions.",
-  },
-  {
-    file: "5.jpg",
-    side: "right" as const,
-    eyebrowAr: "مساحات خضراء",
-    eyebrowEn: "Green Spaces",
-    titleAr: "الحدائق والمساحات المفتوحة",
-    titleEn: "Parks & Open Spaces",
-    bodyAr: "فضاءات خضراء واسعة تُشكّل رئة المدينة الأولمبية — ممشيات الأسرة، الملاعب المفتوحة، ومناطق الاسترخاء. بيئة تجمع بين الطبيعة والنشاط في تصميم حضري متوازن يعكس رؤية 2030.",
-    bodyEn: "Vast green spaces forming the lungs of the Olympic city — family walkways, open courts, and relaxation zones. An environment merging nature and activity in a balanced urban design reflecting Vision 2030.",
-  },
-  {
-    file: "6.jpg",
-    side: "left" as const,
-    eyebrowAr: "الرياضات المائية",
-    eyebrowEn: "Aquatic Sports",
-    titleAr: "منشآت الرياضات المائية",
-    titleEn: "Aquatic Sports Complex",
-    bodyAr: "مجمع مائي عالمي يضم حمامات السباحة الأولمبية، منصات الغطس، وملاعب الكرة المائية — مصمم ليستضيف البطولات الدولية وليكون مقصداً حصرياً للمحترفين وعشاق الرياضة على مدار العام.",
-    bodyEn: "A world-class aquatic complex with Olympic pools, diving platforms, and water polo arenas — designed to host international championships and serve as a year-round destination for elite athletes.",
-  },
-];
+/* ── Section content — from dammam-content.ts ──────────────── */
+const SECTIONS = DAMMAM_HIGHLIGHTS;
 
 /* ── Main Page ─────────────────────────────────────────────── */
 
@@ -292,16 +239,13 @@ export function DammamOlympicPage() {
     return () => ctx.revert();
   }, []);
 
-  /* Gallery shows ALL 7 project images */
-  const ALL_GALLERY = [
-    { src: IMG("1.png"), label: t("الملعب الأولمبي الرئيسي", "Main Olympic Stadium") },
-    { src: IMG("2.png"), label: t("مرافق رياضية متكاملة", "Integrated Sports Facilities") },
-    { src: IMG("3.png"), label: t("المركز التجاري", "Commercial Hub") },
-    { src: IMG("4.jpg"), label: t("البنية التحتية", "Infrastructure") },
-    { src: IMG("5.jpg"), label: t("الحدائق والمساحات", "Parks & Open Spaces") },
-    { src: IMG("6.jpg"), label: t("منشآت الرياضات المائية", "Aquatic Sports Complex") },
-    { src: IMG("7.jpg"), label: t("الواجهة البحرية", "Waterfront Promenade") },
-  ];
+  const ALL_GALLERY = SECTIONS.map((sec) => ({
+    src: IMG(sec.file),
+    labelAr: sec.titleAr,
+    labelEn: sec.titleEn,
+    descriptionAr: sec.bodyAr,
+    descriptionEn: sec.bodyEn,
+  }));
 
   return (
     <div className="olympic-page min-h-screen overflow-x-hidden bg-[#FAF8F4] text-[#1A1612]">
@@ -379,7 +323,7 @@ export function DammamOlympicPage() {
       {SECTIONS.map((sec, idx) => {
         const isLeft = sec.side === "left";
         // Video banner after section 1 (between sections 1 and 2)
-        const showVideo = idx === 2;
+        const showVideo = idx === 4;
         const showPath = idx < SECTIONS.length - 1;
 
         return (
@@ -455,8 +399,8 @@ export function DammamOlympicPage() {
                       alt={t(sec.titleAr, sec.titleEn)}
                       fill
                       unoptimized
-                      className="object-contain"
-                      sizes="(max-width:900px) 100vw, 55vw"
+                      className="object-cover object-center"
+                      sizes="(max-width:900px) 100vw, 52vw"
                     />
                     <div className="olympic-img-corner olympic-img-corner--tl" />
                     <div className="olympic-img-corner olympic-img-corner--br" />

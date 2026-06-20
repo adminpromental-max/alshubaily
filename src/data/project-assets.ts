@@ -1,19 +1,14 @@
 /** Real asset paths for projects with uploaded media */
 import { dammamAsset, beachAsset } from "@/data/asset-paths";
+import { DAMMAM_HIGHLIGHTS } from "@/data/dammam-content";
 
 export const REAL_PROJECT_ASSETS: Record<
   string,
   { hero: string; gallery: string[] }
 > = {
   "dammam-olympic-city": {
-    hero: dammamAsset("Hero.jpg"),
-    gallery: [
-      dammamAsset("Hero.jpg"),
-      dammamAsset("4.jpg"),
-      dammamAsset("5.jpg"),
-      dammamAsset("6.jpg"),
-      dammamAsset("7.jpg"),
-    ],
+    hero: dammamAsset("City-landscape.png"),
+    gallery: DAMMAM_HIGHLIGHTS.map((h) => dammamAsset(h.file)),
   },
   "alshubaily-high-rise": {
     hero: "/assets/projects/Twin-Tower/Hero.jpg",
