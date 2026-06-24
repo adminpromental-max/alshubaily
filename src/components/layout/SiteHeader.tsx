@@ -6,10 +6,12 @@ import { useLang } from "@/contexts/lang-context";
 import { Button } from "@/components/ui/button";
 
 const NAV = [
-  { href: "#map", ar: "المشاريع", en: "Projects" },
-  { href: "#chairman", ar: "الرؤية", en: "Vision" },
-  { href: "/about", ar: "من نحن", en: "About" },
-  { href: "#contact", ar: "تواصل", en: "Contact" },
+  { href: "/", ar: "الرئيسية", en: "Home" },
+  { href: "/about", ar: "عن المجموعة", en: "About Group" },
+  { href: "/projects", ar: "المشاريع", en: "Projects" },
+  { href: "/services", ar: "خدماتنا", en: "Our Services" },
+  { href: "/media", ar: "المركز الإعلامي", en: "Media Center" },
+  { href: "/#contact", ar: "الاتصال بنا", en: "Contact Us" },
 ];
 
 export function SiteHeader() {
@@ -37,26 +39,16 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {NAV.map((item) =>
-            item.href.startsWith("/") ? (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
-              >
-                {t(item.ar, item.en)}
-              </Link>
-            ) : (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
-              >
-                {t(item.ar, item.en)}
-              </a>
-            ),
-          )}
+        <nav className="hidden items-center gap-6 lg:flex lg:gap-8">
+          {NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm text-[#5C5348] transition hover:text-[#1A1612]"
+            >
+              {t(item.ar, item.en)}
+            </Link>
+          ))}
         </nav>
 
         <Button

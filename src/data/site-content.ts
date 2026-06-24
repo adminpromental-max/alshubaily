@@ -87,4 +87,21 @@ export const CHAIRMAN_CONTENT = {
   nameEn: "Khalid Saud AlShubaily",
   roleAr: "رئيس مجلس الإدارة",
   roleEn: "Chairman of the Board",
+  signatureNameAr: "خالد سعود الشبيلي",
+  signatureNameEn: "Khalid AlShubaily",
+};
+
+export const VISION_MISSION = {
+  visionTitleAr: "الرؤية",
+  visionTitleEn: "Vision",
+  visionAr:
+    "أن نكون الروّاد في تطوير الوجهات العقارية والاستثمارية التي تُجسّد رؤية المملكة 2030 وتُلهم المستقبل.",
+  visionEn:
+    "To be pioneers in developing real estate and investment destinations that embody Vision 2030 and inspire the future.",
+  missionTitleAr: "الرسالة",
+  missionTitleEn: "Mission",
+  missionAr:
+    "نلتزم بأعلى معايير الجودة والاستدامة لنخلق قيمة دائمة لمجتمعاتنا وشركائنا، من خلال مشاريع مبتكرة تلبي تطلعات عملائنا.",
+  missionEn:
+    "We are committed to the highest standards of quality and sustainability to create lasting value for our communities and partners through innovative projects that meet our clients' aspirations.",
 };

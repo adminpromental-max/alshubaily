@@ -1,17 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Eye, Target } from "lucide-react";
 import { useLang } from "@/contexts/lang-context";
-import { CHAIRMAN_CONTENT } from "@/data/site-content";
-import { GROUP_HERO_LOGO } from "@/data/group-logos";
+import { CHAIRMAN_CONTENT, VISION_MISSION } from "@/data/site-content";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero now uses the Cloudinary video; the image slideshow moves to the banner
 const HeroVideoBackground = dynamic(
   () => import("./HeroVideoBackground").then((m) => m.HeroVideoBackground),
   {
@@ -23,13 +21,14 @@ const HeroVideoBackground = dynamic(
 export function HeroChairmanSequence() {
   const { t, lang } = useLang();
   const chairmanRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLParagraphElement>(null);
+  const signatureRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
 
   const quote =
     lang === "ar" ? CHAIRMAN_CONTENT.quoteAr : CHAIRMAN_CONTENT.quoteEn;
   const words = quote.split(/\s+/);
+  const isRTL = lang === "ar";
 
   useEffect(() => {
     const chairman = chairmanRef.current;
@@ -37,9 +36,10 @@ export function HeroChairmanSequence() {
     if (!chairman) return;
 
     const wordSpans = wordsEl?.querySelectorAll(".chairman-word");
+    const cards = chairman.querySelectorAll<HTMLElement>(".vm-glass-card");
+    const signature = signatureRef.current;
 
     const ctx = gsap.context(() => {
-      // Arrow pulse animation
       if (arrowRef.current) {
         gsap.to(arrowRef.current, {
           y: 8,
@@ -50,7 +50,6 @@ export function HeroChairmanSequence() {
         });
       }
 
-      // Word reveal on scroll
       if (wordSpans?.length) {
         gsap.set(wordSpans, { opacity: 0, y: 14, filter: "blur(3px)" });
         gsap.to(wordSpans, {
@@ -67,34 +66,33 @@ export function HeroChairmanSequence() {
         });
       }
 
-      // Logo fade-in
-      if (logoRef.current) {
-        gsap.set(logoRef.current, { opacity: 0, y: 20 });
-        gsap.to(logoRef.current, {
+      if (signature) {
+        gsap.set(signature, { opacity: 0, y: 16 });
+        gsap.to(signature, {
           opacity: 1,
           y: 0,
-          duration: 0.9,
+          duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
             trigger: chairman,
-            start: "top 88%",
+            start: "top 82%",
             toggleActions: "play none none reverse",
           },
         });
       }
 
-      // Eyebrow
-      const eyebrow = chairman.querySelector(".chairman-eyebrow");
-      if (eyebrow) {
-        gsap.set(eyebrow, { opacity: 0, y: 10 });
-        gsap.to(eyebrow, {
+      if (cards.length) {
+        gsap.set(cards, { opacity: 0, y: 28, scale: 0.97 });
+        gsap.to(cards, {
           opacity: 1,
           y: 0,
-          duration: 0.7,
+          scale: 1,
+          duration: 0.85,
+          stagger: 0.15,
           ease: "power3.out",
           scrollTrigger: {
             trigger: chairman,
-            start: "top 90%",
+            start: "top 78%",
             toggleActions: "play none none reverse",
           },
         });
@@ -106,12 +104,10 @@ export function HeroChairmanSequence() {
 
   return (
     <>
-      {/* ── Hero — full viewport height ──────────────────────── */}
       <div
         data-parallax-section
         className="hero-full-screen relative w-full overflow-hidden bg-[#0A0A0A]"
       >
-        {/* Video background — tall for parallax, no horizontal bleed */}
         <div
           data-parallax="bg"
           className="absolute inset-x-0 -top-[10%] -bottom-[10%]"
@@ -119,7 +115,6 @@ export function HeroChairmanSequence() {
           <HeroVideoBackground />
         </div>
 
-        {/* Bottom gradient fade */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 z-[2]"
           style={{ height: "35%" }}
@@ -128,7 +123,6 @@ export function HeroChairmanSequence() {
           <div className="h-full w-full bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-transparent" />
         </div>
 
-        {/* Scroll arrow */}
         <div
           ref={arrowRef}
           className="absolute bottom-8 left-1/2 z-[3] -translate-x-1/2"
@@ -154,33 +148,16 @@ export function HeroChairmanSequence() {
         </div>
       </div>
 
-      {/* ── Vision & Message ─────────────────────────────────── */}
       <section
         ref={chairmanRef}
         id="chairman"
         data-parallax-section
         className="relative bg-[#0A0A0A] px-5 pb-12 pt-10 md:px-8 md:pb-16 md:pt-14"
       >
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="chairman-eyebrow text-[11px] tracking-[0.45em] text-[#C9A962] uppercase">
-            {t(CHAIRMAN_CONTENT.eyebrowAr, CHAIRMAN_CONTENT.eyebrowEn)}
-          </p>
-
-          <div ref={logoRef} className="mx-auto mt-6 w-full max-w-[340px] md:mt-8 md:max-w-[420px]">
-            <Image
-              src={GROUP_HERO_LOGO}
-              alt={t("مجموعة الشبيلي العقارية", "AlShubaily Group")}
-              width={800}
-              height={320}
-              unoptimized
-              className="mx-auto h-auto w-full object-contain drop-shadow-[0_8px_28px_rgba(201,169,98,0.3)]"
-              priority
-            />
-          </div>
-
+        <div className="mx-auto max-w-4xl text-center">
           <p
             ref={wordsRef}
-            className="mt-6 text-[15px] leading-[1.95] text-white/72 md:mt-8 md:text-lg md:leading-[2.05]"
+            className="text-[15px] leading-[1.95] text-white/72 md:text-lg md:leading-[2.05]"
           >
             {words.map((word, i) => (
               <span key={`${word}-${i}`} className="chairman-word inline-block">
@@ -189,13 +166,62 @@ export function HeroChairmanSequence() {
             ))}
           </p>
 
-          <div className="mt-8 md:mt-10">
-            <p className="font-heading text-xl font-semibold text-white md:text-2xl">
-              {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
+          <div ref={signatureRef} className="mt-8 md:mt-10">
+            <p
+              className="text-xl font-semibold italic text-white md:text-2xl"
+              style={{ fontFamily: '"Cairo", "Brush Script MT", cursive' }}
+            >
+              {t(
+                CHAIRMAN_CONTENT.signatureNameAr,
+                CHAIRMAN_CONTENT.signatureNameEn,
+              )}
             </p>
-            <p className="mt-2 text-xs tracking-wide text-[#C9A962]/85 md:text-sm">
+            <div className="mx-auto mt-3 h-px w-32 bg-gradient-to-r from-transparent via-[#C9A962]/60 to-transparent" />
+            <p className="mt-3 text-xs tracking-wide text-[#C9A962]/85 md:text-sm">
               {t(CHAIRMAN_CONTENT.roleAr, CHAIRMAN_CONTENT.roleEn)}
             </p>
+            <p className="mt-1 font-heading text-lg font-semibold text-white md:text-xl">
+              {t(CHAIRMAN_CONTENT.nameAr, CHAIRMAN_CONTENT.nameEn)}
+            </p>
+          </div>
+
+          <div className="mx-auto mt-10 grid max-w-5xl gap-5 md:mt-12 md:grid-cols-2 md:gap-6">
+            <div className="vm-glass-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 text-start backdrop-blur-2xl transition-all duration-500 hover:border-[#C9A962]/40 hover:bg-white/[0.09] md:p-8">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+              <div className={`flex items-start gap-4 ${isRTL ? "flex-row-reverse text-right" : "text-left"}`}>
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#C9A962]/30 bg-[#C9A962]/10 text-[#C9A962]">
+                  <Eye className="h-5 w-5" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {t(VISION_MISSION.visionTitleAr, VISION_MISSION.visionTitleEn)}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                    {t(VISION_MISSION.visionAr, VISION_MISSION.visionEn)}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="vm-glass-card group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 text-start backdrop-blur-2xl transition-all duration-500 hover:border-[#C9A962]/40 hover:bg-white/[0.09] md:p-8">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+              <div className={`flex items-start gap-4 ${isRTL ? "flex-row-reverse text-right" : "text-left"}`}>
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#C9A962]/30 bg-[#C9A962]/10 text-[#C9A962]">
+                  <Target className="h-5 w-5" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {t(
+                      VISION_MISSION.missionTitleAr,
+                      VISION_MISSION.missionTitleEn,
+                    )}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                    {t(VISION_MISSION.missionAr, VISION_MISSION.missionEn)}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
